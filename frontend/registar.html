@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entrar / Registar - Fantasy do Estaminé</title>
+
+  <link rel="stylesheet" href="registar.css" />
+  <link rel="stylesheet" href="shared-nav.css" />
+</head>
+<body class="auth-page">
+  <div id="shared-navbar"></div>
+
+  <main class="auth-main">
+    <section id="register-section" class="auth-card">
+      <h1>Regista-te na liga Fantasy do Estaminé</h1>
+
+      <p>
+        Entra na nossa liga do Mundial 2026 e acompanha a competição com amigos,
+        família e colegas.
+      </p>
+      <p>
+        Preenche os campos com o teu nome na liga e o teu email. Usa um endereço
+        válido para garantires que recebes toda a informação.
+      </p>
+
+      <div id="register-message" class="form-message hidden"></div>
+
+      <form id="register-form" class="auth-form">
+        <div class="form-group">
+          <label for="reg-name">Nome na liga</label>
+          <input type="text" id="reg-name" name="username" required placeholder="Ex: Danny_FCP" />
+        </div>
+
+        <div class="form-group">
+          <label for="reg-email">Email</label>
+          <input type="email" id="reg-email" name="email" required placeholder="o-teu-email@exemplo.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="reg-password">Password</label>
+          <input type="password" id="reg-password" name="password" required minlength="6" placeholder="No mínimo 6 caracteres" />
+        </div>
+
+        <button type="submit" class="auth-submit">Registar e Criar Conta</button>
+      </form>
+
+      <p class="form-toggle">
+        Já tens conta criada?
+        <a href="registar.html?mode=login" data-auth-toggle>Faz login aqui</a>
+      </p>
+    </section>
+
+    <section id="login-section" class="auth-card hidden">
+      <h1>Acede à tua conta</h1>
+      <p>Faz login para gerires a tua equipa da Fantasy do Estaminé.</p>
+
+      <div id="login-message" class="form-message hidden"></div>
+
+      <form id="login-form" class="auth-form">
+        <div class="form-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" name="email" required placeholder="o-teu-email@exemplo.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" name="password" required placeholder="Insere a tua password" />
+        </div>
+
+        <button type="submit" class="auth-submit">Entrar no Painel</button>
+      </form>
+
+      <p class="form-toggle">
+        Ainda não estás inscrito?
+        <a href="registar.html?mode=register" data-auth-toggle>Cria a tua conta aqui</a>
+      </p>
+    </section>
+  </main>
+
+  <script src="shared-nav.js"></script>
+  <script src="registar.js"></script>
+</body>
+</html>

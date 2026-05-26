@@ -1,0 +1,106 @@
+/* 1. CONFIGURAÇÃO DO FUNDO E ESTRUTURA GLOBAL */
+body {
+    /* Imagem de um estádio de futebol de alta qualidade para o fundo */
+    background-image: url('img/backg.png'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    
+    font-family: 'Courier New', Courier, monospace, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* O Contentor Principal (Campo) ganha uma ligeira transparência para ver o fundo */
+.stadium-container {
+    background-color: rgba(255, 255, 255, 0.92); /* Deixa o estádio de trás transparecer suavemente */
+    backdrop-filter: blur(5px); /* Cria o efeito desfocado/vidro fosco no fundo */
+    -webkit-backdrop-filter: blur(5px);
+    
+    width: 90%;
+    max-width: 850px;
+    padding: 50px 30px;
+    border: 3px solid #d1d5db;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    
+    /* Desenha as linhas do campo de futebol em CSS */
+    background-image: 
+        linear-gradient(90deg, transparent 49.5%, #e5e7eb 50%, transparent 50.5%),
+        radial-gradient(circle at 0% 50%, transparent 45%, #e5e7eb 46%, transparent 48%),
+        radial-gradient(circle at 100% 50%, transparent 45%, #e5e7eb 46%, transparent 48%);
+    background-size: 100% 100%, 120px 240px, 120px 240px;
+    background-repeat: no-repeat;
+    background-position: center, left center, right center;
+}
+
+/* 2. ESTILIZAÇÃO DOS TEXTOS (ESTILO RETRO) */
+.title-maintenance {
+    font-size: 3.2rem;
+    font-weight: 900;
+    color: #111827;
+    letter-spacing: 2px;
+    margin-top: 0;
+    margin-bottom: 35px;
+}
+
+.subtitle {
+    font-family: Arial, sans-serif;
+    font-size: 1.8rem;
+    color: #111827;
+    margin-top: 35px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.description {
+    font-family: Arial, sans-serif;
+    color: #1f2937;
+    font-size: 1.2rem;
+    margin-top: 0;
+    margin-bottom: 35px;
+}
+
+/* 3. BOTÃO AZUL COM BORDA PRETA (IGUAL À IMAGEM) */
+.btn-return {
+    display: inline-block;
+    background-color: #006ce6;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 14px 40px;
+    text-decoration: none;
+    border-radius: 30px;
+    border: 3px solid #000000;
+    box-shadow: 0 5px 0 #000000;
+    transition: all 0.1s ease;
+}
+
+.btn-return:hover {
+    background-color: #005bc2;
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 #000000;
+}
+
+/* 4. ÁREA DA IMAGEM DO SEU GIF */
+.graphic-area {
+    height: 220px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.player-gif {
+    height: 100%;
+    width: auto;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* Dá um ligeiro destaque ao redor do GIF */
+}

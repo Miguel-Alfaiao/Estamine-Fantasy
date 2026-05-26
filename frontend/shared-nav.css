@@ -1,0 +1,86 @@
+/* ===============================
+  SHARED LOGO NAV
+=============================== */
+
+#shared-navbar,
+#shared-navbar * {
+  box-sizing: border-box;
+  font-family: Inter, Arial, Helvetica, sans-serif;
+}
+
+#shared-navbar {
+  position: fixed;
+  top: 22px;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  padding: 0 34px;
+  pointer-events: none;
+}
+
+.shared-logo-nav {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  pointer-events: none;
+}
+
+.shared-logo-button {
+  width: 82px;
+  height: 82px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(12px);
+
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+
+  text-decoration: none;
+  pointer-events: auto;
+
+  transition:
+    transform 0.18s ease,
+    background-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.shared-logo-button:hover {
+  transform: translateY(-2px) scale(1.03);
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 24px 55px rgba(0, 0, 0, 0.22);
+}
+
+.shared-logo-img {
+  width: 64px;
+  height: auto;
+  display: block;
+}
+
+/* ===============================
+  RESPONSIVE
+=============================== */
+
+@media (max-width: 700px) {
+  #shared-navbar {
+    top: 14px;
+    padding: 0 16px;
+  }
+
+  .shared-logo-button {
+    width: 66px;
+    height: 66px;
+    border-radius: 19px;
+  }
+
+  .shared-logo-img {
+    width: 52px;
+  }
+}
