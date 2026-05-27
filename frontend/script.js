@@ -229,3 +229,47 @@ function updateWorldCupCountdown() {
 
 updateWorldCupCountdown();
 setInterval(updateWorldCupCountdown, 1000);
+
+
+// ===============================
+// BACK TO TOP
+// ===============================
+
+const backToTopButton = document.getElementById("back-to-top");
+
+if (backToTopButton) {
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 500) {
+      backToTopButton.classList.add("show");
+    } else {
+      backToTopButton.classList.remove("show");
+    }
+  });
+
+  backToTopButton.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+}
+
+
+// ===============================
+// MOBILE MENU
+// ===============================
+
+const mobileMenuButton = document.querySelector(".mobile-menu-btn");
+const mobileNav = document.querySelector(".mobile-nav");
+
+if (mobileMenuButton && mobileNav) {
+  mobileMenuButton.addEventListener("click", () => {
+    mobileNav.classList.toggle("show");
+  });
+
+  mobileNav.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      mobileNav.classList.remove("show");
+    });
+  });
+}
