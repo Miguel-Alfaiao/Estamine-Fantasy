@@ -1,26 +1,23 @@
 // ===============================
-// HOMEPAGE NAV SESSION
+// CONFIG
 // ===============================
+
+const API_BASE_URL = "https://backend-fantasy-6dnx.onrender.com";
+
+const ADMIN_ICON_SRC = "img/admin.png";
+const USER_ICON_SRC = "img/user.png";
 
 const HOME_STORAGE_KEYS = {
   token: "access_token",
   user: "user"
 };
 
+// ===============================
+// SESSION HELPERS
+// ===============================
+
 function getHomeToken() {
   return localStorage.getItem(HOME_STORAGE_KEYS.token);
-}
-
-function getHomeUser() {
-  const rawUser = localStorage.getItem(HOME_STORAGE_KEYS.user);
-
-  if (!rawUser) return null;
-
-  try {
-    return JSON.parse(rawUser);
-  } catch {
-    return null;
-  }
 }
 
 function clearHomeSession() {
@@ -37,6 +34,37 @@ function escapeHomeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+async function getCurrentUserFromBackend() {
+  const token = getHomeToken();
+
+  if (!token) return null;
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/users/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      clearHomeSession();
+      return null;
+    }
+
+    const user = await response.json();
+    localStorage.setItem(HOME_STORAGE_KEYS.user, JSON.stringify(user));
+
+    return user;
+  } catch (error) {
+    console.error("Erro ao validar sessão:", error);
+    return null;
+  }
+}
+
+// ===============================
+// HOMEPAGE NAV
+// ===============================
+
 function renderHomepageGuestActions() {
   return `
     <a href="registar.html?mode=register" class="nav-btn">Registar</a>
@@ -46,25 +74,52 @@ function renderHomepageGuestActions() {
 
 function renderHomepageUserActions(user) {
   const name = escapeHomeHtml(user?.name || "Treinador");
+  const isAdmin = user?.role === "admin";
+  const iconSrc = isAdmin ? ADMIN_ICON_SRC : USER_ICON_SRC;
+  const iconAlt = isAdmin ? "Admin" : "Utilizador";
 
   return `
-    <span class="nav-user" title="${name}">Olá, ${name}</span>
+    <span class="nav-user" title="${name}">
+      <img src="${iconSrc}" alt="${iconAlt}" class="nav-user-icon" />
+
+      <span>Olá, ${name}</span>
+    </span>
+
     <button class="nav-btn nav-logout" type="button" data-home-logout>
       Logout
     </button>
   `;
 }
 
-function renderHomepageNavSession() {
+function renderAdminNavLink(user) {
+  const navLinks = document.querySelector(".landing-navbar .nav-links");
+
+  if (!navLinks) return;
+
+  const existingAdminLink = navLinks.querySelector(".nav-admin-link");
+
+  if (existingAdminLink) {
+    existingAdminLink.remove();
+  }
+
+  if (user?.role !== "admin") return;
+
+  navLinks.insertAdjacentHTML(
+    "beforeend",
+    `<a href="admin.html" class="nav-admin-link">Admin</a>`
+  );
+}
+
+async function renderHomepageNavSession() {
   const navActions = document.querySelector(".landing-navbar .nav-actions");
 
   if (!navActions) return;
 
-  const token = getHomeToken();
-  const user = getHomeUser();
-  const isLoggedIn = Boolean(token && user);
+  const user = await getCurrentUserFromBackend();
 
-  navActions.innerHTML = isLoggedIn
+  renderAdminNavLink(user);
+
+  navActions.innerHTML = user
     ? renderHomepageUserActions(user)
     : renderHomepageGuestActions();
 
@@ -76,8 +131,6 @@ function renderHomepageNavSession() {
 }
 
 document.addEventListener("DOMContentLoaded", renderHomepageNavSession);
-
-
 
 // ===============================
 // LOGOUT MODAL
@@ -135,7 +188,6 @@ function confirmLogout() {
   clearHomeSession();
   window.location.href = "index.html";
 }
-
 
 // ===============================
 // WORLD CUP COUNTDOWN

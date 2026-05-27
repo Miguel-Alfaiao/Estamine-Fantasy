@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Admin - Fantasy do Estaminé</title>
+
+  <link rel="stylesheet" href="admin.css" />
+</head>
+
+<body>
+  <main class="admin-page">
+    <header class="admin-header">
+      <a href="index.html" class="admin-logo-link">
+        <img src="img/logo.png" alt="Fantasy do Estaminé" />
+      </a>
+
+      <div>
+        <p class="admin-kicker">Painel de controlo</p>
+        <h1>Dashboard Admin</h1>
+        <p id="admin-name" class="admin-subtitle">A validar sessão...</p>
+      </div>
+    </header>
+
+    <section id="admin-error" class="admin-error hidden">
+      Não tens permissão para aceder a esta página.
+    </section>
+
+    <section id="admin-content" class="hidden">
+      <div class="admin-stats">
+        <article class="admin-stat-card">
+          <span>Contas criadas</span>
+          <strong id="users-count">0</strong>
+        </article>
+
+        <article class="admin-stat-card admin-badge-card">
+          <span>Estado</span>
+          <strong>Admin ativo</strong>
+        </article>
+      </div>
+
+      <section class="admin-table-card">
+        <div class="admin-table-header">
+          <h2>Utilizadores registados</h2>
+          <button id="refresh-users" type="button">Atualizar</button>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Criado em</th>
+              </tr>
+            </thead>
+
+            <tbody id="users-table-body">
+              <tr>
+                <td colspan="4">A carregar...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>
