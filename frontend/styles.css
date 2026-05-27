@@ -988,7 +988,27 @@ a {
   }
 
   .nav-user {
+    display: flex;
+    max-width: 122px;
+    min-width: 0;
+    height: 44px;
+    padding: 0 12px 0 8px;
+    gap: 7px;
+    font-size: 12px;
+  }
+
+  .nav-user-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .nav-user-prefix {
     display: none;
+  }
+
+  .nav-user-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .logout-modal-card {

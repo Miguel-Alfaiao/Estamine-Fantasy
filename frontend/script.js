@@ -82,7 +82,9 @@ function renderHomepageUserActions(user) {
     <span class="nav-user" title="${name}">
       <img src="${iconSrc}" alt="${iconAlt}" class="nav-user-icon" />
 
-      <span>Olá, ${name}</span>
+      <span class="nav-user-name">
+        <span class="nav-user-prefix">Olá, </span>${name}
+      </span>
     </span>
 
     <button class="nav-btn nav-logout" type="button" data-home-logout>
