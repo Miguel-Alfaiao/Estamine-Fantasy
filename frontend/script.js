@@ -106,7 +106,7 @@ function renderAdminNavLink(user) {
 
   navLinks.insertAdjacentHTML(
     "beforeend",
-    `<a href="admin.html" class="nav-admin-link">Admin</a>`
+    `<a href="admin.html" class="nav-admin-link">Admin Dashboard</a>`
   );
 }
 
