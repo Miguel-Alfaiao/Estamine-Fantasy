@@ -94,22 +94,24 @@ function renderHomepageUserActions(user) {
 }
 
 function renderAdminNavLink(user) {
-  const navLinks = document.querySelector(".landing-navbar .nav-links");
-
-  if (!navLinks) return;
-
-  const existingAdminLink = navLinks.querySelector(".nav-admin-link");
-
-  if (existingAdminLink) {
-    existingAdminLink.remove();
-  }
-
-  if (user?.role !== "admin") return;
-
-  navLinks.insertAdjacentHTML(
-    "beforeend",
-    `<a href="admin.html" class="nav-admin-link">Admin Dashboard</a>`
+  const navMenus = document.querySelectorAll(
+    ".landing-navbar .nav-links, .landing-navbar .mobile-nav"
   );
+
+  navMenus.forEach((navMenu) => {
+    const existingAdminLink = navMenu.querySelector(".nav-admin-link");
+
+    if (existingAdminLink) {
+      existingAdminLink.remove();
+    }
+
+    if (user?.role !== "admin") return;
+
+    navMenu.insertAdjacentHTML(
+      "beforeend",
+      `<a href="admin.html" class="nav-admin-link">Admin Dashboard</a>`
+    );
+  });
 }
 
 async function renderHomepageNavSession() {
