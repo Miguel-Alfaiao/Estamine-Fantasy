@@ -998,4 +998,10 @@ a {
   .logout-modal-actions {
     flex-direction: column;
   }
+
+  .logout-cancel,
+  .logout-confirm {
+    height: 42px;
+    min-height: 42px;
+  }
 }
