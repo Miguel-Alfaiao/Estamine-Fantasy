@@ -419,6 +419,10 @@ a {
 }
 
 .cards-grid.two {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.events-section .cards-grid.two {
   grid-template-columns: repeat(3, 1fr);
 }
 
