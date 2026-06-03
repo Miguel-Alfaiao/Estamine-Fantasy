@@ -277,3 +277,19 @@ if (mobileMenuButton && mobileNav) {
     });
   });
 }
+
+
+// ===============================
+// PROTECTED EVENT LINKS
+// ===============================
+
+document.querySelectorAll(".event-login-required").forEach((link) => {
+  link.addEventListener("click", (event) => {
+    const token = localStorage.getItem("access_token");
+
+    if (!token) {
+      event.preventDefault();
+      window.location.href = "registar.html?mode=login";
+    }
+  });
+});
