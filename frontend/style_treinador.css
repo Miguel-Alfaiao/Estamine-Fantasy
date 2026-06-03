@@ -1,0 +1,334 @@
+/* ==========================================================================
+   1. VARIÁVEIS DE DESIGN
+   ========================================================================== */
+:root {
+    --primary-color: #10b981;    /* Verde Fantasy */
+    --primary-hover: #059669;    
+    --bg-color: #f3f4f6;         
+    --card-bg: #ffffff;          
+    --text-main: #1f2937;        
+    --text-muted: #4b5563;       
+    --border-color: #e5e7eb;     
+    --radius: 8px;               
+}
+
+/* ==========================================================================
+   2. RESET & BASE
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+   3. CONTAINER PRINCIPAL (ESTILO WORDPRESS)
+   ========================================================================== */
+.wp-block-group {
+    width: 100%;
+    max-width: 600px;
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.wp-block-heading {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text-main);
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+p {
+    margin-bottom: 16px;
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* ==========================================================================
+   4. CAMPOS DE FORMULÁRIO (INPUTS)
+   ========================================================================== */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+label::after {
+    content: " *";
+    color: #ef4444;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    background-color: #fafafa;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+input:focus {
+    border-color: var(--primary-color);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+}
+
+/* ==========================================================================
+   5. BOTÕES
+   ========================================================================== */
+.wp-block-buttons {
+    margin-top: 28px;
+}
+
+.wp-block-button__link {
+    display: inline-block;
+    width: 100%;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    padding: 14px 24px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    text-decoration: none;
+}
+
+.wp-block-button__link:hover {
+    background-color: var(--primary-hover);
+}
+
+.wp-block-button__link:active {
+    transform: scale(0.98);
+}
+
+/* ==========================================================================
+   6. EXTRAS (MUDANÇA DE TELAS E GLOBAL HIDDEN)
+   ========================================================================== */
+.form-toggle {
+    text-align: center;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.form-toggle p {
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+.form-toggle a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.form-toggle a:hover {
+    text-decoration: underline;
+}
+
+/* Oculta as secções desnecessárias */
+.hidden {
+    display: none !important;
+}
+
+/* ==========================================================================
+   7. ADAPTAÇÃO PARA SMARTPHONES
+   ========================================================================== */
+@media (max-width: 480px) {
+    body { padding: 20px 10px; }
+    .wp-block-group { padding: 24px 16px; }
+    .wp-block-heading { font-size: 1.5rem; }
+}
+:root {
+    --primary-color: #10b981;    
+    --primary-hover: #059669;    
+    --bg-color: #f8fafc;         
+    --card-bg: #ffffff;          
+    --text-main: #1e293b;        
+    --text-muted: #64748b;       
+    --border-color: #e2e8f0;     
+    --radius: 12px;               
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* --- BANNER DO LOGÓTIPO --- */
+.header-logo-container {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    width: 100%;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.main-logo {
+    max-width: 100%;
+    height: auto;
+    max-height: 220px; /* Impede que o logo fique gigante */
+    object-fit: contain;
+}
+
+/* --- LAYOUT & COMPONENTES --- */
+.wp-block-group {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    margin: 30px auto;
+}
+
+.content-medium { max-width: 800px; }
+.content-wide { max-width: 1000px; }
+.section-padding { padding: 35px; }
+
+.wp-block-heading {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #0f172a;
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 6px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.font-medium { color: var(--text-muted); font-size: 1.05rem; }
+.font-small { margin-left: 20px; margin-top: 15px; color: var(--text-muted); }
+.font-small li { margin-bottom: 8px; }
+.jornada-title { font-size: 1.4rem; color: #0f172a; margin: 20px 0; }
+
+/* --- CONTROLO DA TABELA (SEM CORTES) --- */
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Se o ecrã for muito pequeno, cria barra apenas na tabela */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.fantasy-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.fantasy-table th {
+    background-color: #f1f5f9;
+    color: #334155;
+    font-weight: 600;
+    padding: 14px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.fantasy-table td {
+    padding: 14px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.fantasy-table tr:hover { background-color: #f8fafc; }
+
+.time-cell { font-size: 0.85rem; color: var(--text-muted); line-height: 1.3; }
+.team-cell { font-weight: 600; color: #334155; }
+.team-cell img { vertical-align: middle; margin: 0 4px; border-radius: 2px; }
+
+/* --- INPUTS DE GOLOS & MARCADOR --- */
+.nowrap { white-space: nowrap; }
+
+.input-golo {
+    width: 50px;
+    padding: 8px;
+    text-align: center;
+    border: 2px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    outline: none;
+}
+
+.input-golo:focus, .input-marcador:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+.multiplier-x {
+    font-weight: 800;
+    color: #94a3b8;
+    margin: 0 6px;
+    font-size: 0.9rem;
+}
+
+.input-marcador {
+    width: 100%;
+    min-width: 150px;
+    padding: 8px 12px;
+    border: 2px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+/* Remove setas do input number */
+.input-golo::-webkit-outer-spin-button, .input-golo::-webkit-inner-spin-button {
+    -webkit-appearance: none; margin: 0;
+}
+
+/* --- BOTÃO SUBMETER --- */
+.submit-container { text-align: right; margin-top: 25px; }
+.btn-submit-palpites {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+    transition: all 0.2s;
+}
+.btn-submit-palpites:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
+
+/* RESPONSIVIDADE */
+@media (max-width: 600px) {
+    .section-padding { padding: 20px; }
+    .wp-block-group { margin: 15px auto; }
+}
