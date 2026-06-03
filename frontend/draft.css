@@ -1,0 +1,270 @@
+:root {
+    --bg-color: #0b0b0b;
+    --card-bg: #121212;
+    --text-color: #ffffff;
+    --text-secondary: #b3b3b3;
+    --border-color: #2a2a2a;
+    --twitch-purple: #9146FF;
+    
+    --pote-bg: #002b5c;
+    --pote-border: #004080;
+    --selection-active: #00ff88;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-image: url('CAMINHO_DA_SUA_IMAGEM.jpg'); 
+    background-color: var(--bg-color);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.channel-header {
+    background-color: rgba(18, 18, 18, 0.95);
+    border-bottom: 3px solid var(--twitch-purple);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    max-width: 800px;
+    width: 100%;
+    gap: 20px;
+}
+
+.profile-pic {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid var(--twitch-purple);
+    background-color: #333;
+}
+
+.header-text h1 {
+    margin: 0;
+    font-size: 1.6rem;
+    color: #fff;
+}
+
+.header-text p {
+    margin: 3px 0 0 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.container {
+    background-color: var(--card-bg);
+    max-width: 800px;
+    width: calc(100% - 40px);
+    margin: 40px auto;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px); 
+}
+
+.game-instructions {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 4px solid var(--twitch-purple);
+    margin-bottom: 20px;
+}
+
+.game-instructions h2 {
+    margin-top: 0;
+    font-size: 1.3rem;
+    color: #fff;
+}
+
+.game-instructions p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+/* DESIGN ESTILIZADO PARA A TABELA DE REGRAS FIXA */
+.regras-pontuacao-container {
+    background: rgba(145, 70, 255, 0.05);
+    border: 1px solid rgba(145, 70, 255, 0.2);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+.regras-pontuacao-container h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.table-regras {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.table-regras th, .table-regras td {
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+.table-regras th {
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.table-regras td {
+    color: #fff;
+}
+
+.section-divider {
+    border: 0;
+    height: 1px;
+    background: var(--border-color);
+    margin: 30px 0;
+}
+
+.section-title {
+    margin-top: 0;
+    margin-bottom: 24px;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.potes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.pote-card {
+    background-color: var(--pote-bg);
+    border: 2px solid var(--pote-border);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.pote-header {
+    text-align: center;
+    font-weight: 800;
+    font-style: italic;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pote-counter {
+    font-size: 0.85rem;
+    background: rgba(0,0,0,0.3);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-style: normal;
+}
+
+.teams-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.team-checkbox {
+    display: none; 
+}
+
+.team-label {
+    display: block;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-style: italic;
+    transition: all 0.2s ease;
+    text-align: left;
+    border: 1px solid transparent;
+}
+
+.team-label:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.team-checkbox:checked + .team-label {
+    background: rgba(0, 255, 136, 0.2);
+    border-color: var(--selection-active);
+    color: var(--selection-active);
+    font-weight: bold;
+}
+
+.resumo-container {
+    background: #18181b;
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+.resumo-container h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: var(--selection-active);
+}
+
+.table-pontos {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.table-pontos th, .table-pontos td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95rem;
+}
+
+.table-pontos th {
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.table-pontos td {
+    color: #fff;
+}
+
+.btn-submit {
+    background-color: var(--twitch-purple);
+    color: #ffffff;
+    border: none;
+    padding: 16px;
+    width: 100%;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-submit:hover {
+    background-color: #772ce8;
+}
