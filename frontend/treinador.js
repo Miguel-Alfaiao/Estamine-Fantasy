@@ -125,7 +125,6 @@ function getTeamDisplayName(teamName) {
 const pageLoader = document.getElementById("page-loader");
 const pageLoaderText = document.getElementById("page-loader-text");
 
-const navActions = document.getElementById("treinador-nav-actions");
 const matchesBody = document.getElementById("matches-body");
 const palpitesForm = document.getElementById("palpites-form");
 
@@ -327,29 +326,6 @@ function updateSubmitButtonState() {
   submitButton.textContent = "Submeter Predicts da Rodada";
 }
 
-// ===============================
-// NAVBAR
-// ===============================
-
-function renderNavbarSession() {
-  const user = getStoredUser();
-  const isAdmin = user?.role === "admin";
-  const icon = isAdmin ? "img/admin.png" : "img/user.png";
-
-  if (!navActions) return;
-
-  if (!user) {
-    window.location.href = "registar.html?mode=login";
-    return;
-  }
-
-  navActions.innerHTML = `
-    <div class="nav-user no-logout" title="${escapeHtml(user.email || user.name || "Utilizador")}">
-      <img src="${escapeHtml(icon)}" alt="" class="nav-user-icon">
-      <span class="nav-user-name">${escapeHtml(user.name || "Utilizador")}</span>
-    </div>
-  `;
-}
 
 // ===============================
 // BANDEIRAS
@@ -1040,7 +1016,6 @@ async function submitPredictions(event) {
 document.addEventListener("DOMContentLoaded", async () => {
   if (!requireLogin()) return;
 
-  renderNavbarSession();
   setupAdminRoundControls();
   setupPlayerDialog();
 

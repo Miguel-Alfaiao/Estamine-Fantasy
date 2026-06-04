@@ -25,7 +25,7 @@
         <img src="img/d_sf.png" alt="Draft das Nações Logo" class="main-logo">
       </div>
 
-      <!-- Canto Direito: O treinador.js vai usar este ID para injetar o teu login automaticamente -->
+      <!-- Canto Direito: o auth-nav.js injeta aqui o user -->
       <div class="nav-actions" id="treinador-nav-actions">
         <span class="nav-loading">A validar sessão...</span>
       </div>
@@ -55,7 +55,7 @@
 
     <h1 class="section-title"><span class="highlight">Faz o teu Draft:</span></h1>
     
-    <form action="/enviar-draft" method="POST" id="draftForm">
+    <form id="draftForm">
       <div class="potes-grid">
         
         <!-- POTE 1 -->
@@ -148,17 +148,27 @@
               <th>Passar de Fase</th>
             </tr>
           </thead>
-          <tbody id="resumoTableBody">
-          </tbody>
+          <tbody id="resumoTableBody"></tbody>
         </table>
       </div>
 
       <button type="submit" class="btn-submit">Submeter Equipas do Draft</button>
     </form>
   </div>
+  
+  <button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo">
+    ↑
+  </button>
 
-  <!-- SCRIPTS ORDENADOS: O treinador trata da sessão e o draft cuida do jogo -->
-  <script src="treinador.js"></script>
+  <!-- Visível por defeito para evitar piscar conteúdo errado no refresh -->
+  <div id="page-loader" class="page-loader">
+    <div class="loader-box">
+      <div class="loader-spinner"></div>
+      <p id="page-loader-text">A carregar o teu Draft...</p>
+    </div>
+  </div>
+
+  <script src="auth-nav.js"></script>
   <script src="draft.js"></script>
 </body>
 </html>

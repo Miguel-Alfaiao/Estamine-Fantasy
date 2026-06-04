@@ -6,9 +6,9 @@
     --border-color: #2a2a2a;
     --twitch-purple: #9146FF;
     
-    --pote-bg: #002b5c;
+    --pote-bg: #092341;
     --pote-border: #004080;
-    --selection-active: #00ff88;
+    --selection-active: #38bdf8;
 }
 
 body {
@@ -17,8 +17,7 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-image: url('CAMINHO_DA_SUA_IMAGEM.jpg'); 
-    background-color: var(--bg-color);
+    background-image: url('img/draft-bg.png'); 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -195,11 +194,13 @@ body {
 .team-label {
     display: block;
     padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(11, 48, 89, 0.85);
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.95rem;
-    font-style: italic;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.01em;
     transition: all 0.2s ease;
     text-align: left;
     border: 1px solid transparent;
@@ -210,10 +211,13 @@ body {
 }
 
 .team-checkbox:checked + .team-label {
-    background: rgba(0, 255, 136, 0.2);
-    border-color: var(--selection-active);
-    color: var(--selection-active);
-    font-weight: bold;
+    background: linear-gradient(180deg, #0e80ba 0%, #084f73 100%);
+    border: 1px solid #5fd4ff;
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow:
+        0 0 0 1px rgba(95, 212, 255, 0.35),
+        0 0 12px rgba(56, 189, 248, 0.22);
 }
 
 .resumo-container {
@@ -267,4 +271,182 @@ body {
 
 .btn-submit:hover {
     background-color: #772ce8;
+}
+
+
+.team-checkbox:disabled + .team-label {
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
+.team-checkbox:disabled:checked + .team-label {
+    background: linear-gradient(180deg, #0b5f8a 0%, #084f73 100%);
+    border: 1px solid #5fd4ff;
+    color: #ffffff;
+    box-shadow:
+        0 0 0 1px rgba(95, 212, 255, 0.28);
+}
+
+.btn-submit:disabled {
+    background-color: #444;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.btn-submit:disabled:hover {
+    background-color: #444;
+}
+
+
+
+/* ===============================
+   RESPONSIVO / MOBILE
+================================ */
+
+@media (max-width: 900px) {
+    body {
+        background-attachment: scroll;
+        background-position: center top;
+    }
+
+    .container {
+        width: calc(100% - 28px);
+        margin: 28px auto;
+        padding: 28px;
+        border-radius: 20px;
+    }
+
+    .potes-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+}
+
+@media (max-width: 640px) {
+    .container {
+        width: calc(100% - 20px);
+        margin: 20px auto;
+        padding: 20px;
+        border-radius: 18px;
+    }
+
+    .game-instructions {
+        padding: 16px;
+        border-left-width: 3px;
+    }
+
+    .game-instructions h2 {
+        font-size: 1.15rem;
+    }
+
+    .game-instructions p,
+    .game-instructions li {
+        font-size: 0.9rem;
+    }
+
+    .section-title {
+        font-size: 1.35rem;
+        margin-bottom: 18px;
+    }
+
+    .pote-card {
+        padding: 16px;
+        border-radius: 12px;
+    }
+
+    .pote-header {
+        font-size: 1rem;
+        margin-bottom: 14px;
+    }
+
+    .teams-list {
+        grid-template-columns: 1fr;
+        gap: 9px;
+    }
+
+    .team-label {
+        padding: 11px 13px;
+        font-size: 0.95rem;
+    }
+
+    .btn-submit {
+        padding: 15px;
+        font-size: 1rem;
+        border-radius: 9px;
+    }
+
+    .resumo-container {
+        padding: 16px;
+        overflow-x: auto;
+    }
+
+    .table-pontos {
+        min-width: 560px;
+    }
+
+    .table-pontos th,
+    .table-pontos td {
+        padding: 10px;
+        font-size: 0.88rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .container {
+        width: calc(100% - 14px);
+        margin: 14px auto;
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .game-instructions {
+        padding: 14px;
+    }
+
+    .game-instructions h2 {
+        font-size: 1.05rem;
+    }
+
+    .game-instructions p,
+    .game-instructions li {
+        font-size: 0.85rem;
+    }
+
+    .game-instructions ul {
+        padding-left: 18px !important;
+    }
+
+    .section-divider {
+        margin: 22px 0;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+    }
+
+    .pote-card {
+        padding: 14px;
+    }
+
+    .pote-header {
+        font-size: 0.95rem;
+    }
+
+    .pote-counter {
+        font-size: 0.8rem;
+        padding: 2px 7px;
+    }
+
+    .team-label {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+
+    .resumo-container h3 {
+        font-size: 1rem;
+    }
+
+    .btn-submit {
+        font-size: 0.95rem;
+    }
 }
