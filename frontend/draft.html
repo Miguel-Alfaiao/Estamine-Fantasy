@@ -1,174 +1,164 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Draft das Nações - FantasyDanny</title>
-    <link rel="stylesheet" href="draft.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Draft das Nações - FantasyDanny</title>
+  <link rel="stylesheet" href="style_treinador.css">
+  <link rel="stylesheet" href="draft.css">
 </head>
 <body>
 
-    <!-- CABEÇALHO DO CANAL CORRIGIDO -->
-    <header class="channel-header">
-        <div class="header-content">
-            <img src="img/d_sf.png" alt="FantasyDanny" class="profile-pic">
-            <div class="header-text">
-                <h1>Draft das Nações</h1>
-                <p>Escolhe as tuas seleções</p>
-            </div>
-        </div>
+  <!-- CABEÇALHO UNIFICADO -->
+  <section class="treinador-hero-header">
+    <header class="landing-navbar treinador-navbar">
+      
+      <!-- Canto Esquerdo: Botão Estaminé para Voltar Atrás -->
+      <div class="nav-left">
+        <a href="index.html" class="logo-link" aria-label="Voltar ao menu">
+          <img src="img/logo.png" alt="Estaminé" class="nav-logo">
+        </a>
+      </div>
+
+      <!-- Centro: Logo do Draft das Nações / FantasyDanny -->
+      <div class="header-logo-container">
+        <img src="img/d_sf.png" alt="Draft das Nações Logo" class="main-logo">
+      </div>
+
+      <!-- Canto Direito: O treinador.js vai usar este ID para injetar o teu login automaticamente -->
+      <div class="nav-actions" id="treinador-nav-actions">
+        <span class="nav-loading">A validar sessão...</span>
+      </div>
+      
     </header>
+  </section>
 
-    <div class="container">
-        <!-- EXPLICAÇÃO DO JOGO -->
-        <section class="game-instructions">
-            <h2>Como Funciona o Draft das Nações?</h2>
-            <p>O objetivo é montares a tua árvore de seleções ideal! Deves escolher <strong>exatamente 2 seleções de cada um dos 4 potes</strong> disponíveis.</p>
-            <p>Cada seleção acumula pontos com base nas vitórias obtidas na Fase de Grupos e também bónus sempre que passarem para a fase seguinte da competição real!</p>
-        </section>
+  <!-- CONTEÚDO PRINCIPAL DO DRAFT -->
+  <div class="container">
+    
+    <!-- EXPLICAÇÃO DO JOGO COM AS REGRAS DE PONTUAÇÃO EMBUTIDAS -->
+    <section class="game-instructions">
+      <h2>Como Funciona o Draft das Nações?</h2>
+      <p>O objetivo é montares a tua árvore de seleções ideal! Deves escolher <strong>exatamente 2 seleções de cada um dos 4 potes</strong> disponíveis.</p>
+      
+      <p>Cada seleção que escolheres acumula pontos com base nas vitórias obtidas na Fase de Grupos e também bónus idênticos sempre que passarem para a fase seguinte da competição real. <strong>A pontuação varia estrategicamente de acordo com o Pote da seleção:</strong></p>
+      
+      <ul style="margin-top: 10px; padding-left: 20px; line-height: 1.6;">
+        <li><strong>Pote 1:</strong> Garante <strong>+2 pontos</strong> por vitória e <strong>+2 pontos</strong> ao passar de fase.</li>
+        <li><strong>Pote 2:</strong> Garante <strong>+3 pontos</strong> por vitória e <strong>+3 pontos</strong> ao passar de fase.</li>
+        <li><strong>Pote 3:</strong> Garante <strong>+4 pontos</strong> por vitória e <strong>+4 pontos</strong> ao passar de fase.</li>
+        <li><strong>Pote 4:</strong> Garante <strong>+5 pontos</strong> por vitória e <strong>+5 pontos</strong> ao passar de fase.</li>
+      </ul>
+    </section>
 
-        <!-- TABELA FIXA DE REGRAS DE PONTUAÇÃO -->
-        <div class="regras-pontuacao-container">
-            <h3>Tabela de Pontuação Oficial</h3>
-            <table class="table-regras">
-                <thead>
-                    <tr>
-                        <th>Pote</th>
-                        <th>Pontos por Vitória (Grupos)</th>
-                        <th>Pontos ao Passar de Fase</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Pote 1</strong></td>
-                        <td>+2 pontos</td>
-                        <td>+2 pontos</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Pote 2</strong></td>
-                        <td>+3 pontos</td>
-                        <td>+3 pontos</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Pote 3</strong></td>
-                        <td>+4 pontos</td>
-                        <td>+4 pontos</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Pote 4</strong></td>
-                        <td>+5 pontos</td>
-                        <td>+5 pontos</td>
-                    </tr>
-                </tbody>
-            </table>
+    <hr class="section-divider">
+
+    <h1 class="section-title"><span class="highlight">Faz o teu Draft:</span></h1>
+    
+    <form action="/enviar-draft" method="POST" id="draftForm">
+      <div class="potes-grid">
+        
+        <!-- POTE 1 -->
+        <div class="pote-card" data-pote="1" data-pts="2">
+          <div class="pote-header"><span>POTE 1</span> <span class="pote-counter">0/2</span></div>
+          <div class="teams-list">
+            <label><input type="checkbox" name="pote1[]" value="França" class="team-checkbox"><span class="team-label">França</span></label>
+            <label><input type="checkbox" name="pote1[]" value="Holanda" class="team-checkbox"><span class="team-label">Holanda</span></label>
+            <label><input type="checkbox" name="pote1[]" value="Argentina" class="team-checkbox"><span class="team-label">Argentina</span></label>
+            <label><input type="checkbox" name="pote1[]" value="Marrocos" class="team-checkbox"><span class="team-label">Marrocos</span></label>
+            <label><input type="checkbox" name="pote1[]" value="Espanha" class="team-checkbox"><span class="team-label">Espanha</span></label>
+            <label><input type="checkbox" name="pote1[]" value="Bélgica" class="team-checkbox"><span class="team-label">Bélgica</span></label>
+            <label><input type="checkbox" name="pote1[]" value="Inglaterra" class="team-checkbox"><span class="team-label">Inglaterra</span></label>
+            <label><input type="checkbox" name="pote1[]" value="Alemanha" class="team-checkbox"><span class="team-label">Alemanha</span></label>
+            <label><input type="checkbox" name="pote1[]" value="Portugal" class="team-checkbox"><span class="team-label">Portugal</span></label>
+            <label><input type="checkbox" name="pote1[]" value="Croácia" class="team-checkbox"><span class="team-label">Croácia</span></label>
+            <label><input type="checkbox" name="pote1[]" value="Brasil" class="team-checkbox"><span class="team-label">Brasil</span></label>
+            <label><input type="checkbox" name="pote1[]" value="Colômbia" class="team-checkbox"><span class="team-label">Colômbia</span></label>
+          </div>
         </div>
 
-        <hr class="section-divider">
+        <!-- POTE 2 -->
+        <div class="pote-card" data-pote="2" data-pts="3">
+          <div class="pote-header"><span>POTE 2</span> <span class="pote-counter">0/2</span></div>
+          <div class="teams-list">
+            <label><input type="checkbox" name="pote2[]" value="Senegal" class="team-checkbox"><span class="team-label">Senegal</span></label>
+            <label><input type="checkbox" name="pote2[]" value="Irão" class="team-checkbox"><span class="team-label">Irão</span></label>
+            <label><input type="checkbox" name="pote2[]" value="México" class="team-checkbox"><span class="team-label">México</span></label>
+            <label><input type="checkbox" name="pote2[]" value="Equador" class="team-checkbox"><span class="team-label">Equador</span></label>
+            <label><input type="checkbox" name="pote2[]" value="EUA" class="team-checkbox"><span class="team-label">EUA</span></label>
+            <label><input type="checkbox" name="pote2[]" value="Áustria" class="team-checkbox"><span class="team-label">Áustria</span></label>
+            <label><input type="checkbox" name="pote2[]" value="Uruguai" class="team-checkbox"><span class="team-label">Uruguai</span></label>
+            <label><input type="checkbox" name="pote2[]" value="Turquia" class="team-checkbox"><span class="team-label">Turquia</span></label>
+            <label><input type="checkbox" name="pote2[]" value="Japão" class="team-checkbox"><span class="team-label">Japão</span></label>
+            <label><input type="checkbox" name="pote2[]" value="Coreia do Sul" class="team-checkbox"><span class="team-label">Coreia do Sul</span></label>
+            <label><input type="checkbox" name="pote2[]" value="Suíça" class="team-checkbox"><span class="team-label">Suíça</span></label>
+            <label><input type="checkbox" name="pote2[]" value="Austrália" class="team-checkbox"><span class="team-label">Austrália</span></label>
+          </div>
+        </div>
 
-        <h1 class="section-title"><span class="highlight">Faz o teu Draft:</span></h1>
-        
-        <form action="/enviar-draft" method="POST" id="draftForm">
-            <div class="potes-grid">
-                
-                <!-- POTE 1 (data-pts mudado para 2) -->
-                <div class="pote-card" data-pote="1" data-pts="2">
-                    <div class="pote-header"><span>POTE 1</span> <span class="pote-counter">0/2</span></div>
-                    <div class="teams-list">
-                        <label><input type="checkbox" name="pote1[]" value="França" class="team-checkbox"><span class="team-label">França</span></label>
-                        <label><input type="checkbox" name="pote1[]" value="Holanda" class="team-checkbox"><span class="team-label">Holanda</span></label>
-                        <label><input type="checkbox" name="pote1[]" value="Argentina" class="team-checkbox"><span class="team-label">Argentina</span></label>
-                        <label><input type="checkbox" name="pote1[]" value="Marrocos" class="team-checkbox"><span class="team-label">Marrocos</span></label>
-                        <label><input type="checkbox" name="pote1[]" value="Espanha" class="team-checkbox"><span class="team-label">Espanha</span></label>
-                        <label><input type="checkbox" name="pote1[]" value="Bélgica" class="team-checkbox"><span class="team-label">Bélgica</span></label>
-                        <label><input type="checkbox" name="pote1[]" value="Inglaterra" class="team-checkbox"><span class="team-label">Inglaterra</span></label>
-                        <label><input type="checkbox" name="pote1[]" value="Alemanha" class="team-checkbox"><span class="team-label">Alemanha</span></label>
-                        <label><input type="checkbox" name="pote1[]" value="Portugal" class="team-checkbox"><span class="team-label">Portugal</span></label>
-                        <label><input type="checkbox" name="pote1[]" value="Croácia" class="team-checkbox"><span class="team-label">Croácia</span></label>
-                        <label><input type="checkbox" name="pote1[]" value="Brasil" class="team-checkbox"><span class="team-label">Brasil</span></label>
-                        <label><input type="checkbox" name="pote1[]" value="Colômbia" class="team-checkbox"><span class="team-label">Colômbia</span></label>
-                    </div>
-                </div>
+        <!-- POTE 3 -->
+        <div class="pote-card" data-pote="3" data-pts="4">
+          <div class="pote-header"><span>POTE 3</span> <span class="pote-counter">0/2</span></div>
+          <div class="teams-list">
+            <label><input type="checkbox" name="pote3[]" value="Argélia" class="team-checkbox"><span class="team-label">Argélia</span></label>
+            <label><input type="checkbox" name="pote3[]" value="Noruega" class="team-checkbox"><span class="team-label">Noruega</span></label>
+            <label><input type="checkbox" name="pote3[]" value="Egito" class="team-checkbox"><span class="team-label">Egito</span></label>
+            <label><input type="checkbox" name="pote3[]" value="Panamá" class="team-checkbox"><span class="team-label">Panamá</span></label>
+            <label><input type="checkbox" name="pote3[]" value="Canadá" class="team-checkbox"><span class="team-label">Canadá</span></label>
+            <label><input type="checkbox" name="pote3[]" value="Costa do Marfim" class="team-checkbox"><span class="team-label">Costa do Marfim</span></label>
+            <label><input type="checkbox" name="pote3[]" value="Paraguai" class="team-checkbox"><span class="team-label">Paraguai</span></label>
+            <label><input type="checkbox" name="pote3[]" value="Suécia" class="team-checkbox"><span class="team-label">Suécia</span></label>
+            <label><input type="checkbox" name="pote3[]" value="República Tcheca" class="team-checkbox"><span class="team-label">Rep. Tcheca</span></label>
+            <label><input type="checkbox" name="pote3[]" value="Escócia" class="team-checkbox"><span class="team-label">Escócia</span></label>
+            <label><input type="checkbox" name="pote3[]" value="RD do Congo" class="team-checkbox"><span class="team-label">RD do Congo</span></label>
+            <label><input type="checkbox" name="pote3[]" value="Tunísia" class="team-checkbox"><span class="team-label">Tunísia</span></label>
+          </div>
+        </div>
 
-                <!-- POTE 2 (data-pts mudado para 3) -->
-                <div class="pote-card" data-pote="2" data-pts="3">
-                    <div class="pote-header"><span>POTE 2</span> <span class="pote-counter">0/2</span></div>
-                    <div class="teams-list">
-                        <label><input type="checkbox" name="pote2[]" value="Senegal" class="team-checkbox"><span class="team-label">Senegal</span></label>
-                        <label><input type="checkbox" name="pote2[]" value="Irão" class="team-checkbox"><span class="team-label">Irão</span></label>
-                        <label><input type="checkbox" name="pote2[]" value="México" class="team-checkbox"><span class="team-label">México</span></label>
-                        <label><input type="checkbox" name="pote2[]" value="Equador" class="team-checkbox"><span class="team-label">Equador</span></label>
-                        <label><input type="checkbox" name="pote2[]" value="EUA" class="team-checkbox"><span class="team-label">EUA</span></label>
-                        <label><input type="checkbox" name="pote2[]" value="Áustria" class="team-checkbox"><span class="team-label">Áustria</span></label>
-                        <label><input type="checkbox" name="pote2[]" value="Uruguai" class="team-checkbox"><span class="team-label">Uruguai</span></label>
-                        <label><input type="checkbox" name="pote2[]" value="Turquia" class="team-checkbox"><span class="team-label">Turquia</span></label>
-                        <label><input type="checkbox" name="pote2[]" value="Japão" class="team-checkbox"><span class="team-label">Japão</span></label>
-                        <label><input type="checkbox" name="pote2[]" value="Coreia do Sul" class="team-checkbox"><span class="team-label">Coreia do Sul</span></label>
-                        <label><input type="checkbox" name="pote2[]" value="Suíça" class="team-checkbox"><span class="team-label">Suíça</span></label>
-                        <label><input type="checkbox" name="pote2[]" value="Austrália" class="team-checkbox"><span class="team-label">Austrália</span></label>
-                    </div>
-                </div>
+        <!-- POTE 4 -->
+        <div class="pote-card" data-pote="4" data-pts="5">
+          <div class="pote-header"><span>POTE 4</span> <span class="pote-counter">0/2</span></div>
+          <div class="teams-list">
+            <label><input type="checkbox" name="pote4[]" value="Catar" class="team-checkbox"><span class="team-label">Catar</span></label>
+            <label><input type="checkbox" name="pote4[]" value="África do Sul" class="team-checkbox"><span class="team-label">África do Sul</span></label>
+            <label><input type="checkbox" name="pote4[]" value="Iraque" class="team-checkbox"><span class="team-label">Iraque</span></label>
+            <label><input type="checkbox" name="pote4[]" value="Arábia Saudita" class="team-checkbox"><span class="team-label">Arábia Saudita</span></label>
+            <label><input type="checkbox" name="pote4[]" value="Jordânia" class="team-checkbox"><span class="team-label">Jordânia</span></label>
+            <label><input type="checkbox" name="pote4[]" value="Bósnia e Herzegovina" class="team-checkbox"><span class="team-label">Bósnia e Herz.</span></label>
+            <label><input type="checkbox" name="pote4[]" value="Gana" class="team-checkbox"><span class="team-label">Gana</span></label>
+            <label><input type="checkbox" name="pote4[]" value="Cabo Verde" class="team-checkbox"><span class="team-label">Cabo Verde</span></label>
+            <label><input type="checkbox" name="pote4[]" value="Haiti" class="team-checkbox"><span class="team-label">Haiti</span></label>
+            <label><input type="checkbox" name="pote4[]" value="Curaçau" class="team-checkbox"><span class="team-label">Curaçau</span></label>
+            <label><input type="checkbox" name="pote4[]" value="Uzbequistão" class="team-checkbox"><span class="team-label">Uzbequistão</span></label>
+            <label><input type="checkbox" name="pote4[]" value="Nova Zelândia" class="team-checkbox"><span class="team-label">Nova Zelândia</span></label>
+          </div>
+        </div>
 
-                <!-- POTE 3 (data-pts mudado para 4) -->
-                <div class="pote-card" data-pote="3" data-pts="4">
-                    <div class="pote-header"><span>POTE 3</span> <span class="pote-counter">0/2</span></div>
-                    <div class="teams-list">
-                        <label><input type="checkbox" name="pote3[]" value="Argélia" class="team-checkbox"><span class="team-label">Argélia</span></label>
-                        <label><input type="checkbox" name="pote3[]" value="Noruega" class="team-checkbox"><span class="team-label">Noruega</span></label>
-                        <label><input type="checkbox" name="pote3[]" value="Egito" class="team-checkbox"><span class="team-label">Egito</span></label>
-                        <label><input type="checkbox" name="pote3[]" value="Panamá" class="team-checkbox"><span class="team-label">Panamá</span></label>
-                        <label><input type="checkbox" name="pote3[]" value="Canadá" class="team-checkbox"><span class="team-label">Canadá</span></label>
-                        <label><input type="checkbox" name="pote3[]" value="Costa do Marfim" class="team-checkbox"><span class="team-label">Costa do Marfim</span></label>
-                        <label><input type="checkbox" name="pote3[]" value="Paraguai" class="team-checkbox"><span class="team-label">Paraguai</span></label>
-                        <label><input type="checkbox" name="pote3[]" value="Suécia" class="team-checkbox"><span class="team-label">Suécia</span></label>
-                        <label><input type="checkbox" name="pote3[]" value="República Tcheca" class="team-checkbox"><span class="team-label">Rep. Tcheca</span></label>
-                        <label><input type="checkbox" name="pote3[]" value="Escócia" class="team-checkbox"><span class="team-label">Escócia</span></label>
-                        <label><input type="checkbox" name="pote3[]" value="RD do Congo" class="team-checkbox"><span class="team-label">RD do Congo</span></label>
-                        <label><input type="checkbox" name="pote3[]" value="Tunísia" class="team-checkbox"><span class="team-label">Tunísia</span></label>
-                    </div>
-                </div>
+      </div>
 
-                <!-- POTE 4 (data-pts mudado para 5) -->
-                <div class="pote-card" data-pote="4" data-pts="5">
-                    <div class="pote-header"><span>POTE 4</span> <span class="pote-counter">0/2</span></div>
-                    <div class="teams-list">
-                        <label><input type="checkbox" name="pote4[]" value="Catar" class="team-checkbox"><span class="team-label">Catar</span></label>
-                        <label><input type="checkbox" name="pote4[]" value="África do Sul" class="team-checkbox"><span class="team-label">África do Sul</span></label>
-                        <label><input type="checkbox" name="pote4[]" value="Iraque" class="team-checkbox"><span class="team-label">Iraque</span></label>
-                        <label><input type="checkbox" name="pote4[]" value="Arábia Saudita" class="team-checkbox"><span class="team-label">Arábia Saudita</span></label>
-                        <label><input type="checkbox" name="pote4[]" value="Jordânia" class="team-checkbox"><span class="team-label">Jordânia</span></label>
-                        <label><input type="checkbox" name="pote4[]" value="Bósnia e Herzegovina" class="team-checkbox"><span class="team-label">Bósnia e Herz.</span></label>
-                        <label><input type="checkbox" name="pote4[]" value="Gana" class="team-checkbox"><span class="team-label">Gana</span></label>
-                        <label><input type="checkbox" name="pote4[]" value="Cabo Verde" class="team-checkbox"><span class="team-label">Cabo Verde</span></label>
-                        <label><input type="checkbox" name="pote4[]" value="Haiti" class="team-checkbox"><span class="team-label">Haiti</span></label>
-                        <label><input type="checkbox" name="pote4[]" value="Curaçau" class="team-checkbox"><span class="team-label">Curaçau</span></label>
-                        <label><input type="checkbox" name="pote4[]" value="Uzbequistão" class="team-checkbox"><span class="team-label">Uzbequistão</span></label>
-                        <label><input type="checkbox" name="pote4[]" value="Nova Zelândia" class="team-checkbox"><span class="team-label">Nova Zelândia</span></label>
-                    </div>
-                </div>
+      <!-- TABELA DE RESUMO -->
+      <div id="resumoDraft" class="resumo-container" style="display: none;">
+        <h3>As Tuas Escolhas Atuais</h3>
+        <table class="table-pontos">
+          <thead>
+            <tr>
+              <th>Pote</th>
+              <th>Seleção Selecionada</th>
+              <th>Vitória (Grupos)</th>
+              <th>Passar de Fase</th>
+            </tr>
+          </thead>
+          <tbody id="resumoTableBody">
+          </tbody>
+        </table>
+      </div>
 
-            </div>
+      <button type="submit" class="btn-submit">Submeter Equipas do Draft</button>
+    </form>
+  </div>
 
-            <!-- TABELA DE RESUMO ATUALIZADA COM AS COLUNAS SOLICITADAS -->
-            <div id="resumoDraft" class="resumo-container" style="display: none;">
-                <h3>As Tuas Escolhas Atuais</h3>
-                <table class="table-pontos">
-                    <thead>
-                        <tr>
-                            <th>Pote</th>
-                            <th>Seleção Selecionada</th>
-                            <th>Vitória (Grupos)</th>
-                            <th>Passar de Fase</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resumoTableBody">
-                    </tbody>
-                </table>
-            </div>
-
-            <button type="submit" class="btn-submit">Submeter Equipas do Draft</button>
-        </form>
-    </div>
-
-    <script src="draft.js" defer></script>
+  <!-- SCRIPTS ORDENADOS: O treinador trata da sessão e o draft cuida do jogo -->
+  <script src="treinador.js"></script>
+  <script src="draft.js"></script>
 </body>
 </html>
