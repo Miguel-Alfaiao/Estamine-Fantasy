@@ -1,183 +1,14 @@
-/* ==========================================================================
-   1. VARIÁVEIS DE DESIGN
-   ========================================================================== */
 :root {
-    --primary-color: #10b981;    /* Verde Fantasy */
-    --primary-hover: #059669;    
-    --bg-color: #f3f4f6;         
-    --card-bg: #ffffff;          
-    --text-main: #1f2937;        
-    --text-muted: #4b5563;       
-    --border-color: #e5e7eb;     
-    --radius: 8px;               
-}
+    --primary-color: #10b981;
+    --primary-hover: #059669;
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --radius: 12px;
 
-/* ==========================================================================
-   2. RESET & BASE
-   ========================================================================== */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-
-body {
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    line-height: 1.6;
-    padding: 40px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-}
-
-/* ==========================================================================
-   3. CONTAINER PRINCIPAL (ESTILO WORDPRESS)
-   ========================================================================== */
-.wp-block-group {
-    width: 100%;
-    max-width: 600px;
-    background: var(--card-bg);
-    padding: 40px;
-    border-radius: var(--radius);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-.wp-block-heading {
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: var(--text-main);
-    border-bottom: 3px solid var(--primary-color);
-    padding-bottom: 10px;
-    display: inline-block;
-}
-
-p {
-    margin-bottom: 16px;
-    color: var(--text-muted);
-    font-size: 1rem;
-}
-
-/* ==========================================================================
-   4. CAMPOS DE FORMULÁRIO (INPUTS)
-   ========================================================================== */
-.form-group {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 8px;
-    font-size: 0.95rem;
-}
-
-label::after {
-    content: " *";
-    color: #ef4444;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-    width: 100%;
-    padding: 12px 16px;
-    border: 2px solid var(--border-color);
-    border-radius: var(--radius);
-    font-size: 1rem;
-    background-color: #fafafa;
-    transition: all 0.2s ease;
-    outline: none;
-}
-
-input:focus {
-    border-color: var(--primary-color);
-    background-color: #ffffff;
-    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
-}
-
-/* ==========================================================================
-   5. BOTÕES
-   ========================================================================== */
-.wp-block-buttons {
-    margin-top: 28px;
-}
-
-.wp-block-button__link {
-    display: inline-block;
-    width: 100%;
-    background-color: var(--primary-color);
-    color: #ffffff;
-    border: none;
-    padding: 14px 24px;
-    font-size: 1.05rem;
-    font-weight: 600;
-    border-radius: var(--radius);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: center;
-    text-decoration: none;
-}
-
-.wp-block-button__link:hover {
-    background-color: var(--primary-hover);
-}
-
-.wp-block-button__link:active {
-    transform: scale(0.98);
-}
-
-/* ==========================================================================
-   6. EXTRAS (MUDANÇA DE TELAS E GLOBAL HIDDEN)
-   ========================================================================== */
-.form-toggle {
-    text-align: center;
-    margin-top: 24px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border-color);
-}
-
-.form-toggle p {
-    font-size: 0.95rem;
-    margin-bottom: 0;
-}
-
-.form-toggle a {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.form-toggle a:hover {
-    text-decoration: underline;
-}
-
-/* Oculta as secções desnecessárias */
-.hidden {
-    display: none !important;
-}
-
-/* ==========================================================================
-   7. ADAPTAÇÃO PARA SMARTPHONES
-   ========================================================================== */
-@media (max-width: 480px) {
-    body { padding: 20px 10px; }
-    .wp-block-group { padding: 24px 16px; }
-    .wp-block-heading { font-size: 1.5rem; }
-}
-:root {
-    --primary-color: #10b981;    
-    --primary-hover: #059669;    
-    --bg-color: #f8fafc;         
-    --card-bg: #ffffff;          
-    --text-main: #1e293b;        
-    --text-muted: #64748b;       
-    --border-color: #e2e8f0;     
-    --radius: 12px;               
+    --treinador-hero-bg: url("img/back.png");
 }
 
 * {
@@ -191,25 +22,158 @@ body {
     background-color: var(--bg-color);
     color: var(--text-main);
     line-height: 1.6;
+    min-height: 100vh;
 }
 
-/* --- BANNER DO LOGÓTIPO --- */
-.header-logo-container {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+.hidden {
+    display: none !important;
+}
+
+/* HERO HEADER */
+
+.treinador-hero-header {
     width: 100%;
-    padding: 30px 20px;
+    height: 270px;
+    min-height: 0;
+    overflow: hidden;
+    background: var(--treinador-hero-bg) center 42% / cover no-repeat;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+/* NAVBAR */
+
+.landing-navbar {
+    position: relative;
+    z-index: 20;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    padding: 0 120px 0 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.treinador-navbar {
+    background: transparent;
+    box-shadow: none;
+}
+
+.nav-left {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.logo-link {
+    width: 92px;
+    height: 92px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+    text-decoration: none;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.logo-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 22px 52px rgba(0, 0, 0, 0.22);
+}
+
+.nav-logo {
+    width: 74px;
+    height: auto;
+}
+
+.nav-actions {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 0;
+}
+
+.nav-loading {
+    height: 58px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.01em;
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(10px);
+}
+
+.nav-user {
+    max-width: 260px;
+    height: 58px;
+    padding: 0 22px 0 16px;
+    color: #ffffff;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    overflow: hidden;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(10px);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    cursor: default;
+}
+
+.nav-user-icon {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    flex-shrink: 0;
+    pointer-events: none;
+}
+
+/* IMAGEM DO TREINADOR NA HEADER */
+
+.header-logo-container {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    height: 100%;
+    min-height: 0;
+    padding: 0 190px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    pointer-events: none;
 }
 
 .main-logo {
-    max-width: 100%;
+    width: min(1700px, 86vw);
     height: auto;
-    max-height: 220px; /* Impede que o logo fique gigante */
+    max-height: 400px;
     object-fit: contain;
+    filter: drop-shadow(0 22px 32px rgba(0, 0, 0, 0.45));
 }
 
-/* --- LAYOUT & COMPONENTES --- */
+/* LAYOUT */
+
 .wp-block-group {
     background: var(--card-bg);
     border-radius: var(--radius);
@@ -217,9 +181,17 @@ body {
     margin: 30px auto;
 }
 
-.content-medium { max-width: 800px; }
-.content-wide { max-width: 1000px; }
-.section-padding { padding: 35px; }
+.content-medium {
+    max-width: 800px;
+}
+
+.content-wide {
+    max-width: min(1360px, calc(100vw - 80px));
+}
+
+.section-padding {
+    padding: 35px;
+}
 
 .wp-block-heading {
     font-size: 1.6rem;
@@ -231,50 +203,231 @@ body {
     margin-bottom: 20px;
 }
 
-.font-medium { color: var(--text-muted); font-size: 1.05rem; }
-.font-small { margin-left: 20px; margin-top: 15px; color: var(--text-muted); }
-.font-small li { margin-bottom: 8px; }
-.jornada-title { font-size: 1.4rem; color: #0f172a; margin: 20px 0; }
+.font-medium {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+}
 
-/* --- CONTROLO DA TABELA (SEM CORTES) --- */
+.font-small {
+    margin-left: 20px;
+    margin-top: 15px;
+    color: var(--text-muted);
+}
+
+.font-small li {
+    margin-bottom: 8px;
+}
+
+.jornada-title {
+    font-size: 1.4rem;
+    color: #0f172a;
+    margin: 20px 0;
+}
+
+.round-heading-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.admin-round-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.round-btn {
+    border: none;
+    border-radius: 8px;
+    background: #0f172a;
+    color: white;
+    font-weight: 700;
+    padding: 10px 14px;
+    cursor: pointer;
+}
+
+.round-btn:hover:not(:disabled) {
+    background: #1e293b;
+}
+
+.round-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* TABELA */
+
 .table-container {
     width: 100%;
-    overflow-x: auto; /* Se o ecrã for muito pequeno, cria barra apenas na tabela */
+    overflow-x: auto;
     border: 1px solid var(--border-color);
     border-radius: 8px;
 }
 
 .fantasy-table {
     width: 100%;
+    min-width: 0;
     border-collapse: collapse;
     text-align: left;
+    table-layout: fixed;
+}
+
+.col-date {
+    width: 150px;
+}
+
+.col-group {
+    width: 54px;
+}
+
+.col-game {
+    width: auto;
+}
+
+.col-prediction {
+    width: 230px;
+}
+
+.col-scorer {
+    width: 235px;
 }
 
 .fantasy-table th {
     background-color: #f1f5f9;
     color: #334155;
-    font-weight: 600;
-    padding: 14px;
+    font-weight: 700;
+    padding: 13px 14px;
     border-bottom: 2px solid var(--border-color);
+    white-space: nowrap;
 }
 
 .fantasy-table td {
-    padding: 14px;
+    padding: 13px 14px;
     border-bottom: 1px solid var(--border-color);
     vertical-align: middle;
 }
 
-.fantasy-table tr:hover { background-color: #f8fafc; }
+.fantasy-table tr:hover {
+    background-color: #f8fafc;
+}
 
-.time-cell { font-size: 0.85rem; color: var(--text-muted); line-height: 1.3; }
-.team-cell { font-weight: 600; color: #334155; }
-.team-cell img { vertical-align: middle; margin: 0 4px; border-radius: 2px; }
+.fantasy-table th:nth-child(2),
+.fantasy-table th:nth-child(3),
+.fantasy-table th:nth-child(5) {
+    text-align: center;
+}
 
-/* --- INPUTS DE GOLOS & MARCADOR --- */
-.nowrap { white-space: nowrap; }
+.prediction-header {
+    text-align: center;
+}
+
+.time-cell {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.3;
+    white-space: nowrap;
+}
+
+.group-cell {
+    color: #334155;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.group-cell strong {
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.team-cell {
+    font-weight: 600;
+    color: #334155;
+    overflow: hidden;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+/* JOGO / VS */
+
+.team-match {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 32px minmax(0, 1fr);
+    align-items: center;
+    column-gap: 10px;
+    overflow: hidden;
+}
+
+.team-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.team-line:first-child {
+    justify-self: end;
+}
+
+.team-line:last-child {
+    justify-self: start;
+}
+
+.team-line span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.team-flag {
+    width: 24px;
+    height: 18px;
+    object-fit: cover;
+    border-radius: 3px;
+    image-rendering: auto;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.08);
+}
+
+.versus {
+    justify-self: center;
+    flex-shrink: 0;
+    color: #94a3b8;
+    font-weight: 800;
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* ESTADOS */
+
+.loading-cell,
+.empty-cell,
+.error-cell {
+    text-align: center;
+    padding: 35px !important;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.error-cell {
+    color: #dc2626;
+}
+
+/* INPUTS */
 
 .input-golo {
-    width: 50px;
+    width: 54px;
     padding: 8px;
     text-align: center;
     border: 2px solid #cbd5e1;
@@ -284,35 +437,313 @@ body {
     outline: none;
 }
 
-.input-golo:focus, .input-marcador:focus {
+.input-golo:focus,
+.input-marcador:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+.input-golo:disabled {
+    color: #334155;
+    background: #f8fafc;
+    opacity: 1;
+    cursor: not-allowed;
 }
 
 .multiplier-x {
     font-weight: 800;
     color: #94a3b8;
-    margin: 0 6px;
+    margin: 0 8px;
     font-size: 0.9rem;
 }
 
-.input-marcador {
+/* BOTÃO / DIALOG DO MARCADOR */
+
+.scorer-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.scorer-picker-btn {
     width: 100%;
     min-width: 150px;
+    min-height: 42px;
     padding: 8px 12px;
     border: 2px solid #cbd5e1;
     border-radius: 6px;
+    background: #ffffff;
+    color: #0f172a;
     font-size: 0.9rem;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.scorer-picker-btn::after {
+    content: "";
+    display: none;
+}
+
+.scorer-picker-btn.has-player::after {
+    content: "Alterar";
+    display: inline;
+    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+}
+
+.scorer-picker-btn.is-placeholder {
+    color: #94a3b8;
+    font-weight: 800;
+    background: #f8fafc;
+}
+
+.scorer-picker-btn.is-placeholder .scorer-selected-name {
+    color: #94a3b8;
+}
+
+.scorer-picker-btn:hover,
+.scorer-picker-btn:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+.scorer-picker-btn.has-player {
+    border-color: rgba(16, 185, 129, 0.7);
+    background: rgba(16, 185, 129, 0.06);
+}
+
+.scorer-picker-btn:disabled,
+.scorer-picker-btn.is-locked {
+    cursor: not-allowed;
+}
+
+.scorer-picker-btn:disabled::after,
+.scorer-picker-btn.is-locked::after {
+    content: "";
+    display: none;
+}
+
+.scorer-selected-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.player-dialog {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: min(760px, calc(100vw - 32px));
+    max-height: min(760px, calc(100vh - 48px));
+    padding: 0;
+    border: none;
+    border-radius: 18px;
+    background: transparent;
+    overflow: hidden;
+}
+
+.player-dialog::backdrop {
+    background: rgba(15, 23, 42, 0.62);
+    backdrop-filter: blur(4px);
+}
+
+.player-dialog-card {
+    max-height: min(760px, calc(100vh - 48px));
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.player-dialog-header {
+    padding: 22px 24px 16px;
+    background: #f8fafc;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.player-dialog-header h3 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 1.35rem;
+    font-weight: 900;
+}
+
+.player-dialog-header p {
+    margin: 4px 0 0;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+}
+
+.player-dialog-close {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 999px;
+    background: #e2e8f0;
+    color: #0f172a;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.player-dialog-close:hover {
+    background: #cbd5e1;
+}
+
+.player-dialog-search-row {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.player-search-input {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    border: 2px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 0.95rem;
     outline: none;
 }
 
-/* Remove setas do input number */
-.input-golo::-webkit-outer-spin-button, .input-golo::-webkit-inner-spin-button {
-    -webkit-appearance: none; margin: 0;
+.player-search-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
 }
 
-/* --- BOTÃO SUBMETER --- */
-.submit-container { text-align: right; margin-top: 25px; }
+.player-list {
+    padding: 14px 16px 18px;
+    overflow-y: auto;
+    display: grid;
+    gap: 16px;
+}
+
+.player-team-section {
+    display: grid;
+    gap: 8px;
+}
+
+.player-team-title {
+    padding: 8px 12px;
+    color: #ffffff;
+    font-size: 0.82rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.22);
+}
+
+.player-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+    gap: 8px;
+}
+
+.player-option {
+    min-height: 50px;
+    padding: 10px 12px;
+    border: 1px solid #dbe4ef;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #0f172a;
+    font-weight: 800;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.player-option:hover {
+    border-color: var(--primary-color);
+    background: rgba(16, 185, 129, 0.06);
+}
+
+.player-option.selected {
+    border-color: var(--primary-color);
+    background: rgba(16, 185, 129, 0.12);
+}
+
+.player-option-number {
+    color: #64748b;
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.player-empty {
+    padding: 24px;
+    color: var(--text-muted);
+    text-align: center;
+    font-weight: 700;
+}
+
+.player-dialog-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border-color);
+    background: #f8fafc;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.player-secondary-btn,
+.player-primary-btn {
+    min-height: 42px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.player-secondary-btn {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+.player-secondary-btn:hover {
+    background: #cbd5e1;
+}
+
+.player-primary-btn {
+    background: var(--primary-color);
+    color: #ffffff;
+}
+
+.player-primary-btn:hover {
+    background: var(--primary-hover);
+}
+
+.input-golo::-webkit-outer-spin-button,
+.input-golo::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* BOTÃO SUBMETER */
+
+.submit-container {
+    text-align: right;
+    margin-top: 25px;
+}
+
 .btn-submit-palpites {
     background-color: var(--primary-color);
     color: white;
@@ -325,10 +756,447 @@ body {
     box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
     transition: all 0.2s;
 }
-.btn-submit-palpites:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
 
-/* RESPONSIVIDADE */
+.btn-submit-palpites:hover:not(:disabled) {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.btn-submit-palpites:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* LOADING */
+
+.page-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 23, 42, 0.58);
+    backdrop-filter: blur(4px);
+}
+
+.loader-card {
+    width: min(360px, calc(100vw - 40px));
+    min-width: 260px;
+    padding: 28px;
+    border-radius: 18px;
+    background: white;
+    text-align: center;
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.22);
+}
+
+.loader-spinner {
+    width: 44px;
+    height: 44px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    border: 5px solid #dbeafe;
+    border-top-color: var(--primary-color);
+    animation: spin 0.8s linear infinite;
+}
+
+.loader-card p {
+    color: var(--text-muted);
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 850px) {
+    .content-wide {
+        max-width: calc(100vw - 30px);
+    }
+
+    .treinador-hero-header {
+        height: 310px;
+        min-height: 0;
+    }
+
+    .landing-navbar {
+        height: 100%;
+        min-height: 0;
+        padding: 0 18px;
+        align-items: center;
+    }
+
+    .logo-link {
+        width: 70px;
+        height: 70px;
+        border-radius: 18px;
+    }
+
+    .nav-logo {
+        width: 54px;
+    }
+
+    .nav-actions {
+        display: none;
+    }
+
+    .header-logo-container {
+        padding: 0 90px;
+    }
+
+    .main-logo {
+        width: min(1100px, 86vw);
+        max-height: 275px;
+    }
+
+    .fantasy-table {
+        min-width: 1080px;
+    }
+
+    .round-heading-row {
+        flex-direction: column;
+    }
+
+    .player-dialog-footer {
+        justify-content: stretch;
+    }
+
+    .player-secondary-btn,
+    .player-primary-btn {
+        flex: 1;
+    }
+}
+
 @media (max-width: 600px) {
-    .section-padding { padding: 20px; }
-    .wp-block-group { margin: 15px auto; }
+    .treinador-hero-header {
+        height: 235px;
+        min-height: 0;
+    }
+
+    .section-padding {
+        padding: 20px;
+    }
+
+    .wp-block-group {
+        margin: 15px auto;
+    }
+
+    .landing-navbar {
+        height: 100%;
+        min-height: 0;
+    }
+
+    .logo-link {
+        width: 58px;
+        height: 58px;
+        border-radius: 16px;
+    }
+
+    .nav-logo {
+        width: 46px;
+    }
+
+    .nav-left {
+        gap: 10px;
+    }
+
+    .header-logo-container {
+        padding: 0 64px;
+    }
+
+    .main-logo {
+        width: min(760px, 84vw);
+        max-height: 205px;
+    }
+
+    .player-dialog {
+        width: calc(100vw - 18px);
+        max-height: calc(100vh - 18px);
+    }
+
+    .player-dialog-card {
+        max-height: calc(100vh - 18px);
+    }
+
+    .player-dialog-header {
+        padding: 18px 18px 14px;
+    }
+
+    .player-dialog-search-row {
+        padding: 14px 18px;
+    }
+
+    .player-list {
+        padding: 12px;
+    }
+
+    .player-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .player-dialog-footer {
+        padding: 14px 18px;
+    }
+}
+
+
+
+/* ===============================
+   MOBILE - TABELA EM CARDS
+   =============================== */
+
+@media (max-width: 700px) {
+    .content-wide {
+        max-width: calc(100vw - 18px);
+    }
+
+    .table-container {
+        overflow-x: visible;
+        border: none;
+        border-radius: 0;
+        background: transparent;
+    }
+
+    .fantasy-table {
+        width: 100%;
+        min-width: 0 !important;
+        border-collapse: separate;
+        border-spacing: 0;
+        display: block;
+    }
+
+    .fantasy-table colgroup,
+    .fantasy-table thead {
+        display: none;
+    }
+
+    .fantasy-table tbody {
+        display: grid;
+        gap: 14px;
+    }
+
+    .fantasy-table tr {
+        display: block;
+        background: #ffffff;
+        border: 1px solid var(--border-color);
+        border-radius: 14px;
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+        overflow: hidden;
+    }
+
+    .fantasy-table tr:hover {
+        background: #ffffff;
+    }
+
+    .fantasy-table td {
+        width: 100%;
+        min-height: 48px;
+        padding: 12px 14px;
+        border-bottom: 1px solid #edf2f7;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+    }
+
+    .fantasy-table td:last-child {
+        border-bottom: none;
+    }
+
+    .fantasy-table td::before {
+        flex: 0 0 86px;
+        color: #64748b;
+        font-size: 0.78rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .fantasy-table td:nth-child(1)::before {
+        content: "Data";
+    }
+
+    .fantasy-table td:nth-child(2)::before {
+        content: "Grupo";
+    }
+
+    .fantasy-table td:nth-child(3)::before {
+        content: "Jogo";
+    }
+
+    .fantasy-table td:nth-child(4)::before {
+        content: "Predict";
+    }
+
+    .fantasy-table td:nth-child(5)::before {
+        content: "Marcador";
+    }
+
+    .time-cell,
+    .group-cell,
+    .team-cell,
+    .text-center {
+        text-align: right;
+    }
+
+    .time-cell {
+        font-size: 0.82rem;
+        white-space: normal;
+    }
+
+    .group-cell strong {
+        font-size: 1rem;
+    }
+
+    .team-cell {
+        overflow: visible;
+    }
+
+    .team-match {
+        flex: 1;
+        width: auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 6px;
+        justify-items: end;
+        text-align: right;
+    }
+
+    .team-line {
+        justify-self: end !important;
+        max-width: 100%;
+        justify-content: flex-end;
+    }
+
+    .team-line span {
+        white-space: normal;
+        text-align: right;
+    }
+
+    .versus {
+        justify-self: end;
+        font-size: 0.75rem;
+        color: #94a3b8;
+        line-height: 1;
+    }
+
+    .team-flag {
+        width: 25px;
+        height: 18px;
+    }
+
+    .nowrap {
+        white-space: normal;
+    }
+
+    .input-golo {
+        width: 48px;
+        padding: 7px;
+    }
+
+    .multiplier-x {
+        margin: 0 6px;
+    }
+
+    .scorer-picker {
+        flex: 1;
+        max-width: 190px;
+    }
+
+    .scorer-picker-btn {
+        min-width: 0;
+        min-height: 40px;
+        font-size: 0.84rem;
+    }
+
+    .submit-container {
+        text-align: stretch;
+        margin-top: 18px;
+    }
+
+    .btn-submit-palpites {
+        width: 100%;
+        padding: 14px 18px;
+        font-size: 1rem;
+    }
+
+    .round-heading-row {
+        gap: 10px;
+    }
+
+    .jornada-title {
+        margin: 8px 0 16px;
+        font-size: 1.1rem;
+    }
+
+    .round-btn {
+        width: 100%;
+    }
+}
+
+
+/* ===============================
+  BACK TO TOP
+=============================== */
+
+.back-to-top {
+  position: fixed;
+  right: 28px;
+  bottom: 96px;
+  z-index: 200;
+
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #9e9999;
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 900;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+
+  transition:
+    opacity 0.18s ease,
+    visibility 0.18s ease,
+    transform 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.back-to-top.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  background: #242424;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 700px) {
+  .back-to-top {
+    right: 18px;
+    bottom: 24px;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
 }

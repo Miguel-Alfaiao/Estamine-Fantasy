@@ -1,381 +1,148 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Treinador de Bancada - Mundial 2026</title>
-    <link rel="stylesheet" href="style_treinador.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Treinador de Bancada - Mundial 2026</title>
+  <link rel="stylesheet" href="style_treinador.css">
 </head>
 <body>
+  <div id="page-loader" class="page-loader hidden">
+    <div class="loader-card">
+      <div class="loader-spinner"></div>
+      <p id="page-loader-text">A carregar...</p>
+    </div>
+  </div>
 
- <div class="header-logo-container">
-    <img src="img/tr_b.jpg" alt="Treinador de Bancada Logo" class="main-logo">
-</div>
+  <section class="treinador-hero-header">
+    <header class="landing-navbar treinador-navbar">
+      <div class="nav-left">
+        <a href="index.html" class="logo-link" aria-label="Voltar ao menu">
+          <img src="img/logo.png" alt="Estaminé" class="nav-logo">
+        </a>
+      </div>
 
-    <div class="wp-block-group alignwide content-medium section-padding">
-        <h1 class="wp-block-heading font-large">Como funciona o jogo de palpites</h1>
-        <p class="font-medium">Escolhe o resultado para cada jogo listado abaixo, indicando apenas o número de golos de cada equipa (por exemplo, 2–1). Indique também quem será o marcador de golo do jogo!</p>
-        
-        <ul class="wp-block-list font-small">
-            <li>Escreve os golos da equipa da esquerda no primeiro campo e os da direita no segundo campo, separados pelo <strong>X</strong>.</li>
-            <li>Seleciona o nome do jogador que achas que vai marcar golo no campo "Marcador" (apenas jogadores das equipas em campo).</li>
-            <li>No fim de preencheres a jornada, clica em "Submeter Palpites da Jornada".</li>
-        </ul>
+      <div class="header-logo-container">
+        <img src="img/tb_sf.png" alt="Treinador de Bancada Logo" class="main-logo">
+      </div>
+
+      <div class="nav-actions" id="treinador-nav-actions">
+        <span class="nav-loading">A validar sessão...</span>
+      </div>
+    </header>
+  </section>
+
+  <div class="wp-block-group alignwide content-medium section-padding" id="info-card">
+    <h1 class="wp-block-heading font-large" id="info-title">
+      Como funciona o jogo de predicts
+    </h1>
+
+    <p class="font-medium" id="info-description">
+      Preenche o resultado de cada jogo e escolhe um marcador, ou seleciona manualmente
+      <strong>Sem Marcador</strong>.
+    </p>
+
+    <ul class="wp-block-list font-small" id="info-list">
+      <li>Escreve os golos da equipa da esquerda no primeiro campo e os da direita no segundo campo.</li>
+      <li>Escolhe um marcador no campo <strong>Marcador</strong>, ou seleciona <strong>Sem Marcador</strong>.</li>
+      <li>Depois de submeteres, as predicts ficam bloqueadas e já não podem ser alteradas.</li>
+    </ul>
+  </div>
+
+  <div class="wp-block-group alignwide content-wide section-padding">
+    <div class="round-heading-row">
+      <div>
+        <h2 class="wp-block-heading font-large" id="grid-title">
+          Grelha de jogos e predicts
+        </h2>
+        <h3 class="jornada-title">Rodada 1 - Fase de Grupos</h3>
+      </div>
+
+      <div id="admin-round-controls" class="admin-round-controls hidden">
+        <button type="button" id="next-round-btn" class="round-btn">
+          Passar para próxima rodada →
+        </button>
+      </div>
     </div>
 
-    <div class="wp-block-group alignwide content-wide section-padding">
-        <h2 class="wp-block-heading font-large">Grelha de jogos e palpites</h2>
-        <h3 class="jornada-title">Jornada 1 (Fase de Grupos)</h3>
-        
-        <form id="palpites-form">
-            <div class="table-container">
-                <table class="fantasy-table">
-                    <thead>
-                        <tr>
-                            <th>Data / Hora</th>
-                            <th>Grupo</th>
-                            <th>Jogo</th>
-                            <th class="text-center">Palpite (Casa X Fora)</th>
-                            <th>Previsão de Marcador</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- JOGO 1 -->
-                        <tr>
-                            <td class="time-cell">11-06-2026<br><small>19:00</small></td>
-                            <td><strong>Gr. A</strong></td>
-                            <td class="team-cell"><img src="https://flagcdn.com/16x12/mx.png" height="15" alt="México"> México vs <img src="https://flagcdn.com/16x12/za.png" height="15" alt="África do Sul"> África do Sul</td>
-                            <td class="text-center nowrap">
-                                <input type="number" name="j1_casa" min="0" class="input-golo" placeholder="0" required>
-                                <span class="multiplier-x">X</span>
-                                <input type="number" name="j1_fora" min="0" class="input-golo" placeholder="0" required>
-                            </td>
-                            <td>
-                                <select name="j1_marcador" class="input-marcador">
-                                    <option value="">Sem Marcador</option>
-                                    <optgroup label="México">
-                                        <option value="Santi Giménez">Santi Giménez</option>
-                                        <option value="Hirving Lozano">Hirving Lozano</option>
-                                    </optgroup>
-                                    <optgroup label="África do Sul">
-                                        <option value="Percy Tau">Percy Tau</option>
-                                        <option value="Lyle Foster">Lyle Foster</option>
-                                    </optgroup>
-                                </select>
-                            </td>
-                        </tr>
-                        <!-- JOGO 2 -->
-                        <tr>
-                            <td class="time-cell">12-06-2026<br><small>02:00</small></td>
-                            <td><strong>Gr. A</strong></td>
-                            <td class="team-cell"><img src="https://flagcdn.com/16x12/kr.png" height="15" alt="Coreia do Sul"> Coreia do Sul vs <img src="https://flagcdn.com/16x12/cz.png" height="15" alt="Chéquia"> Chéquia</td>
-                            <td class="text-center nowrap">
-                                <input type="number" name="j2_casa" min="0" class="input-golo" placeholder="0" required>
-                                <span class="multiplier-x">X</span>
-                                <input type="number" name="j2_fora" min="0" class="input-golo" placeholder="0" required>
-                            </td>
-                            <td>
-                                <select name="j2_marcador" class="input-marcador">
-                                    <option value="">Sem Marcador</option>
-                                    <optgroup label="Coreia do Sul">
-                                        <option value="Son Heung-min">Son Heung-min</option>
-                                        <option value="Lee Kang-in">Lee Kang-in</option>
-                                    </optgroup>
-                                    <optgroup label="Chéquia">
-                                        <option value="Patrik Schick">Patrik Schick</option>
-                                        <option value="Tomas Soucek">Tomas Soucek</option>
-                                    </optgroup>
-                                </select>
-                            </td>
-                        </tr>
-                        <!-- JOGO 3 -->
-                        <tr>
-                            <td class="time-cell">12-06-2026<br><small>19:00</small></td>
-                            <td><strong>Gr. B</strong></td>
-                            <td class="team-cell"><img src="https://flagcdn.com/16x12/ca.png" height="15" alt="Canadá"> Canadá vs <img src="https://flagcdn.com/16x12/ba.png" height="15" alt="Bósnia"> Bósnia e H.</td>
-                            <td class="text-center nowrap">
-                                <input type="number" name="j3_casa" min="0" class="input-golo" placeholder="0" required>
-                                <span class="multiplier-x">X</span>
-                                <input type="number" name="j3_fora" min="0" class="input-golo" placeholder="0" required>
-                            </td>
-                            <td>
-                                <select name="j3_marcador" class="input-marcador">
-                                    <option value="">Sem Marcador</option>
-                                    <optgroup label="Canadá">
-                                        <option value="Alphonso Davies">Alphonso Davies</option>
-                                        <option value="Jonathan David">Jonathan David</option>
-                                    </optgroup>
-                                    <optgroup label="Bósnia e H.">
-                                        <option value="Edin Dzeko">Edin Dzeko</option>
-                                        <option value="Ermedin Demirovic">Ermedin Demirovic</option>
-                                    </optgroup>
-                                </select>
-                            </td>
-                        </tr>
-                        <!-- JOGO 4 -->
-                        <tr>
-                            <td class="time-cell">13-06-2026<br><small>19:00</small></td>
-                            <td><strong>Gr. B</strong></td>
-                            <td class="team-cell"><img src="https://flagcdn.com/16x12/qa.png" height="15" alt="Catar"> Catar vs <img src="https://flagcdn.com/16x12/ch.png" height="15" alt="Suíça"> Suíça</td>
-                            <td class="text-center nowrap">
-                                <input type="number" name="j4_casa" min="0" class="input-golo" placeholder="0" required>
-                                <span class="multiplier-x">X</span>
-                                <input type="number" name="j4_fora" min="0" class="input-golo" placeholder="0" required>
-                            </td>
-                            <td>
-                                <select name="j4_marcador" class="input-marcador">
-                                    <option value="">Sem Marcador</option>
-                                    <optgroup label="Catar">
-                                        <option value="Akram Afif">Akram Afif</option>
-                                        <option value="Almoez Ali">Almoez Ali</option>
-                                    </optgroup>
-                                    <optgroup label="Suíça">
-                                        <option value="Granit Xhaka">Granit Xhaka</option>
-                                        <option value="Xherdan Shaqiri">Xherdan Shaqiri</option>
-                                    </optgroup>
-                                </select>
-                            </td>
-                        </tr>
-                        <!-- JOGO 5 -->
-                        <tr>
-                            <td class="time-cell">13-06-2026<br><small>22:00</small></td>
-                            <td><strong>Gr. C</strong></td>
-                            <td class="team-cell"><img src="https://flagcdn.com/16x12/br.png" height="15" alt="Brasil"> Brasil vs <img src="https://flagcdn.com/16x12/ma.png" height="15" alt="Marrocos"> Marrocos</td>
-                            <td class="text-center nowrap">
-                                <input type="number" name="j5_casa" min="0" class="input-golo" placeholder="0" required>
-                                <span class="multiplier-x">X</span>
-                                <input type="number" name="j5_fora" min="0" class="input-golo" placeholder="0" required>
-                            </td>
-                            <td>
-                                <select name="j5_marcador" class="input-marcador">
-                                    <option value="">Sem Marcador</option>
-                                    <optgroup label="Brasil">
-                                        <option value="Vinícius Júnior">Vinícius Júnior</option>
-                                        <option value="Rodrygo">Rodrygo</option>
-                                        <option value="Endrick">Endrick</option>
-                                    </optgroup>
-                                    <optgroup label="Marrocos">
-                                        <option value="Achraf Hakimi">Achraf Hakimi</option>
-                                        <option value="Youssef En-Nesyri">Youssef En-Nesyri</option>
-                                    </optgroup>
-                                </select>
-                            </td>
-                        </tr>
-                        <!-- JOGO 6 -->
-                        <tr>
-                            <td class="time-cell">14-06-2026<br><small>01:00</small></td>
-                            <td><strong>Gr. C</strong></td>
-                            <td class="team-cell"><img src="https://flagcdn.com/16x12/ht.png" height="15" alt="Haiti"> Haiti vs <img src="https://flagcdn.com/16x12/gb-sct.png" height="15" alt="Escócia"> Escócia</td>
-                            <td class="text-center nowrap">
-                                <input type="number" name="j6_casa" min="0" class="input-golo" placeholder="0" required>
-                                <span class="multiplier-x">X</span>
-                                <input type="number" name="j6_fora" min="0" class="input-golo" placeholder="0" required>
-                            </td>
-                            <td>
-                                <select name="j6_marcador" class="input-marcador">
-                                    <option value="">Sem Marcador</option>
-                                    <optgroup label="Haiti">
-                                        <option value="Frantzdy Pierrot">Frantzdy Pierrot</option>
-                                        <option value="Duckens Nazon">Duckens Nazon</option>
-                                    </optgroup>
-                                    <optgroup label="Escócia">
-                                        <option value="Scott McTominay">Scott McTominay</option>
-                                        <option value="John McGinn">John McGinn</option>
-                                    </optgroup>
-                                </select>
-                            </td>
-                        </tr>
-                        <!-- JOGO 7 -->
-                        <tr>
-                            <td class="time-cell">13-06-2026<br><small>01:00</small></td>
-                            <td><strong>Gr. D</strong></td>
-                            <td class="team-cell"><img src="https://flagcdn.com/16x12/us.png" height="15" alt="EUA"> EUA vs <img src="https://flagcdn.com/16x12/py.png" height="15" alt="Paraguai"> Paraguai</td>
-                            <td class="text-center nowrap">
-                                <input type="number" name="j7_casa" min="0" class="input-golo" placeholder="0" required>
-                                <span class="multiplier-x">X</span>
-                                <input type="number" name="j7_fora" min="0" class="input-golo" placeholder="0" required>
-                            </td>
-                            <td>
-                                <select name="j7_marcador" class="input-marcador">
-                                    <option value="">Sem Marcador</option>
-                                    <optgroup label="EUA">
-                                        <option value="Christian Pulisic">Christian Pulisic</option>
-                                        <option value="Folarin Balogun">Folarin Balogun</option>
-                                    </optgroup>
-                                    <optgroup label="Paraguai">
-                                        <option value="Miguel Almirón">Miguel Almirón</option>
-                                        <option value="Julio Enciso">Julio Enciso</option>
-                                    </optgroup>
-                                </select>
-                            </td>
-                        </tr>
-                        <!-- JOGO 8 -->
-                        <tr>
-                            <td class="time-cell">14-06-2026<br><small>04:00</small></td>
-                            <td><strong>Gr. D</strong></td>
-                            <td class="team-cell"><img src="https://flagcdn.com/16x12/au.png" height="15" alt="Austrália"> Austrália vs <img src="https://flagcdn.com/16x12/tr.png" height="15" alt="Turquia"> Turquia</td>
-                            <td class="text-center nowrap">
-                                <input type="number" name="j8_casa" min="0" class="input-golo" placeholder="0" required>
-                                <span class="multiplier-x">X</span>
-                                <input type="number" name="j8_fora" min="0" class="input-golo" placeholder="0" required>
-                            </td>
-                            <td>
-                                <select name="j8_marcador" class="input-marcador">
-                                    <option value="">Sem Marcador</option>
-                                    <optgroup label="Austrália">
-                                        <option value="Craig Goodwin">Craig Goodwin</option>
-                                        <option value="Harry Souttar">Harry Souttar</option>
-                                    </optgroup>
-                                    <optgroup label="Turquia">
-                                        <option value="Hakan Çalhanoğlu">Hakan Çalhanoğlu</option>
-                                        <option value="Arda Güler">Arda Güler</option>
-                                    </optgroup>
-                                </select>
-                            </td>
-                        </tr>
-                        <!-- JOGO 9 -->
-                        <tr>
-                            <td class="time-cell">14-06-2026<br><small>17:00</small></td>
-                            <td><strong>Gr. E</strong></td>
-                            <td class="team-cell"><img src="https://flagcdn.com/16x12/de.png" height="15" alt="Alemanha"> Alemanha vs <img src="https://flagcdn.com/16x12/cw.png" height="15" alt="Curaçau"> Curaçau</td>
-                            <td class="text-center nowrap">
-                                <input type="number" name="j9_casa" min="0" class="input-golo" placeholder="0" required>
-                                <span class="multiplier-x">X</span>
-                                <input type="number" name="j9_fora" min="0" class="input-golo" placeholder="0" required>
-                            </td>
-                            <td>
-                                <select name="j9_marcador" class="input-marcador">
-                                    <option value="">Sem Marcador</option>
-                                    <optgroup label="Alemanha">
-                                        <option value="Jamal Musiala">Jamal Musiala</option>
-                                        <option value="Florian Wirtz">Florian Wirtz</option>
-                                    </optgroup>
-                                    <optgroup label="Curaçau">
-                                        <option value="Leandro Bacuna">Leandro Bacuna</option>
-                                        <option value="Juninho Bacuna">Juninho Bacuna</option>
-                                    </optgroup>
-                                </select>
-                            </td>
-                        </tr>
-                        <!-- JOGO 10 -->
-                        <tr>
-                            <td class="time-cell">14-06-2026<br><small>23:00</small></td>
-                            <td><strong>Gr. E</strong></td>
-                            <td class="team-cell"><img src="https://flagcdn.com/16x12/ci.png" height="15" alt="Costa do Marfim"> Costa do Marfim vs <img src="https://flagcdn.com/16x12/ec.png" height="15" alt="Equador"> Equador</td>
-                            <td class="text-center nowrap">
-                                <input type="number" name="j10_casa" min="0" class="input-golo" placeholder="0" required>
-                                <span class="multiplier-x">X</span>
-                                <input type="number" name="j10_fora" min="0" class="input-golo" placeholder="0" required>
-                            </td>
-                            <td>
-                                <select name="j10_marcador" class="input-marcador">
-                                    <option value="">Sem Marcador</option>
-                                    <optgroup label="Costa do Marfim">
-                                        <option value="Sébastien Haller">Sébastien Haller</option>
-                                        <option value="Franck Kessié">Franck Kessié</option>
-                                    </optgroup>
-                                    <optgroup label="Equador">
-                                        <option value="Enner Valencia">Enner Valencia</option>
-                                        <option value="Moisés Caicedo">Moisés Caicedo</option>
-                                    </optgroup>
-                                </select>
-                            </td>
-                        </tr>
-                        <!-- JOGO 11 -->
-                        <tr>
-                            <td class="time-cell">14-06-2026<br><small>20:00</small></td>
-                            <td><strong>Gr. F</strong></td>
-                            <td class="team-cell"><img src="https://flagcdn.com/16x12/nl.png" height="15" alt="Países Baixos"> Países Baixos vs <img src="https://flagcdn.com/16x12/jp.png" height="15" alt="Japão"> Japão</td>
-                            <td class="text-center nowrap">
-                                <input type="number" name="j11_casa" min="0" class="input-golo" placeholder="0" required>
-                                <span class="multiplier-x">X</span>
-                                <input type="number" name="j11_fora" min="0" class="input-golo" placeholder="0" required>
-                            </td>
-                            <td>
-                                <select name="j11_marcador" class="input-marcador">
-                                    <option value="">Sem Marcador</option>
-                                    <optgroup label="Países Baixos">
-                                        <option value="Cody Gakpo">Cody Gakpo</option>
-                                        <option value="Xavi Simons">Xavi Simons</option>
-                                    </optgroup>
-                                    <optgroup label="Japão">
-                                        <option value="Kaoru Mitoma">Kaoru Mitoma</option>
-                                        <option value="Takefusa Kubo">Takefusa Kubo</option>
-                                    </optgroup>
-                                </select>
-                            </td>
-                        </tr>
-                        <!-- JOGO 12 -->
-                        <tr>
-                            <td class="time-cell">15-06-2026<br><small>02:00</small></td>
-                            <td><strong>Gr. F</strong></td>
-                            <td class="team-cell"><img src="https://flagcdn.com/16x12/se.png" height="15" alt="Suécia"> Suécia vs <img src="https://flagcdn.com/16x12/tn.png" height="15" alt="Tunísia"> Tunísia</td>
-                            <td class="text-center nowrap">
-                                <input type="number" name="j12_casa" min="0" class="input-golo" placeholder="0" required>
-                                <span class="multiplier-x">X</span>
-                                <input type="number" name="j12_fora" min="0" class="input-golo" placeholder="0" required>
-                            </td>
-                            <td>
-                                <select name="j12_marcador" class="input-marcador">
-                                    <option value="">Sem Marcador</option>
-                                    <optgroup label="Suécia">
-                                        <option value="Alexander Isak">Alexander Isak</option>
-                                        <option value="Viktor Gyökeres">Viktor Gyökeres</option>
-                                    </optgroup>
-                                    <optgroup label="Tunísia">
-                                        <option value="Youssef Msakni">Youssef Msakni</option>
-                                        <option value="Ellyes Skhiri">Ellyes Skhiri</option>
-                                    </optgroup>
-                                </select>
-                            </td>
-                        </tr>
-                        <!-- JOGO 13 (Portugal adicionado) -->
-                        <tr>
-                            <td class="time-cell">16-06-2026<br><small>20:00</small></td>
-                            <td><strong>Gr. H</strong></td>
-                            <td class="team-cell"><img src="https://flagcdn.com/16x12/pt.png" height="15" alt="Portugal"> Portugal vs <img src="https://flagcdn.com/16x12/uy.png" height="15" alt="Uruguai"> Uruguai</td>
-                            <td class="text-center nowrap">
-                                <input type="number" name="j13_casa" min="0" class="input-golo" placeholder="0" required>
-                                <span class="multiplier-x">X</span>
-                                <input type="number" name="j13_fora" min="0" class="input-golo" placeholder="0" required>
-                            </td>
-                            <td>
-                                <select name="j13_marcador" class="input-marcador">
-                                    <option value="">Sem Marcador</option>
-                                    <optgroup label="Portugal">
-                                        <option value="Cristiano Ronaldo">Cristiano Ronaldo</option>
-                                        <option value="Bruno Fernandes">Bruno Fernandes</option>
-                                        <option value="Rafael Leão">Rafael Leão</option>
-                                        <option value="Bernardo Silva">Bernardo Silva</option>
-                                    </optgroup>
-                                    <optgroup label="Uruguai">
-                                        <option value="Darwin Núñez">Darwin Núñez</option>
-                                        <option value="Federico Valverde">Federico Valverde</option>
-                                        <option value="Maxi Gómez">Maxi Gómez</option>
-                                    </optgroup>
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <form id="palpites-form">
+      <div class="table-container">
+        <table class="fantasy-table">
+          <colgroup>
+            <col class="col-date">
+            <col class="col-group">
+            <col class="col-game">
+            <col class="col-prediction">
+            <col class="col-scorer">
+          </colgroup>
 
-            <div class="submit-container">
-                <button type="submit" class="btn-submit-palpites">Submeter Palpites da Jornada</button>
-            </div>
-        </form>
+          <thead>
+            <tr>
+              <th>Data / Hora</th>
+              <th>Grupo</th>
+              <th>Jogo</th>
+              <th class="prediction-header">Predict (Casa X Fora)</th>
+              <th>Previsão de Marcador</th>
+            </tr>
+          </thead>
+
+          <tbody id="matches-body">
+            <tr>
+              <td colspan="5" class="loading-cell">A carregar jogos...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="submit-container">
+        <button type="submit" class="btn-submit-palpites">
+          Submeter Predicts da Rodada
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <dialog id="player-dialog" class="player-dialog">
+    <div class="player-dialog-card">
+      <div class="player-dialog-header">
+        <div>
+          <h3 id="player-dialog-title">Escolher marcador</h3>
+          <p id="player-dialog-subtitle">Seleciona um jogador ou deixa sem marcador.</p>
+        </div>
+
+        <button type="button" class="player-dialog-close" id="player-dialog-close" aria-label="Fechar">
+          ×
+        </button>
+      </div>
+
+      <div class="player-dialog-search-row">
+        <input
+          type="search"
+          id="player-search-input"
+          class="player-search-input"
+          placeholder="Pesquisar jogador..."
+          autocomplete="off"
+        >
+      </div>
+
+      <div id="player-list" class="player-list"></div>
+
+      <div class="player-dialog-footer">
+        <button type="button" id="clear-player-btn" class="player-secondary-btn">
+          Sem Marcador
+        </button>
+
+        <button type="button" id="cancel-player-btn" class="player-primary-btn">
+          Fechar
+        </button>
+      </div>
     </div>
+  </dialog>
 
-    <script>
-        document.getElementById('palpites-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            const dadosPalpites = Object.fromEntries(formData);
-            
-            // Isto vai mostrar no painel do VS Code todos os resultados e marcadores organizados
-            console.log("Dados enviados prontos para a Base de Dados:", dadosPalpites);
-            alert("Boa! Todos os teus palpites e previsões de marcador foram gravados.");
-        });
-    </script>
+  <button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo">
+    ↑
+  </button>
+
+  <script src="treinador.js"></script>
 </body>
 </html>
