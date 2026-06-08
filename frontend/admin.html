@@ -7,6 +7,7 @@
   <title>Admin - Fantasy do Estaminé</title>
 
   <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="admin-predictions.css" />
 </head>
 
 <body>
@@ -40,34 +41,59 @@
         </article>
       </div>
 
-      <section class="admin-table-card">
-        <div class="admin-table-header">
-          <h2>Utilizadores registados</h2>
-          <button id="refresh-users" type="button">Atualizar</button>
-        </div>
+      <nav class="admin-main-tabs">
+        <button
+          class="admin-main-tab active"
+          type="button"
+          data-admin-main-tab="users"
+        >
+          Utilizadores
+        </button>
 
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Criado em</th>
-              </tr>
-            </thead>
+        <button
+          class="admin-main-tab"
+          type="button"
+          data-admin-main-tab="predictions"
+        >
+          Predictions
+        </button>
+      </nav>
 
-            <tbody id="users-table-body">
-              <tr>
-                <td colspan="4">A carregar...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <section id="users-admin-panel" class="admin-main-panel active">
+        <section class="admin-table-card">
+          <div class="admin-table-header">
+            <h2>Utilizadores registados</h2>
+            <button id="refresh-users" type="button">Atualizar</button>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Criado em</th>
+                </tr>
+              </thead>
+
+              <tbody id="users-table-body">
+                <tr>
+                  <td colspan="4">A carregar...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="predictions-admin-panel" class="admin-main-panel">
+        <div id="admin-predictions-root"></div>
       </section>
     </section>
   </main>
 
   <script src="admin.js"></script>
+  <script src="admin-predictions.js"></script>
 </body>
 </html>

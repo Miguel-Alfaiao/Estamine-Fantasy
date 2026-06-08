@@ -1,0 +1,249 @@
+.admin-main-tabs {
+  margin-bottom: 22px;
+  padding: 8px;
+  display: flex;
+  gap: 8px;
+
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+}
+
+.admin-main-tab {
+  flex: 1;
+  padding: 14px 18px;
+
+  border: 0;
+  border-radius: 15px;
+  background: transparent;
+  color: #ffffff;
+
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 900;
+  font-style: italic;
+}
+
+.admin-main-tab.active {
+  background: #ffffff;
+  color: var(--dark);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+.admin-main-panel {
+  display: none;
+}
+
+.admin-main-panel.active {
+  display: block;
+}
+
+.predictions-header-text p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.prediction-subtabs {
+  padding: 18px 24px 0;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.prediction-subtab {
+  padding: 12px 16px;
+
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #f8fafc;
+  color: var(--dark);
+
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.prediction-subtab.active {
+  background: var(--dark);
+  color: #ffffff;
+  border-color: var(--dark);
+}
+
+.prediction-filters {
+  padding: 18px 24px 22px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.prediction-filters label {
+  display: grid;
+  gap: 8px;
+
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.prediction-filters select {
+  min-width: 160px;
+  padding: 12px 14px;
+
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #ffffff;
+  color: var(--text);
+
+  font-weight: 800;
+}
+
+#prediction-current-filter {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.predictions-list {
+  padding: 20px 24px 26px;
+  display: grid;
+  gap: 14px;
+}
+
+.prediction-user-card {
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+
+.prediction-user-toggle {
+  width: 100%;
+  padding: 18px 20px;
+  border: 0;
+  background: #f8fafc;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  text-align: left;
+}
+
+.prediction-user-main {
+  display: grid;
+  gap: 4px;
+}
+
+.prediction-user-name {
+  font-size: 17px;
+  font-weight: 950;
+}
+
+.prediction-user-email {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.prediction-user-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.prediction-count-pill {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1e3a8a;
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.prediction-arrow {
+  width: 28px;
+  height: 28px;
+
+  display: inline-grid;
+  place-items: center;
+
+  border-radius: 999px;
+  background: var(--dark);
+  color: #ffffff;
+
+  font-weight: 900;
+  transition: transform 0.18s ease;
+}
+
+.prediction-user-card.open .prediction-arrow {
+  transform: rotate(45deg);
+}
+
+.prediction-user-body {
+  display: none;
+  border-top: 1px solid var(--border);
+}
+
+.prediction-user-card.open .prediction-user-body {
+  display: block;
+}
+
+.predictions-inner-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.predictions-inner-table th,
+.predictions-inner-table td {
+  padding: 13px 16px;
+  font-size: 13px;
+}
+
+.predictions-inner-table td {
+  font-weight: 750;
+}
+
+.predicted-score {
+  color: #1d4ed8;
+  font-weight: 950;
+}
+
+.empty-state {
+  padding: 24px;
+  border: 1px dashed var(--border);
+  border-radius: 18px;
+  background: #f8fafc;
+  color: var(--muted);
+  font-weight: 900;
+  text-align: center;
+}
+
+@media (max-width: 800px) {
+  .admin-main-tabs {
+    flex-direction: column;
+  }
+
+  .prediction-filters {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .prediction-user-toggle {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .prediction-user-meta {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
