@@ -278,6 +278,33 @@ if (mobileMenuButton && mobileNav) {
   });
 }
 
+// Seleção dos elementos do Pop-up
+const openModalBtn = document.getElementById('open-credits-btn');
+const closeModalBtn = document.getElementById('close-credits-btn');
+const creditsModal = document.getElementById('credits-modal');
+
+// Abrir o Pop-up ao clicar no botão da secção Sobre
+if (openModalBtn && creditsModal) {
+  openModalBtn.addEventListener('click', () => {
+    creditsModal.classList.add('active');
+  });
+}
+
+// Fechar o Pop-up ao clicar no botão "X"
+if (closeModalBtn && creditsModal) {
+  closeModalBtn.addEventListener('click', () => {
+    creditsModal.classList.remove('active');
+  });
+}
+
+// Fechar o Pop-up se o utilizador clicar fora da caixa branca
+if (creditsModal) {
+  creditsModal.addEventListener('click', (e) => {
+    if (e.target === creditsModal) {
+      creditsModal.classList.remove('active');
+    }
+  });
+}
 
 // ===============================
 // PROTECTED EVENT LINKS
