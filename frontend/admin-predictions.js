@@ -8,6 +8,7 @@ const predictionsToken = localStorage.getItem("access_token");
 const mainTabButtons = document.querySelectorAll("[data-admin-main-tab]");
 const usersAdminPanel = document.getElementById("users-admin-panel");
 const predictionsAdminPanel = document.getElementById("predictions-admin-panel");
+const resultsAdminPanel = document.getElementById("results-admin-panel");
 const predictionsRoot = document.getElementById("admin-predictions-root");
 
 const predictionModes = {
@@ -124,11 +125,16 @@ function setActiveMainTab(tabName) {
     button.classList.toggle("active", button.dataset.adminMainTab === tabName);
   });
 
-  usersAdminPanel.classList.toggle("active", tabName === "users");
-  predictionsAdminPanel.classList.toggle("active", tabName === "predictions");
+  usersAdminPanel?.classList.toggle("active", tabName === "users");
+  predictionsAdminPanel?.classList.toggle("active", tabName === "predictions");
+  resultsAdminPanel?.classList.toggle("active", tabName === "results");
 
   if (tabName === "predictions" && !predictionsAlreadyLoaded) {
     loadPredictions();
+  }
+
+  if (tabName === "results" && window.loadAdminResults) {
+    window.loadAdminResults();
   }
 }
 
