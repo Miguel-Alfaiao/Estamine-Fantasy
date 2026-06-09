@@ -640,3 +640,55 @@ body {
         height: 30px;
     }
 }
+
+
+/* ===============================
+   DRAFT HEADER NAV / MOBILE MENU
+================================ */
+
+.treinador-hero-header {
+    overflow: visible;
+}
+
+.draft-page-nav a {
+    background: rgba(145, 70, 255, 0.18);
+    border-color: rgba(196, 163, 255, 0.35);
+}
+
+.draft-page-nav a:hover {
+    background: rgba(145, 70, 255, 0.34);
+    border-color: rgba(196, 163, 255, 0.7);
+}
+
+.draft-mobile-menu-btn {
+    border-color: rgba(196, 163, 255, 0.45);
+    background: rgba(15, 23, 42, 0.62);
+    box-shadow: 0 14px 30px rgba(145, 70, 255, 0.22);
+}
+
+.draft-mobile-menu-btn:hover {
+    background: rgba(145, 70, 255, 0.62);
+    border-color: rgba(196, 163, 255, 0.75);
+}
+
+.draft-mobile-nav {
+    border-color: rgba(196, 163, 255, 0.32);
+    background: rgba(18, 18, 18, 0.94);
+    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.48);
+}
+
+.draft-mobile-nav a:hover {
+    background: rgba(145, 70, 255, 0.26);
+}
+
+@media (max-width: 850px) {
+    .draft-page-nav {
+        display: none;
+    }
+
+    .draft-mobile-menu-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

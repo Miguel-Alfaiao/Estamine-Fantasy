@@ -17,6 +17,9 @@ const pageLoaderText = document.getElementById("page-loader-text");
 const draftLeaderboardBody = document.getElementById("draft-leaderboard-body");
 const refreshDraftLeaderboardButton = document.getElementById("refresh-draft-leaderboard-btn");
 
+const draftMobileMenuButton = document.querySelector(".draft-mobile-menu-btn");
+const draftMobileNav = document.querySelector(".draft-mobile-nav");
+
 let draftAlreadySubmitted = false;
 
 // ===============================
@@ -392,6 +395,34 @@ async function loadDraftLeaderboard() {
 
 
 // ===============================
+// MOBILE MENU
+// ===============================
+
+function setupDraftMobileMenu() {
+  if (!draftMobileMenuButton || !draftMobileNav) return;
+
+  draftMobileMenuButton.addEventListener("click", () => {
+    draftMobileNav.classList.toggle("open");
+  });
+
+  draftMobileNav.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      draftMobileNav.classList.remove("open");
+    });
+  });
+
+  document.addEventListener("click", event => {
+    const clickedInsideMenu = draftMobileNav.contains(event.target);
+    const clickedButton = draftMobileMenuButton.contains(event.target);
+
+    if (!clickedInsideMenu && !clickedButton) {
+      draftMobileNav.classList.remove("open");
+    }
+  });
+}
+
+
+// ===============================
 // INIT
 // ===============================
 
@@ -399,6 +430,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   setPageLoading(true, "A carregar o teu Draft...");
 
   setupCheckboxLimits();
+  setupDraftMobileMenu();
 
   if (draftForm) {
     draftForm.addEventListener("submit", submitDraft);

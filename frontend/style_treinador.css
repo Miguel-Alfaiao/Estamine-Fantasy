@@ -1468,7 +1468,7 @@ html {
   border: none;
   border-radius: 999px;
 
-  background: #0f172a;
+  background: var(--primary-color);
   color: #ffffff;
 
   cursor: pointer;
@@ -1485,7 +1485,7 @@ html {
 }
 
 .leaderboard-refresh-btn:hover {
-  background: #1e293b;
+  background: var(--primary-hover);
   transform: translateY(-1px);
 }
 
@@ -1549,7 +1549,7 @@ html {
 }
 
 .leaderboard-points {
-  color: #0284c7;
+  color: var(--primary-color);
   font-size: 1.05rem;
   font-weight: 950;
   white-space: nowrap;
