@@ -8,6 +8,7 @@
 
   <link rel="stylesheet" href="admin.css" />
   <link rel="stylesheet" href="admin-predictions.css" />
+  <link rel="stylesheet" href="admin-results.css" />
 </head>
 
 <body>
@@ -57,6 +58,14 @@
         >
           Predictions
         </button>
+
+        <button
+          class="admin-main-tab"
+          type="button"
+          data-admin-main-tab="results"
+        >
+          Resultados
+        </button>
       </nav>
 
       <section id="users-admin-panel" class="admin-main-panel active">
@@ -90,10 +99,16 @@
       <section id="predictions-admin-panel" class="admin-main-panel">
         <div id="admin-predictions-root"></div>
       </section>
+
+      <section id="results-admin-panel" class="admin-main-panel">
+        <div id="admin-results-root"></div>
+      </section>
+
     </section>
   </main>
 
   <script src="admin.js"></script>
   <script src="admin-predictions.js"></script>
+  <script src="admin-results.js"></script>
 </body>
 </html>
