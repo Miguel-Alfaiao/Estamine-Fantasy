@@ -145,6 +145,12 @@ const infoCardDescription = document.getElementById("info-description");
 const infoCardList = document.getElementById("info-list");
 const predictsTableTitle = document.getElementById("grid-title");
 
+const leaderboardBody = document.getElementById("leaderboard-body");
+const refreshLeaderboardButton = document.getElementById("refresh-leaderboard-btn");
+
+const treinadorMobileMenuButton = document.querySelector(".treinador-mobile-menu-btn");
+const treinadorMobileNav = document.querySelector(".treinador-mobile-nav");
+
 let loadedMatches = [];
 let currentRodada = 1;
 let isCurrentRodadaLocked = false;
@@ -791,6 +797,83 @@ function setupPlayerDialog() {
 }
 
 // ===============================
+// LEADERBOARD
+// ===============================
+
+function renderLeaderboardLoading() {
+  if (!leaderboardBody) return;
+
+  leaderboardBody.innerHTML = `
+    <tr>
+      <td colspan="3" class="leaderboard-loading">
+        A carregar leaderboard...
+      </td>
+    </tr>
+  `;
+}
+
+function renderLeaderboardError(message = "Erro ao carregar leaderboard.") {
+  if (!leaderboardBody) return;
+
+  leaderboardBody.innerHTML = `
+    <tr>
+      <td colspan="3" class="leaderboard-error">
+        ${escapeHtml(message)}
+      </td>
+    </tr>
+  `;
+}
+
+function renderLeaderboard(rows) {
+  if (!leaderboardBody) return;
+
+  if (!Array.isArray(rows) || rows.length === 0) {
+    leaderboardBody.innerHTML = `
+      <tr>
+        <td colspan="3" class="leaderboard-empty">
+          Ainda não há participantes na leaderboard.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  leaderboardBody.innerHTML = rows.map((row) => `
+    <tr>
+      <td>
+        <span class="leaderboard-position">
+          ${escapeHtml(row.position)}
+        </span>
+      </td>
+
+      <td>
+        <span class="leaderboard-user">
+          ${escapeHtml(row.name)}
+        </span>
+      </td>
+
+      <td>
+        <span class="leaderboard-points">
+          ${escapeHtml(row.total_points)} pts
+        </span>
+      </td>
+    </tr>
+  `).join("");
+}
+
+async function loadLeaderboard() {
+  try {
+    renderLeaderboardLoading();
+
+    const data = await apiFetch("/leaderboard");
+
+    renderLeaderboard(data);
+  } catch (error) {
+    renderLeaderboardError(error.message);
+  }
+}
+
+// ===============================
 // LOAD / RENDER
 // ===============================
 
@@ -999,6 +1082,7 @@ async function submitPredictions(event) {
     clearCurrentDraft();
 
     await loadTreinadorPage();
+    await loadLeaderboard();
 
     alert("Boa! Os teus predicts foram submetidos e ficaram bloqueados.");
   } catch (error) {
@@ -1010,6 +1094,33 @@ async function submitPredictions(event) {
 }
 
 // ===============================
+// MOBILE MENU
+// ===============================
+
+function setupTreinadorMobileMenu() {
+  if (!treinadorMobileMenuButton || !treinadorMobileNav) return;
+
+  treinadorMobileMenuButton.addEventListener("click", () => {
+    treinadorMobileNav.classList.toggle("open");
+  });
+
+  treinadorMobileNav.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      treinadorMobileNav.classList.remove("open");
+    });
+  });
+
+  document.addEventListener("click", event => {
+    const clickedInsideMenu = treinadorMobileNav.contains(event.target);
+    const clickedButton = treinadorMobileMenuButton.contains(event.target);
+
+    if (!clickedInsideMenu && !clickedButton) {
+      treinadorMobileNav.classList.remove("open");
+    }
+  });
+}
+
+// ===============================
 // INIT
 // ===============================
 
@@ -1018,6 +1129,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   setupAdminRoundControls();
   setupPlayerDialog();
+  setupTreinadorMobileMenu();
+
+  refreshLeaderboardButton?.addEventListener("click", loadLeaderboard);
 
   try {
     setPageLoading(
@@ -1026,6 +1140,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
 
     await loadTreinadorPage();
+    await loadLeaderboard();
   } finally {
     setPageLoading(false);
   }

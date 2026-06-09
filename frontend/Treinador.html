@@ -20,7 +20,20 @@
         <a href="index.html" class="logo-link" aria-label="Voltar ao menu">
           <img src="img/logo.png" alt="Estaminé" class="nav-logo">
         </a>
+
+        <nav class="treinador-page-nav" aria-label="Navegação Treinador">
+          <a href="#predicts-section">Predicts</a>
+          <a href="#leaderboard-section">Leaderboard</a>
+        </nav>
+
+        <button class="treinador-mobile-menu-btn" type="button" aria-label="Abrir menu do treinador">
+          ☰
+        </button>
       </div>
+      <nav class="treinador-mobile-nav">
+        <a href="#predicts-section">Predicts</a>
+        <a href="#leaderboard-section">Leaderboard</a>
+      </nav>
 
       <div class="header-logo-container">
         <img src="img/tb_sf.png" alt="Treinador de Bancada Logo" class="main-logo">
@@ -80,7 +93,7 @@
     
   </div>
 
-  <div class="wp-block-group alignwide content-wide section-padding">
+  <div id="predicts-section" class="wp-block-group alignwide content-wide section-padding">
     <div class="round-heading-row">
       <div>
         <h2 class="wp-block-heading font-large" id="grid-title">
@@ -131,6 +144,45 @@
         </button>
       </div>
     </form>
+  </div>
+
+  <!-- LEADERBOARD TREINADOR -->
+  <div id="leaderboard-section" class="wp-block-group alignwide content-medium section-padding leaderboard-card">
+    <div class="leaderboard-header">
+      <div>
+        <h2 class="wp-block-heading font-large">
+          Leaderboard
+        </h2>
+
+        <p class="leaderboard-subtitle">
+          Classificação do Treinador de Bancada.
+        </p>
+      </div>
+
+      <button type="button" id="refresh-leaderboard-btn" class="leaderboard-refresh-btn">
+        ⟳
+      </button>
+    </div>
+
+    <div class="leaderboard-table-wrapper">
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Utilizador</th>
+            <th>Pontos</th>
+          </tr>
+        </thead>
+
+        <tbody id="leaderboard-body">
+          <tr>
+            <td colspan="3" class="leaderboard-loading">
+              A carregar leaderboard...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <dialog id="player-dialog" class="player-dialog">
