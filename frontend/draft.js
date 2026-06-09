@@ -14,6 +14,9 @@ const submitButton = draftForm?.querySelector(".btn-submit");
 const pageLoader = document.getElementById("page-loader");
 const pageLoaderText = document.getElementById("page-loader-text");
 
+const draftLeaderboardBody = document.getElementById("draft-leaderboard-body");
+const refreshDraftLeaderboardButton = document.getElementById("refresh-draft-leaderboard-btn");
+
 let draftAlreadySubmitted = false;
 
 // ===============================
@@ -58,6 +61,15 @@ async function apiFetch(path, options = {}) {
   }
 
   return data;
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 function getCheckedBoxesFromCard(card) {
@@ -281,6 +293,7 @@ async function submitDraft(event) {
     });
 
     await loadMyDraft();
+    await loadDraftLeaderboard();
 
     alert("Draft submetido com sucesso!");
   } catch (error) {
@@ -295,6 +308,89 @@ async function submitDraft(event) {
   }
 }
 
+
+// ===============================
+// LEADERBOARD
+// ===============================
+
+function renderDraftLeaderboardLoading() {
+  if (!draftLeaderboardBody) return;
+
+  draftLeaderboardBody.innerHTML = `
+    <tr>
+      <td colspan="3" class="draft-leaderboard-loading">
+        A carregar leaderboard...
+      </td>
+    </tr>
+  `;
+}
+
+function renderDraftLeaderboardError(message = "Erro ao carregar leaderboard.") {
+  if (!draftLeaderboardBody) return;
+
+  draftLeaderboardBody.innerHTML = `
+    <tr>
+      <td colspan="3" class="draft-leaderboard-error">
+        ${escapeHtml(message)}
+      </td>
+    </tr>
+  `;
+}
+
+function renderDraftLeaderboard(rows) {
+  if (!draftLeaderboardBody) return;
+
+  if (!Array.isArray(rows) || rows.length === 0) {
+    draftLeaderboardBody.innerHTML = `
+      <tr>
+        <td colspan="3" class="draft-leaderboard-empty">
+          Ainda não há participantes na leaderboard.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  draftLeaderboardBody.innerHTML = rows.map((row, index) => {
+    const position = row.position ?? index + 1;
+
+    return `
+      <tr>
+        <td>
+          <span class="draft-leaderboard-position">
+            ${escapeHtml(position)}
+          </span>
+        </td>
+
+        <td>
+          <span class="draft-leaderboard-user">
+            ${escapeHtml(row.name)}
+          </span>
+        </td>
+
+        <td>
+          <span class="draft-leaderboard-points">
+            ${escapeHtml(row.total_points)} pts
+          </span>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+async function loadDraftLeaderboard() {
+  try {
+    renderDraftLeaderboardLoading();
+
+    const data = await apiFetch("/draft/leaderboard");
+
+    renderDraftLeaderboard(data);
+  } catch (error) {
+    renderDraftLeaderboardError(error.message);
+  }
+}
+
+
 // ===============================
 // INIT
 // ===============================
@@ -308,8 +404,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     draftForm.addEventListener("submit", submitDraft);
   }
 
+  refreshDraftLeaderboardButton?.addEventListener("click", loadDraftLeaderboard);
+
   try {
     await loadMyDraft();
+    await loadDraftLeaderboard();
   } catch (error) {
     console.error("Erro ao carregar draft do utilizador:", error);
     alert(`Erro ao carregar o teu Draft: ${error.message}`);

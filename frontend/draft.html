@@ -156,6 +156,46 @@
     </form>
   </div>
   
+  <!-- LEADERBOARD DRAFT -->
+  <section id="draft-leaderboard-section" class="draft-leaderboard-container">
+    <div class="draft-leaderboard-header">
+      <div>
+        <h2>Leaderboard Draft das Nações</h2>
+        <p>Classificação geral do Draft.</p>
+      </div>
+
+      <button
+        type="button"
+        id="refresh-draft-leaderboard-btn"
+        class="draft-leaderboard-refresh-btn"
+        aria-label="Atualizar leaderboard"
+        title="Atualizar leaderboard"
+      >
+        ⟳
+      </button>
+    </div>
+
+    <div class="draft-leaderboard-table-wrapper">
+      <table class="draft-leaderboard-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Utilizador</th>
+            <th>Pontos</th>
+          </tr>
+        </thead>
+
+        <tbody id="draft-leaderboard-body">
+          <tr>
+            <td colspan="3" class="draft-leaderboard-loading">
+              A carregar leaderboard...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo">
     ↑
   </button>
