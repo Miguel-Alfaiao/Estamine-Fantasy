@@ -7,6 +7,96 @@
   <title>Fantasy do Estaminé</title>
 
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Estilos customizados para os Patrocinadores integrados no site e sem cortar imagens */
+    .grid-patrocinadores-custom {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .patrocinador-card-custom {
+      background-color: #222;
+      border-radius: 12px;
+      padding: 25px 15px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .patrocinador-card-custom img {
+      width: 140px;
+      height: 140px;
+      object-fit: contain; /* Garante que a imagem não seja cortada */
+      background: #fff;    /* Fundo branco para os logótipos e cartões aparecerem por inteiro */
+      border-radius: 50%;
+      border: 3px solid #fff;
+      margin-bottom: 15px;
+      transition: transform 0.3s ease;
+      cursor: pointer;    /* Muda o rato para indicar que é clicável */
+    }
+    .patrocinador-card-custom img:hover {
+      transform: scale(1.08);
+    }
+    .patrocinador-card-custom h4 {
+      color: #fff;
+      margin: 5px 0 2px 0;
+      font-size: 1.1em;
+      font-weight: 600;
+    }
+    .patrocinador-card-custom span {
+      color: #d1a119; /* Tom dourado padrão para os textos das funções */
+      font-size: 0.85em;
+      font-weight: 400;
+    }
+
+    /* Estilos para o efeito de Zoom da Imagem (Lightbox) */
+    .img-zoom-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 99999;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .img-zoom-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+    .img-zoom-box {
+      position: relative;
+      max-width: 90%;
+      max-height: 85%;
+    }
+    .img-zoom-box img {
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: 8px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+      object-fit: contain;
+      background: #fff;
+      padding: 10px;
+    }
+    .img-zoom-close {
+      position: absolute;
+      top: -45px;
+      right: 0;
+      color: #fff;
+      font-size: 35px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
 </head>
 
 <body>
@@ -24,6 +114,7 @@
             <a href="#eventos">Eventos</a>
             <a href="#support">Comunidade</a>
             <a href="#parcerias">Parcerias</a>
+            <a href="#patrocinadores">Patrocinadores</a>
           </nav>
 
           <button class="mobile-menu-btn" type="button" aria-label="Abrir menu">
@@ -42,6 +133,7 @@
           <a href="#eventos">Eventos</a>
           <a href="#support">Comunidade</a>
           <a href="#parcerias">Parcerias</a>
+          <a href="#patrocinadores">Patrocinadores</a>
         </nav>
       </header>
 
@@ -347,9 +439,69 @@
         >
           <img src="img/FLIX.png" alt="Spin and Flix" />
         </a>
+
+        <a
+          class="partner-card"
+          href="https://partners.hbetpartners.com/v2/text/257/38/a821ced9-6339-11f1-a1b8-f6136488bd8f/1"
+          target="_blank"
+        >
+          <img src="img/hugo.webp" alt="HBet" />
+        </a>
+      </div>
+    </section>
+
+    <section id="patrocinadores" class="section partners-section" style="border-top: 1px solid rgba(255,255,255,0.05);">
+      <div class="two-col top">
+        <div>
+          <h2>Patrocinadores</h2>
+        </div>
+        <div>
+          <p>
+            Conheça os patrocinadores oficiais que apoiam a nossa iniciativa e fortalecem o projeto Estaminé. Clica na imagem para ver os detalhes.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-patrocinadores-custom">
+        <div class="patrocinador-card-custom">
+          <img src="img/CP.jpg" alt="Carlos Pires" class="zoomable-img" />
+          <h4>Carlos Pires</h4>
+          <span>Instalações Elétricas</span>
+        </div>
+
+        <div class="patrocinador-card-custom">
+          <img src="img/CF.jpg" alt="Cláudia Fernandes" class="zoomable-img" />
+          <h4>Cláudia Fernandes</h4>
+          <span>Business</span>
+        </div>
+
+        <div class="patrocinador-card-custom">
+          <img src="img/Casca.jpg" alt="Vitor Hugo Casca" class="zoomable-img" />
+          <h4>Vitor Hugo Casca</h4>
+          <span>Construção Civil</span>
+        </div>
+
+        <div class="patrocinador-card-custom">
+          <img src="img/Bri.jpg" alt="Bri Fitness Gym" class="zoomable-img" />
+          <h4>Bri Fitness Gym</h4>
+          <span>Gym</span>
+        </div>
+
+        <div class="patrocinador-card-custom">
+          <img src="img/Ts.png" alt="True Shape Salon" class="zoomable-img" />
+          <h4>True Shape</h4>
+          <span>Barber Shop</span>
+        </div>
       </div>
     </section>
   </main>
+
+  <div id="img-zoom-overlay" class="img-zoom-overlay">
+    <div class="img-zoom-box">
+      <button id="img-zoom-close" class="img-zoom-close" type="button">&times;</button>
+      <img id="img-zoom-target" src="" alt="Zoom Patrocinador" />
+    </div>
+  </div>
 
   <div id="credits-modal" class="modal-overlay">
     <div class="modal-card" style="max-width: 500px;">
@@ -386,7 +538,7 @@
     <p style="margin-bottom: 15px; font-weight: bold;">Fantasy do Estaminé · Mundial 2026</p>
     
     <p style="margin-bottom: 25px; font-size: 0.85em;">
-      <a href="#open-credits-btn" onclick="document.getElementById('credits-modal').classList.add('active'); return false;" style="color: #d1a119; margin: 0 10px; text-decoration: underline; font-weight: bold;">Apoiar os Criadores</a> | 
+      <a href="#open-credits-btn" onclick="document.getElementById('credits-modal').classList.add('active'); return false;" style="color: #d1a119; margin 0 10px; text-decoration: underline; font-weight: bold;">Apoiar os Criadores</a> | 
       <a href="#sobre" style="color: inherit; margin: 0 10px; text-decoration: underline;">Sobre Nós</a>
     </p>
 
@@ -395,7 +547,7 @@
     <div class="gamble-responsible" style="opacity: 0.7; font-size: 0.8em; max-width: 600px; margin: 0 auto;">
       <p style="margin-bottom: 10px;">
         <span style="border: 2px solid #ff0000; color: #ff0000; padding: 2px 6px; font-weight: bold; border-radius: 50%; margin-right: 8px; display: inline-block; font-family: sans-serif;">+18</span>
-        <strong>Jogo Responsável:</strong> O conteúdo deste site inclui links de afiliados para plataformas de apostas. As apostas devem ser vistas puramente como uma forma de entretenimento.
+        <strong>Jogo Responsável:</strong> O conteúdo deste site includes links de afiliados para plataformas de apostas. As apostas devem ser vistas puramente como uma forma de entertainment.
       </p>
       <p>
         Joga com moderação. Se precisares de apoio ou orientação, consulta o <a href="https://www.jogoresponsavel.pt/" target="_blank" rel="noopener noreferrer" style="color: #d1a119; text-decoration: underline;">Portal do Jogo Responsável</a>.
@@ -408,5 +560,34 @@
   </button>
 
   <script src="script.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const overlay = document.getElementById('img-zoom-overlay');
+      const targetImg = document.getElementById('img-zoom-target');
+      const closeBtn = document.getElementById('img-zoom-close');
+      const zoomableImages = document.querySelectorAll('.zoomable-img');
+
+      // Abrir o zoom com a imagem certa
+      zoomableImages.forEach(img => {
+        img.addEventListener('click', function() {
+          targetImg.src = this.src;
+          overlay.classList.add('active');
+        });
+      });
+
+      // Fechar ao clicar no botão X
+      closeBtn.addEventListener('click', function() {
+        overlay.classList.remove('active');
+      });
+
+      // Fechar ao clicar fora da imagem (no fundo escuro)
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+          overlay.classList.remove('active');
+        }
+      });
+    });
+  </script>
 </body>
 </html>
