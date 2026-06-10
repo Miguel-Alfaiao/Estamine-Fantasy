@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Plano Sócios - FantasyDanny</title>
+
+  <link rel="stylesheet" href="style_socios.css" />
+</head>
+
+<body>
+  <section class="treinador-hero-header">
+    <header class="landing-navbar treinador-navbar">
+      <div class="nav-left">
+        <a href="index.html" class="logo-link" aria-label="Voltar ao menu">
+          <img src="img/logo.png" alt="Estaminé" class="nav-logo" />
+        </a>
+      </div>
+
+      <div class="header-logo-container">
+        <img src="img/socio_sf.png" alt="Exclusivo Sócios" class="main-logo socios-main-logo" />
+      </div>
+
+      <div class="nav-actions" id="treinador-nav-actions">
+        <button type="button" id="btn-twitch-login" class="twitch-nav-btn">
+          <span class="twitch-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img" focusable="false">
+              <path
+                fill="currentColor"
+                d="M3 2l-1 4v14h5v3h3l3-3h4l5-5V2H3zm17 12l-3 3h-5l-3 3v-3H5V4h15v10z"
+              />
+              <rect x="14" y="7" width="2" height="5" fill="currentColor"></rect>
+              <rect x="9" y="7" width="2" height="5" fill="currentColor"></rect>
+            </svg>
+          </span>
+          <span>Ligar Twitch</span>
+        </button>
+
+        <span class="nav-loading" id="nav-loading">A validar sessão...</span>
+      </div>
+    </header>
+  </section>
+
+  <main class="socios-main">
+    <section class="wp-block-group alignwide content-medium section-padding socios-intro-card" id="info-card">
+      <div class="socios-card-top">
+        <span class="socios-label">Plano VIP</span>
+        <span id="submitted-pill" class="status-pill status-muted">Bloqueado</span>
+      </div>
+
+      <h1 class="wp-block-heading font-large" id="info-title">
+        Plano Sócios
+      </h1>
+
+      <p class="font-medium socios-description" id="info-description">
+        Os sócios <strong>FantasyDanny</strong> concorrem automaticamente a prémios mensais,
+        créditos para novas ligas e experiências especiais ligadas ao Mundial 2026.
+      </p>
+
+      <div id="status-box" class="status-box">
+        A carregar o teu estado...
+      </div>
+
+      <ul class="wp-block-list font-small socios-list" id="info-list">
+        <li>Inicia sessão com a tua conta normal do site.</li>
+        <li>Liga a tua conta Twitch para confirmar o estatuto de sócio.</li>
+        <li>Só contas Twitch subscritoras conseguem submeter os palpites VIP.</li>
+      </ul>
+    </section>
+
+    <section class="wp-block-group alignwide content-wide section-padding predictions-section">
+      <div class="round-heading-row socios-section-heading">
+        <div>
+          <h2 class="wp-block-heading">Palpites VIP</h2>
+          <p class="font-medium">
+            Preenche as tuas previsões gerais para o Mundial 2026.
+          </p>
+        </div>
+      </div>
+
+      <form id="socios-form" autocomplete="off">
+        <div class="form-group single-field">
+          <label for="vencedor" class="label-with-icon">
+            <span class="mini-icon" aria-hidden="true">
+              <i data-lucide="crown"></i>
+            </span>
+            <span>Vencedor do Mundial</span>
+          </label>
+          <input
+            type="text"
+            id="vencedor"
+            name="vencedor"
+            placeholder="Ex: Portugal"
+            required
+            maxlength="80"
+          />
+        </div>
+
+        <div class="podium-grid">
+          <div class="podium-group">
+            <div class="podium-title-row">
+              <span class="podium-icon" aria-hidden="true">
+                <i data-lucide="trophy"></i>
+              </span>
+              <div>
+                <h3>Melhor Jogador</h3>
+                <p>Pódio final da competição</p>
+              </div>
+            </div>
+
+            <div class="podium-fields">
+              <div class="form-group">
+                <label for="melhor-jogador-1">1.º Lugar</label>
+                <input
+                  type="text"
+                  id="melhor-jogador-1"
+                  name="melhor_jogador_1"
+                  placeholder="Nome do jogador"
+                  required
+                  maxlength="100"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="melhor-jogador-2">2.º Lugar</label>
+                <input
+                  type="text"
+                  id="melhor-jogador-2"
+                  name="melhor_jogador_2"
+                  placeholder="Nome do jogador"
+                  required
+                  maxlength="100"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="melhor-jogador-3">3.º Lugar</label>
+                <input
+                  type="text"
+                  id="melhor-jogador-3"
+                  name="melhor_jogador_3"
+                  placeholder="Nome do jogador"
+                  required
+                  maxlength="100"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="podium-group">
+            <div class="podium-title-row">
+              <span class="podium-icon" aria-hidden="true">
+                <i data-lucide="goal"></i>
+              </span>
+              <div>
+                <h3>Melhor Marcador</h3>
+                <p>Pódio dos goleadores</p>
+              </div>
+            </div>
+
+            <div class="podium-fields">
+              <div class="form-group">
+                <label for="melhor-marcador-1">1.º Lugar</label>
+                <input
+                  type="text"
+                  id="melhor-marcador-1"
+                  name="melhor_marcador_1"
+                  placeholder="Nome do marcador"
+                  required
+                  maxlength="100"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="melhor-marcador-2">2.º Lugar</label>
+                <input
+                  type="text"
+                  id="melhor-marcador-2"
+                  name="melhor_marcador_2"
+                  placeholder="Nome do marcador"
+                  required
+                  maxlength="100"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="melhor-marcador-3">3.º Lugar</label>
+                <input
+                  type="text"
+                  id="melhor-marcador-3"
+                  name="melhor_marcador_3"
+                  placeholder="Nome do marcador"
+                  required
+                  maxlength="100"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="final-fields-grid">
+          <div class="form-group form-group-feature">
+            <label for="melhor-guarda-redes" class="label-with-icon">
+              <span class="mini-icon" aria-hidden="true">
+                <i data-lucide="shield-check"></i>
+              </span>
+              <span>Melhor Guarda-Redes</span>
+            </label>
+            <input
+              type="text"
+              id="melhor-guarda-redes"
+              name="melhor_guarda_redes"
+              placeholder="Nome do guarda-redes"
+              required
+              maxlength="100"
+            />
+          </div>
+
+          <div class="form-group form-group-feature">
+            <label for="melhor-jovem" class="label-with-icon">
+              <span class="mini-icon" aria-hidden="true">
+                <i data-lucide="sparkles"></i>
+              </span>
+              <span>Melhor Jovem</span>
+            </label>
+            <input
+              type="text"
+              id="melhor-jovem"
+              name="melhor_jovem"
+              placeholder="Nome do jogador jovem"
+              required
+              maxlength="100"
+            />
+          </div>
+        </div>
+
+        <button type="submit" id="btn-submit" class="btn-submit-palpites">
+          Submeter Previsões
+        </button>
+
+        <p id="form-message" class="form-message"></p>
+      </form>
+    </section>
+  </main>
+
+  <a href="#" id="back-to-top" class="back-to-top" aria-label="Voltar ao topo">
+    ↑
+  </a>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="socios.js"></script>
+</body>
+</html>
