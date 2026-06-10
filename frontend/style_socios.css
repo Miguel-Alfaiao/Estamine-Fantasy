@@ -18,7 +18,7 @@
   --warning: #b45309;
   --danger: #dc2626;
 
-  --treinador-hero-bg: url("img/header-bg.png");
+  --treinador-hero-bg: url("img/socios_header-bg.png");
 }
 
 * {
@@ -51,11 +51,6 @@ body::before {
   inset: 270px 0 0;
   z-index: -1;
   pointer-events: none;
-
-  background:
-    linear-gradient(135deg, rgba(212, 175, 55, 0.12), transparent 36%),
-    linear-gradient(315deg, rgba(24, 24, 27, 0.07), transparent 32%),
-    radial-gradient(circle at center, rgba(255, 255, 255, 0.72), transparent 62%);
 }
 
 .hidden {
@@ -128,10 +123,22 @@ body::before {
 .nav-actions {
   position: relative;
   z-index: 3;
+
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+
   margin-top: 0;
+  transform: translateY(8px);
+}
+
+.nav-user {
+  order: 1;
+}
+
+.twitch-nav-btn {
+  order: 2;
 }
 
 .nav-loading {
@@ -204,8 +211,8 @@ body::before {
 }
 
 .socios-main-logo {
-  width: min(1300px, 70vw);
-  max-height: 300px;
+  width: min(1550px, 78vw);
+  max-height: 400px;
 }
 
 /* ===============================
@@ -213,8 +220,8 @@ body::before {
 ================================ */
 
 .twitch-nav-btn {
-  height: 58px;
-  padding: 0 24px;
+  height: 50px;
+  padding: 0 22px;
 
   display: inline-flex;
   align-items: center;
@@ -234,8 +241,8 @@ body::before {
 
   cursor: pointer;
   box-shadow:
-    0 14px 30px rgba(145, 70, 255, 0.28),
-    0 10px 28px rgba(0, 0, 0, 0.08);
+    0 10px 22px rgba(145, 70, 255, 0.22),
+    0 8px 20px rgba(0, 0, 0, 0.06);
 
   transition:
     transform 0.18s ease,
@@ -246,10 +253,10 @@ body::before {
 
 .twitch-nav-btn:hover {
   background: #772ce8;
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow:
-    0 18px 34px rgba(145, 70, 255, 0.34),
-    0 14px 32px rgba(0, 0, 0, 0.1);
+    0 12px 26px rgba(145, 70, 255, 0.28),
+    0 10px 24px rgba(0, 0, 0, 0.08);
 }
 
 .twitch-nav-btn:disabled {
@@ -740,15 +747,17 @@ body::before {
     gap: 8px;
   }
 
-  .twitch-nav-btn {
+  .nav-user {
+    order: 1;
     height: 46px;
-    padding: 0 16px;
+    padding: 0 16px 0 10px;
     font-size: 13px;
   }
 
-  .nav-user {
+  .twitch-nav-btn {
+    order: 2;
     height: 46px;
-    padding: 0 16px 0 10px;
+    padding: 0 16px;
     font-size: 13px;
   }
 
@@ -797,15 +806,17 @@ body::before {
     align-items: flex-end;
   }
 
-  .twitch-nav-btn {
+  .nav-user {
+    order: 1;
     height: 42px;
-    padding: 0 13px;
+    padding: 0 13px 0 8px;
     font-size: 12px;
   }
 
-  .nav-user {
+  .twitch-nav-btn {
+    order: 2;
     height: 42px;
-    padding: 0 13px 0 8px;
+    padding: 0 13px;
     font-size: 12px;
   }
 

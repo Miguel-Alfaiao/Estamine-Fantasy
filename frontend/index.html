@@ -278,13 +278,26 @@
 
           <p>Clica no botão em baixo para subscrever!</p>
 
-          <a
-            class="btn btn-light"
-            href="https://www.twitch.tv/dannypires710"
-            target="_blank"
-          >
-            Subscreve na Twitch!
-          </a>
+          <div class="socio-actions">
+            <a
+              class="btn btn-light"
+              href="https://www.twitch.tv/dannypires710"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Subscreve na Twitch!
+            </a>
+
+            <a
+              class="btn btn-gold event-login-required"
+              href="socios.html"
+            >
+              <span class="btn-icon" aria-hidden="true">
+                <i data-lucide="crown"></i>
+              </span>
+              <span>Já és sócio? Fazer predicts VIP</span>
+            </a>
+          </div>
 
           <div class="prize-list">
             <p>Sendo sócio podes adivinhar e ganhar os seguintes prémios!</p>
@@ -340,6 +353,21 @@
           <div>
             <h3>Fantasy League</h3>
             <a class="btn btn-dark event-login-required" href="https://play.fifa.com/fantasy/join-league/6WYD940N" target="_blank">Participar</a>
+          </div>
+        </article>
+
+        <article class="event-card event-card-vip">
+          <img src="img/socios.png" alt="Plano Sócios VIP" />
+
+          <div>
+            <h3>Predicts VIP</h3>
+            <p class="event-card-description">
+              Exclusivo para subscritores.
+            </p>
+
+            <a class="btn btn-dark event-login-required" href="socios.html">
+              Participar
+            </a>
           </div>
         </article>
 
@@ -571,6 +599,13 @@
     ↑
   </button>
 
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+  </script>
+  
   <script src="script.js"></script>
 
   <script>

@@ -423,7 +423,7 @@ a {
 }
 
 .events-section .cards-grid.two {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 
 /* ===============================
@@ -1137,5 +1137,97 @@ a {
 @media (max-width: 700px) {
   .community-socials {
     justify-content: center;
+  }
+}
+
+
+/* ===============================
+  SÓCIOS / VIP HOMEPAGE
+=============================== */
+
+.socio-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 18px 0 0;
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #d4af37, #b7791f);
+  color: #111111;
+  box-shadow: 0 12px 28px rgba(183, 121, 31, 0.22);
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, #facc15, #b7791f);
+  box-shadow: 0 16px 34px rgba(183, 121, 31, 0.28);
+}
+
+.event-card-vip img {
+  padding: 0;
+  background: transparent;
+  border: none;
+  object-fit: cover;
+  object-position: center;
+}
+
+.event-card-vip h3 {
+  color: #111111;
+}
+
+.event-card-description {
+  margin: -4px 0 14px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.btn-with-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-icon {
+  width: 18px;
+  height: 18px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.btn-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.3;
+}
+
+@media (max-width: 700px) {
+  .socio-actions {
+    flex-direction: column;
+  }
+
+  .socio-actions .btn {
+    width: 100%;
+  }
+}
+
+
+/* ===============================
+  EVENTOS RESPONSIVE 4 / 2 / 1
+=============================== */
+
+@media (max-width: 900px) {
+  .events-section .cards-grid.two {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+}
+
+@media (max-width: 430px) {
+  .events-section .cards-grid.two {
+    grid-template-columns: 1fr;
   }
 }
