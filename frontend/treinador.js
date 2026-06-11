@@ -977,6 +977,11 @@ async function renderMatches(matches) {
     const awayTeam = getTeamName(match, "away");
     const lockedReason = getRowLockedReason(match);
     const disabled = Boolean(lockedReason);
+    const lockBadgeClass = lockedReason === "Predict submetida"
+      ? "is-submitted"
+      : lockedReason === "Jogo fechado"
+        ? "is-closed"
+        : "";
 
     const row = document.createElement("tr");
     row.dataset.matchId = match.id;
@@ -987,7 +992,7 @@ async function renderMatches(matches) {
     row.innerHTML = `
       <td class="time-cell">
         ${escapeHtml(formatDateTime(match.starts_at))}
-        ${lockedReason ? `<div class="match-lock-badge">${escapeHtml(lockedReason)}</div>` : ""}
+        ${lockedReason ? `<div class="match-lock-badge ${lockBadgeClass}">${escapeHtml(lockedReason)}</div>` : ""}
       </td>
 
       <td class="group-cell">
