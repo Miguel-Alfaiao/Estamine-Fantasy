@@ -197,9 +197,46 @@ function confirmLogout() {
 // WORLD CUP COUNTDOWN
 // ===============================
 
-function updateWorldCupCountdown() {
-  const targetDate = new Date("2026-06-11T20:00:00+01:00");
+const WORLD_CUP_TARGET_DATE = new Date("2026-06-11T20:00:00+01:00");
 
+let worldCupCountdownInterval = null;
+let worldCupStartedRendered = false;
+
+function renderWorldCupStartedMessage() {
+  if (worldCupStartedRendered) return;
+
+  const countdown = document.querySelector(".countdown");
+
+  if (!countdown) return;
+
+  worldCupStartedRendered = true;
+
+  countdown.classList.add("countdown-started");
+
+  countdown.innerHTML = `
+    <div class="worldcup-started-card">
+      <div class="worldcup-started-icon rocket-icon" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none">
+          <path d="M34 8C45 11 53 19 56 30L43 43L21 21L34 8Z" fill="currentColor" opacity="0.95"/>
+          <path d="M24 18L16 20L10 30L22 28" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M46 40L44 52L34 58L36 46" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="40" cy="24" r="5" fill="#ffffff" opacity="0.95"/>
+          <path d="M24 40L13 51" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+          <path d="M18 36L8 46" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" opacity="0.75"/>
+          <path d="M29 45L20 54" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" opacity="0.75"/>
+        </svg>
+      </div>
+
+      <p class="worldcup-started-kicker">O momento chegou</p>
+      <h2>O Mundial arrancou!</h2>
+      <p class="worldcup-started-text">
+        Boa sorte nas tuas predicts e que comece a festa do Estaminé.
+      </p>
+    </div>
+  `;
+}
+
+function updateWorldCupCountdown() {
   const daysEl = document.getElementById("count-days");
   const hoursEl = document.getElementById("count-hours");
   const minutesEl = document.getElementById("count-minutes");
@@ -208,13 +245,19 @@ function updateWorldCupCountdown() {
   if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
 
   const now = new Date();
-  const diff = targetDate - now;
+  const diff = WORLD_CUP_TARGET_DATE - now;
 
   if (diff <= 0) {
     daysEl.textContent = "0";
-    hoursEl.textContent = "0";
-    minutesEl.textContent = "0";
-    secondsEl.textContent = "0";
+    hoursEl.textContent = "00";
+    minutesEl.textContent = "00";
+    secondsEl.textContent = "00";
+
+    if (worldCupCountdownInterval) {
+      clearInterval(worldCupCountdownInterval);
+    }
+
+    renderWorldCupStartedMessage();
     return;
   }
 
@@ -232,8 +275,7 @@ function updateWorldCupCountdown() {
 }
 
 updateWorldCupCountdown();
-setInterval(updateWorldCupCountdown, 1000);
-
+worldCupCountdownInterval = setInterval(updateWorldCupCountdown, 1000);
 
 // ===============================
 // BACK TO TOP
@@ -250,14 +292,15 @@ if (backToTopButton) {
     }
   });
 
-  backToTopButton.addEventListener("click", () => {
+  backToTopButton.addEventListener("click", (event) => {
+    event.preventDefault();
+
     window.scrollTo({
       top: 0,
       behavior: "smooth"
     });
   });
 }
-
 
 // ===============================
 // MOBILE MENU
