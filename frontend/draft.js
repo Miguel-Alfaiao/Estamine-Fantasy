@@ -22,6 +22,8 @@ const draftMobileNav = document.querySelector(".draft-mobile-nav");
 
 let draftAlreadySubmitted = false;
 
+let draftOpen = true;
+
 // ===============================
 // HELPERS
 // ===============================
@@ -184,14 +186,17 @@ function lockDraftForm(message = "Draft já submetido") {
 
 function unlockDraftForm() {
   draftAlreadySubmitted = false;
+  const shouldDisable = !draftOpen;
 
   document.querySelectorAll("#draftForm .team-checkbox").forEach(checkbox => {
-    checkbox.disabled = false;
+    checkbox.disabled = shouldDisable;
   });
 
   if (submitButton) {
-    submitButton.disabled = false;
-    submitButton.textContent = "Submeter Equipas do Draft";
+    submitButton.disabled = shouldDisable;
+    submitButton.textContent = draftOpen
+      ? "Submeter Equipas do Draft"
+      : "Draft fechado";
   }
 }
 
@@ -215,6 +220,8 @@ async function loadMyDraft() {
   const data = await apiFetch("/draft/me", {
     headers: getAuthHeaders()
   });
+
+  draftOpen = data.draft_open !== false;
 
   if (data.submitted) {
     applySubmittedDraft(data.picks);
@@ -268,6 +275,11 @@ function setupCheckboxLimits() {
 async function submitDraft(event) {
   event.preventDefault();
 
+  if (!draftOpen) {
+    alert("O Draft das Nações está fechado.");
+    return;
+  }
+  
   if (draftAlreadySubmitted) {
     alert("Já submeteste o teu Draft das Nações.");
     return;
