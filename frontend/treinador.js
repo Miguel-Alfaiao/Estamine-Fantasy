@@ -154,6 +154,7 @@ const treinadorMobileNav = document.querySelector(".treinador-mobile-nav");
 let loadedMatches = [];
 let currentRodada = 1;
 let isCurrentRodadaLocked = false;
+let hasAnyOpenMatch = false;
 
 let activeScorerRow = null;
 let activeDialogPlayers = [];
@@ -253,6 +254,40 @@ function formatDateTime(value) {
   });
 }
 
+function isMatchClosed(match) {
+  if (match.prediction_closed === true) {
+    return true;
+  }
+
+  if (match.status && match.status !== "scheduled") {
+    return true;
+  }
+
+  if (!match.starts_at) {
+    return false;
+  }
+
+  const startsAt = new Date(match.starts_at);
+
+  if (Number.isNaN(startsAt.getTime())) {
+    return false;
+  }
+
+  return Date.now() >= startsAt.getTime();
+}
+
+function getRowLockedReason(match) {
+  if (match.prediction) {
+    return "Predict submetida";
+  }
+
+  if (isMatchClosed(match)) {
+    return "Jogo fechado";
+  }
+
+  return "";
+}
+
 function getTeamName(match, side) {
   const team = side === "home" ? match.home_team : match.away_team;
   const status = side === "home" ? match.home_team_status : match.away_team_status;
@@ -268,19 +303,20 @@ function getCleanGroupName(groupName) {
 }
 
 function updatePageModeContent() {
-  if (isCurrentRodadaLocked) {
+  if (!hasAnyOpenMatch) {
     if (infoCardTitle) {
       infoCardTitle.textContent = "Minhas Predicts";
     }
 
     if (infoCardDescription) {
-      infoCardDescription.textContent = "Estas são as predicts que já submeteste para esta rodada.";
+      infoCardDescription.textContent = "Todos os jogos disponíveis desta rodada já estão bloqueados, submetidos ou fechados.";
     }
 
     if (infoCardList) {
       infoCardList.innerHTML = `
-        <li>As tuas predicts já foram submetidas e estão bloqueadas.</li>
-        <li>Podes consultar o resultado, marcador escolhido ou a opção <strong>Sem Marcador</strong>.</li>
+        <li>Depois de submeteres uma predict, ela fica bloqueada e já não pode ser alterada.</li>
+        <li>Os jogos também fecham automaticamente à hora de início.</li>
+        <li>Podes consultar as tuas predicts já submetidas na tabela.</li>
       `;
     }
 
@@ -297,16 +333,16 @@ function updatePageModeContent() {
 
   if (infoCardDescription) {
     infoCardDescription.innerHTML = `
-      Preenche o resultado de cada jogo e escolhe um marcador, ou seleciona manualmente
+      Preenche o resultado dos jogos ainda disponíveis e escolhe um marcador, ou seleciona manualmente
       <strong>Sem Marcador</strong>.
     `;
   }
 
   if (infoCardList) {
     infoCardList.innerHTML = `
-      <li>Escreve os golos da equipa da esquerda no primeiro campo e os da direita no segundo campo.</li>
-      <li>Escolhe um marcador no campo <strong>Marcador</strong>, ou seleciona <strong>Sem Marcador</strong>.</li>
-      <li>Depois de submeteres, as predicts ficam bloqueadas e já não podem ser alteradas.</li>
+      <li>Cada jogo só pode ser submetido uma vez.</li>
+      <li>Depois de submeteres uma predict, ela fica bloqueada e já não pode ser alterada.</li>
+      <li>Quando o jogo começa, a predict desse jogo fecha automaticamente.</li>
     `;
   }
 
@@ -322,16 +358,15 @@ function updateSubmitButtonState() {
 
   if (!submitButton) return;
 
-  if (isCurrentRodadaLocked) {
+  if (!hasAnyOpenMatch) {
     submitButton.disabled = true;
-    submitButton.textContent = "Predicts já submetidas";
+    submitButton.textContent = "Todos os jogos estão bloqueados";
     return;
   }
 
   submitButton.disabled = false;
-  submitButton.textContent = "Submeter Predicts da Rodada";
+  submitButton.textContent = "Submeter Predicts Disponíveis";
 }
-
 
 // ===============================
 // BANDEIRAS
@@ -478,7 +513,7 @@ function clearCurrentDraft() {
 }
 
 function saveRowDraft(row) {
-  if (isCurrentRodadaLocked) return;
+  if (row.dataset.locked === "true") return;
 
   const matchId = row.dataset.matchId;
 
@@ -533,7 +568,7 @@ function getInitialPrediction(match) {
     predicted_scorer_id: ""
   };
 
-  if (isCurrentRodadaLocked) {
+  if (isMatchClosed(match)) {
     return initial;
   }
 
@@ -596,10 +631,10 @@ function setupScorerPickerButtons() {
 
   buttons.forEach(button => {
     button.addEventListener("click", () => {
-      if (isCurrentRodadaLocked || button.disabled) return;
+      if (button.disabled) return;
 
       const row = button.closest("tr[data-match-id]");
-      if (!row) return;
+      if (!row || row.dataset.locked === "true") return;
 
       openPlayerDialog(row);
     });
@@ -724,7 +759,7 @@ function renderPlayerDialogSection(label, players) {
 }
 
 function selectDialogPlayer(player) {
-  if (!activeScorerRow || isCurrentRodadaLocked) return;
+  if (!activeScorerRow || activeScorerRow.dataset.locked === "true") return;
 
   const hiddenInput = activeScorerRow.querySelector(".scorer-select");
   const button = activeScorerRow.querySelector(".scorer-picker-btn");
@@ -748,7 +783,7 @@ function selectDialogPlayer(player) {
 }
 
 function clearDialogPlayer() {
-  if (!activeScorerRow || isCurrentRodadaLocked) return;
+  if (!activeScorerRow || activeScorerRow.dataset.locked === "true") return;
 
   const hiddenInput = activeScorerRow.querySelector(".scorer-select");
   const button = activeScorerRow.querySelector(".scorer-picker-btn");
@@ -892,8 +927,10 @@ async function loadTreinadorPage() {
     });
 
     currentRodada = Number(data.rodada) || 1;
-    isCurrentRodadaLocked = Boolean(data.submitted);
     loadedMatches = Array.isArray(data.matches) ? data.matches : [];
+
+    hasAnyOpenMatch = loadedMatches.some(match => !getRowLockedReason(match));
+    isCurrentRodadaLocked = !hasAnyOpenMatch;
 
     updateRoundTitle(currentRodada);
     updateAdminRoundButton();
@@ -938,16 +975,19 @@ async function renderMatches(matches) {
     const initialPrediction = getInitialPrediction(match);
     const homeTeam = getTeamName(match, "home");
     const awayTeam = getTeamName(match, "away");
-    const disabled = isCurrentRodadaLocked;
+    const lockedReason = getRowLockedReason(match);
+    const disabled = Boolean(lockedReason);
 
     const row = document.createElement("tr");
     row.dataset.matchId = match.id;
     row.dataset.homeTeam = homeTeam;
     row.dataset.awayTeam = awayTeam;
+    row.dataset.locked = disabled ? "true" : "false";
 
     row.innerHTML = `
       <td class="time-cell">
         ${escapeHtml(formatDateTime(match.starts_at))}
+        ${lockedReason ? `<div class="match-lock-badge">${escapeHtml(lockedReason)}</div>` : ""}
       </td>
 
       <td class="group-cell">
@@ -1004,6 +1044,10 @@ async function renderMatches(matches) {
 
 function validatePredictionRows(rows) {
   for (const row of rows) {
+    if (row.dataset.locked === "true") {
+      continue;
+    }
+
     const homeTeam = getTeamDisplayName(row.dataset.homeTeam);
     const awayTeam = getTeamDisplayName(row.dataset.awayTeam);
 
@@ -1033,19 +1077,15 @@ function validatePredictionRows(rows) {
 async function submitPredictions(event) {
   event.preventDefault();
 
-  if (isCurrentRodadaLocked) {
-    alert("Já submeteste os teus predicts desta rodada. Não é possível alterar.");
-    return;
-  }
-
   const rows = [...matchesBody.querySelectorAll("tr[data-match-id]")];
+  const openRows = rows.filter(row => row.dataset.locked !== "true");
 
-  if (!rows.length) {
-    alert("Não há jogos para submeter.");
+  if (!openRows.length) {
+    alert("Não há jogos disponíveis para submeter.");
     return;
   }
 
-  if (!validatePredictionRows(rows)) {
+  if (!validatePredictionRows(openRows)) {
     return;
   }
 
@@ -1056,7 +1096,7 @@ async function submitPredictions(event) {
   setPageLoading(true, "A submeter os teus predicts... Aguarda um momento.");
 
   try {
-    const predictionsPayload = rows.map(row => {
+    const predictionsPayload = openRows.map(row => {
       saveRowDraft(row);
 
       const scorerValue = row.querySelector(".scorer-select").value;
@@ -1069,7 +1109,7 @@ async function submitPredictions(event) {
       };
     });
 
-    await apiFetch(`/treinador/rodada/${currentRodada}/submit`, {
+    const result = await apiFetch(`/treinador/rodada/${currentRodada}/submit`, {
       method: "POST",
       headers: getAuthHeaders({
         "Content-Type": "application/json"
@@ -1084,7 +1124,17 @@ async function submitPredictions(event) {
     await loadTreinadorPage();
     await loadLeaderboard();
 
-    alert("Boa! Os teus predicts foram submetidos e ficaram bloqueados.");
+    const created = Number(result?.created || 0);
+    const alreadySubmitted = Number(result?.already_submitted || 0);
+    const blocked = Array.isArray(result?.blocked) ? result.blocked.length : 0;
+
+    if (created > 0 && (alreadySubmitted > 0 || blocked > 0)) {
+      alert(`Predicts guardadas. ${alreadySubmitted} já tinham sido submetidas e ${blocked} já estavam fechadas.`);
+    } else if (created > 0) {
+      alert("Boa! Os teus predicts foram submetidos e ficaram bloqueados.");
+    } else {
+      alert("Nenhuma predict nova foi submetida.");
+    }
   } catch (error) {
     alert(`Erro ao submeter predicts: ${error.message}`);
     updateSubmitButtonState();
@@ -1165,7 +1215,9 @@ if (backToTopButton) {
     }
   });
 
-  backToTopButton.addEventListener("click", () => {
+  backToTopButton.addEventListener("click", event => {
+    event.preventDefault();
+
     window.scrollTo({
       top: 0,
       behavior: "smooth"

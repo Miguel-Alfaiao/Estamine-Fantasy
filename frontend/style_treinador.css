@@ -1587,3 +1587,28 @@ html {
     height: 30px;
   }
 }
+
+
+.match-lock-badge {
+  margin-top: 6px;
+  width: fit-content;
+  padding: 4px 8px;
+
+  border-radius: 999px;
+  background: #fee2e2;
+  color: #991b1b;
+
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+tr[data-locked="true"] {
+  opacity: 0.78;
+}
+
+tr[data-locked="true"] .input-golo,
+tr[data-locked="true"] .scorer-picker-btn {
+  cursor: not-allowed;
+}
