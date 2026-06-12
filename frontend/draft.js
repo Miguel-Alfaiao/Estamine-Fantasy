@@ -5,6 +5,7 @@ const DRAFT_API_BASE_URL = "https://backend-fantasy-6dnx.onrender.com";
 // const DRAFT_API_BASE_URL = "http://127.0.0.1:8000";
 
 const TOKEN_KEY = "access_token";
+const USER_KEY = "user";
 
 const draftForm = document.getElementById("draftForm");
 const resumoContainer = document.getElementById("resumoDraft");
@@ -40,6 +41,14 @@ function setPageLoading(isLoading, message = "A carregar...") {
 
 function getToken() {
   return localStorage.getItem(TOKEN_KEY);
+}
+
+function getStoredUser() {
+  try {
+    return JSON.parse(localStorage.getItem(USER_KEY));
+  } catch {
+    return null;
+  }
 }
 
 function getAuthHeaders(extraHeaders = {}) {
@@ -366,11 +375,15 @@ function renderDraftLeaderboard(rows) {
     return;
   }
 
+  const currentUser = getStoredUser();
+  const currentUserId = String(currentUser?.id || "");
+
   draftLeaderboardBody.innerHTML = rows.map((row, index) => {
     const position = row.position ?? index + 1;
+    const isCurrentUser = String(row.user_id) === currentUserId;
 
     return `
-      <tr>
+      <tr class="${isCurrentUser ? "is-current-user" : ""}">
         <td>
           <span class="draft-leaderboard-position">
             ${escapeHtml(position)}
@@ -380,6 +393,7 @@ function renderDraftLeaderboard(rows) {
         <td>
           <span class="draft-leaderboard-user">
             ${escapeHtml(row.name)}
+            ${isCurrentUser ? `<span class="you-badge">Tu</span>` : ""}
           </span>
         </td>
 

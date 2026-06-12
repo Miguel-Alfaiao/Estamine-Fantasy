@@ -692,3 +692,77 @@ body {
         justify-content: center;
     }
 }
+
+
+
+/* ===============================
+   REALCE DO USER NA DRAFT LEADERBOARD
+================================ */
+
+.draft-leaderboard-table tr.is-current-user {
+  position: relative;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(124, 58, 237, 0.22),
+      rgba(34, 211, 238, 0.08)
+    ) !important;
+
+  box-shadow:
+    inset 4px 0 0 #8b5cf6,
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.draft-leaderboard-table tr.is-current-user:hover {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(124, 58, 237, 0.28),
+      rgba(34, 211, 238, 0.1)
+    ) !important;
+}
+
+.draft-leaderboard-table tr.is-current-user td {
+  border-top: 1px solid rgba(139, 92, 246, 0.28);
+  border-bottom: 1px solid rgba(139, 92, 246, 0.28);
+}
+
+.draft-leaderboard-table tr.is-current-user .draft-leaderboard-position {
+  background: rgba(139, 92, 246, 0.35);
+  color: #ddd6fe;
+  box-shadow: 0 0 0 1px rgba(196, 181, 253, 0.18);
+}
+
+.draft-leaderboard-table tr.is-current-user .draft-leaderboard-user {
+  color: #ffffff;
+  font-weight: 950;
+}
+
+.draft-leaderboard-table tr.is-current-user .draft-leaderboard-points {
+  color: #38bdf8;
+  font-weight: 950;
+}
+
+.draft-leaderboard-table tr.is-current-user .you-badge {
+  background: linear-gradient(135deg, #8b5cf6, #22d3ee);
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.28);
+}
+
+.you-badge {
+  margin-left: 8px;
+  padding: 3px 7px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+
+  font-size: 0.68rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

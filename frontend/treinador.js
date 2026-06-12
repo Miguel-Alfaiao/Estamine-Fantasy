@@ -885,27 +885,35 @@ function renderLeaderboard(rows) {
     return;
   }
 
-  leaderboardBody.innerHTML = rows.map((row) => `
-    <tr>
-      <td>
-        <span class="leaderboard-position">
-          ${escapeHtml(row.position)}
-        </span>
-      </td>
+  const currentUser = getStoredUser();
+  const currentUserId = String(currentUser?.id || "");
 
-      <td>
-        <span class="leaderboard-user">
-          ${escapeHtml(row.name)}
-        </span>
-      </td>
+  leaderboardBody.innerHTML = rows.map((row) => {
+    const isCurrentUser = String(row.user_id) === currentUserId;
 
-      <td>
-        <span class="leaderboard-points">
-          ${escapeHtml(row.total_points)} pts
-        </span>
-      </td>
-    </tr>
-  `).join("");
+    return `
+      <tr class="${isCurrentUser ? "is-current-user" : ""}">
+        <td>
+          <span class="leaderboard-position">
+            ${escapeHtml(row.position)}
+          </span>
+        </td>
+
+        <td>
+          <span class="leaderboard-user">
+            ${escapeHtml(row.name)}
+            ${isCurrentUser ? `<span class="you-badge">Tu</span>` : ""}
+          </span>
+        </td>
+
+        <td>
+          <span class="leaderboard-points">
+            ${escapeHtml(row.total_points)} pts
+          </span>
+        </td>
+      </tr>
+    `;
+  }).join("");
 }
 
 async function loadLeaderboard() {
