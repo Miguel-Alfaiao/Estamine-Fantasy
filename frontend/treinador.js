@@ -288,6 +288,18 @@ function getRowLockedReason(match) {
   return "";
 }
 
+
+function getPointsClass(points) {
+  if (points <= 0) return "points-zero";
+  if (points === 1) return "points-one";
+  if (points === 4) return "points-four";
+  if (points === 5) return "points-five";
+  if (points >= 14) return "points-perfect";
+
+  return "points-mid";
+}
+
+
 function getTeamName(match, side) {
   const team = side === "home" ? match.home_team : match.away_team;
   const status = side === "home" ? match.home_team_status : match.away_team_status;
@@ -982,17 +994,34 @@ async function renderMatches(matches) {
       : lockedReason === "Jogo fechado"
         ? "is-closed"
         : "";
+    
+    const isScored = match.prediction?.is_scored === true;
+    const pointsEarned = Number(match.prediction?.points_earned ?? 0);
+    const pointsClass = getPointsClass(pointsEarned);
 
     const row = document.createElement("tr");
     row.dataset.matchId = match.id;
     row.dataset.homeTeam = homeTeam;
     row.dataset.awayTeam = awayTeam;
     row.dataset.locked = disabled ? "true" : "false";
+    
+    if (isScored) {
+      row.classList.add("is-scored", pointsClass);
+    }
 
     row.innerHTML = `
       <td class="time-cell">
         ${escapeHtml(formatDateTime(match.starts_at))}
-        ${lockedReason ? `<div class="match-lock-badge ${lockBadgeClass}">${escapeHtml(lockedReason)}</div>` : ""}
+
+        <div class="match-badges-stack">
+          ${lockedReason ? `<div class="match-lock-badge ${lockBadgeClass}">${escapeHtml(lockedReason)}</div>` : ""}
+
+          ${isScored ? `
+            <div class="match-points-badge ${pointsClass}">
+              +${escapeHtml(pointsEarned)} pts
+            </div>
+          ` : ""}
+        </div>
       </td>
 
       <td class="group-cell">
