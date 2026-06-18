@@ -377,7 +377,7 @@ function updateSubmitButtonState() {
   }
 
   submitButton.disabled = false;
-  submitButton.textContent = "Submeter Predicts Disponíveis";
+  submitButton.textContent = "Submeter Predicts Preenchidas";
 }
 
 // ===============================
@@ -522,6 +522,16 @@ function saveDraft(draft) {
 
 function clearCurrentDraft() {
   localStorage.removeItem(getDraftKey());
+}
+
+function clearSubmittedRowsFromDraft(rows) {
+  const draft = loadDraft();
+
+  rows.forEach(row => {
+    delete draft[row.dataset.matchId];
+  });
+
+  saveDraft(draft);
 }
 
 function saveRowDraft(row) {
@@ -1051,7 +1061,6 @@ async function renderMatches(matches) {
           class="input-golo home-score-input"
           placeholder="0"
           value="${escapeHtml(initialPrediction.predicted_home_score)}"
-          required
           ${disabled ? "disabled" : ""}
         >
 
@@ -1063,7 +1072,6 @@ async function renderMatches(matches) {
           class="input-golo away-score-input"
           placeholder="0"
           value="${escapeHtml(initialPrediction.predicted_away_score)}"
-          required
           ${disabled ? "disabled" : ""}
         >
       </td>
@@ -1084,6 +1092,22 @@ async function renderMatches(matches) {
 // VALIDAÇÃO / SUBMISSÃO
 // ===============================
 
+function rowHasAnyPredictionInput(row) {
+  const homeScore = row.querySelector(".home-score-input")?.value;
+  const awayScore = row.querySelector(".away-score-input")?.value;
+  const scorerId = row.querySelector(".scorer-select")?.value;
+
+  return homeScore !== "" || awayScore !== "" || scorerId !== "";
+}
+
+function rowHasCompletePredictionInput(row) {
+  const homeScore = row.querySelector(".home-score-input")?.value;
+  const awayScore = row.querySelector(".away-score-input")?.value;
+  const scorerId = row.querySelector(".scorer-select")?.value;
+
+  return homeScore !== "" && awayScore !== "" && scorerId !== "";
+}
+
 function validatePredictionRows(rows) {
   for (const row of rows) {
     if (row.dataset.locked === "true") {
@@ -1098,7 +1122,7 @@ function validatePredictionRows(rows) {
     const scorerId = row.querySelector(".scorer-select")?.value;
 
     if (homeScore === "" || awayScore === "") {
-      alert(`Tens de preencher o resultado de ${homeTeam} vs ${awayTeam}.`);
+      alert(`Tens de preencher o resultado completo de ${homeTeam} vs ${awayTeam}.`);
       return false;
     }
 
@@ -1122,12 +1146,23 @@ async function submitPredictions(event) {
   const rows = [...matchesBody.querySelectorAll("tr[data-match-id]")];
   const openRows = rows.filter(row => row.dataset.locked !== "true");
 
+  const rowsToSubmit = openRows.filter(row => rowHasCompletePredictionInput(row));
+
+  const incompleteRows = openRows.filter(row => {
+    return rowHasAnyPredictionInput(row) && !rowHasCompletePredictionInput(row);
+  });
+
   if (!openRows.length) {
     alert("Não há jogos disponíveis para submeter.");
     return;
   }
 
-  if (!validatePredictionRows(openRows)) {
+  if (!rowsToSubmit.length) {
+    alert("Não tens nenhum jogo completo para submeter. Preenche resultado e marcador em pelo menos um jogo.");
+    return;
+  }
+
+  if (!validatePredictionRows(rowsToSubmit)) {
     return;
   }
 
@@ -1138,7 +1173,7 @@ async function submitPredictions(event) {
   setPageLoading(true, "A submeter os teus predicts... Aguarda um momento.");
 
   try {
-    const predictionsPayload = openRows.map(row => {
+    const predictionsPayload = rowsToSubmit.map(row => {
       saveRowDraft(row);
 
       const scorerValue = row.querySelector(".scorer-select").value;
@@ -1161,7 +1196,7 @@ async function submitPredictions(event) {
       })
     });
 
-    clearCurrentDraft();
+    clearSubmittedRowsFromDraft(rowsToSubmit);
 
     await loadTreinadorPage();
     await loadLeaderboard();
@@ -1169,14 +1204,31 @@ async function submitPredictions(event) {
     const created = Number(result?.created || 0);
     const alreadySubmitted = Number(result?.already_submitted || 0);
     const blocked = Array.isArray(result?.blocked) ? result.blocked.length : 0;
+    const ignoredIncomplete = incompleteRows.length;
 
-    if (created > 0 && (alreadySubmitted > 0 || blocked > 0)) {
-      alert(`Predicts guardadas. ${alreadySubmitted} já tinham sido submetidas e ${blocked} já estavam fechadas.`);
-    } else if (created > 0) {
-      alert("Boa! Os teus predicts foram submetidos e ficaram bloqueados.");
+    let message = "";
+
+    if (created > 0) {
+      message = created === 1
+        ? "Boa! 1 predict foi submetida e ficou bloqueada."
+        : `Boa! ${created} predicts foram submetidas e ficaram bloqueadas.`;
     } else {
-      alert("Nenhuma predict nova foi submetida.");
+      message = "Nenhuma predict nova foi submetida.";
     }
+
+    if (alreadySubmitted > 0) {
+      message += ` ${alreadySubmitted} já tinham sido submetidas.`;
+    }
+
+    if (blocked > 0) {
+      message += ` ${blocked} já estavam fechadas.`;
+    }
+
+    if (ignoredIncomplete > 0) {
+      message += ` ${ignoredIncomplete} jogo${ignoredIncomplete === 1 ? "" : "s"} meio preenchido${ignoredIncomplete === 1 ? " foi ignorado" : "s foram ignorados"}.`;
+    }
+
+    alert(message);
   } catch (error) {
     alert(`Erro ao submeter predicts: ${error.message}`);
     updateSubmitButtonState();

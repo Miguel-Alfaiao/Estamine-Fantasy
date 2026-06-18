@@ -1,6 +1,7 @@
 const API_BASE_URL = "https://backend-fantasy-6dnx.onrender.com";
 
 const token = localStorage.getItem("access_token");
+let sociosOpen = true;
 
 const navActions = document.getElementById("treinador-nav-actions");
 const navLoading = document.getElementById("nav-loading");
@@ -286,6 +287,8 @@ async function loadSocioStatus() {
 
     const data = await response.json();
 
+    sociosOpen = data.socios_open !== false;
+
     const storedUser = getStoredUser();
     renderHeaderUser({
       ...storedUser,
@@ -295,6 +298,26 @@ async function loadSocioStatus() {
 
     if (data.submitted && data.prediction) {
       fillPredictionForm(data.prediction);
+    }
+
+    if (!sociosOpen) {
+      setStatusPill(submittedPill, "Fechado", "danger");
+
+      setStatusBox(
+        data.submitted
+          ? "O Plano Sócios está fechado. Podes consultar as tuas previsões, mas já não é possível atualizar."
+          : "O Plano Sócios está fechado. Já não é possível submeter previsões.",
+        "warning"
+      );
+
+      setTwitchButton("Plano fechado", true);
+      disableForm("O Plano Sócios está fechado.");
+
+      if (submitButton) {
+        submitButton.textContent = "Plano Sócios fechado";
+      }
+
+      return;
     }
 
     if (data.twitch && data.twitch.linked && data.twitch.is_sub) {
@@ -390,6 +413,11 @@ async function connectTwitch() {
 
 async function submitPredictions(event) {
   event.preventDefault();
+
+  if (!sociosOpen) {
+    setMessage("O Plano Sócios está fechado. Já não é possível submeter ou atualizar previsões.", "error");
+    return;
+  }
 
   if (!token) {
     setMessage("Tens de iniciar sessão primeiro.", "error");
