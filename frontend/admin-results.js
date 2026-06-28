@@ -35,6 +35,23 @@ function formatResultsDate(value) {
   });
 }
 
+function getResultsRodadaLabel(rodada) {
+  const rodadaNumber = Number(rodada);
+
+  const labels = {
+    1: "Rodada 1",
+    2: "Rodada 2",
+    3: "Rodada 3",
+    4: "16avos de Final",
+    5: "Oitavos de Final",
+    6: "Quartos de Final",
+    7: "Meias-Finais",
+    8: "Final"
+  };
+
+  return labels[rodadaNumber] || `Rodada ${rodadaNumber}`;
+}
+
 function initResultsMarkup() {
   if (!resultsRoot) return;
 
@@ -59,6 +76,11 @@ function initResultsMarkup() {
             <option value="1">Rodada 1</option>
             <option value="2">Rodada 2</option>
             <option value="3">Rodada 3</option>
+            <option value="4">16avos de Final</option>
+            <option value="5">Oitavos de Final</option>
+            <option value="6">Quartos de Final</option>
+            <option value="7">Meias-Finais</option>
+            <option value="8">Final</option>
           </select>
         </label>
 
@@ -263,7 +285,7 @@ function updateResultsCurrentFilterText() {
   if (!currentFilter) return;
 
   currentFilter.textContent = rodadaFilter?.value
-    ? `A mostrar: Rodada ${rodadaFilter.value}`
+    ? `A mostrar: ${getResultsRodadaLabel(rodadaFilter.value)}`
     : "A mostrar: Todas as rodadas";
 }
 

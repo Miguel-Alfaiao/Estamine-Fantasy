@@ -16,7 +16,6 @@ const predictionModes = {
     label: "Treinador de Bancada",
     type: "predictions",
     endpoint: "/admin/predictions/users",
-    tournamentPhase: "group_stage"
   },
 
   draft: {
@@ -49,6 +48,23 @@ function formatPredictionDate(value) {
     dateStyle: "short",
     timeStyle: "short"
   });
+}
+
+function getPredictionRodadaLabel(rodada) {
+  const rodadaNumber = Number(rodada);
+
+  const labels = {
+    1: "Rodada 1",
+    2: "Rodada 2",
+    3: "Rodada 3",
+    4: "16avos de Final",
+    5: "Oitavos de Final",
+    6: "Quartos de Final",
+    7: "Meias-Finais",
+    8: "Final"
+  };
+
+  return labels[rodadaNumber] || `Rodada ${rodadaNumber}`;
 }
 
 function initPredictionsMarkup() {
@@ -89,6 +105,11 @@ function initPredictionsMarkup() {
             <option value="1">Rodada 1</option>
             <option value="2">Rodada 2</option>
             <option value="3">Rodada 3</option>
+            <option value="4">16avos de Final</option>
+            <option value="5">Oitavos de Final</option>
+            <option value="6">Quartos de Final</option>
+            <option value="7">Meias-Finais</option>
+            <option value="8">Final</option>
           </select>
         </label>
 
@@ -198,10 +219,6 @@ function buildPredictionsUrl() {
 
   const url = new URL(`${PREDICTIONS_API_BASE_URL}${modeConfig.endpoint}`);
 
-  if (modeConfig.type === "predictions" && modeConfig.tournamentPhase) {
-    url.searchParams.set("tournament_phase", modeConfig.tournamentPhase);
-  }
-
   if (modeConfig.type === "predictions" && rodadaFilter.value) {
     url.searchParams.set("rodada", rodadaFilter.value);
   }
@@ -237,7 +254,7 @@ function renderTreinadorPredictions(data) {
   const rodadaValue = getPredictionRodadaFilterElement().value;
 
   const rodadaLabel = rodadaValue
-    ? `Rodada ${rodadaValue}`
+    ? getPredictionRodadaLabel(rodadaValue)
     : "Todas as rodadas";
 
   currentFilterText.textContent = `A mostrar: Treinador de Bancada · ${rodadaLabel}`;
