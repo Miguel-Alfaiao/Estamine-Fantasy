@@ -418,15 +418,32 @@ function renderTeamWithFlag(teamName) {
 // ===============================
 
 function formatRodadaName(rodada) {
-  return `Rodada ${rodada}`;
+  const rodadaNumber = Number(rodada);
+
+  const knockoutLabels = {
+    4: "16avos de Final",
+    5: "Oitavos de Final",
+    6: "Quartos de Final",
+    7: "Meias-Finais",
+    8: "Final"
+  };
+
+  return knockoutLabels[rodadaNumber] || `Rodada ${rodadaNumber}`;
 }
 
 function updateRoundTitle(rodada) {
   const title = document.querySelector(".jornada-title");
 
-  if (title) {
-    title.textContent = `${formatRodadaName(rodada)} - Fase de Grupos`;
+  if (!title) return;
+
+  const rodadaNumber = Number(rodada);
+
+  if (rodadaNumber <= 3) {
+    title.textContent = `${formatRodadaName(rodadaNumber)} - Fase de Grupos`;
+    return;
   }
+
+  title.textContent = formatRodadaName(rodadaNumber);
 }
 
 function updateAdminRoundButton() {
@@ -439,11 +456,14 @@ function updateAdminRoundButton() {
 
   if (!nextRoundButton) return;
 
-  nextRoundButton.disabled = currentRodada >= 3;
+  const rodadaNumber = Number(currentRodada);
+  const nextRodada = rodadaNumber + 1;
+
+  nextRoundButton.disabled = rodadaNumber >= 8;
   nextRoundButton.textContent =
-    currentRodada >= 3
-      ? "Fim das rodadas da fase de grupos"
-      : `Passar para Rodada ${currentRodada + 1} →`;
+    rodadaNumber >= 8
+      ? "Final ativa"
+      : `Passar para ${formatRodadaName(nextRodada)} →`;
 }
 
 async function setCurrentRodada(rodada) {
@@ -474,12 +494,12 @@ function setupAdminRoundControls() {
         return;
       }
 
-      if (currentRodada >= 3) {
-        alert("Esta página só controla as 3 rodadas da fase de grupos.");
+      if (currentRodada >= 8) {
+        alert("A Final já está ativa.");
         return;
       }
 
-      const confirmed = confirm(`Passar para a Rodada ${currentRodada + 1}?`);
+      const confirmed = confirm(`Passar para ${formatRodadaName(currentRodada + 1)}?`);
 
       if (!confirmed) return;
 
