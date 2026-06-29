@@ -122,6 +122,65 @@ function getTeamDisplayName(teamName) {
   return TEAM_NAME_PT_MAP[teamName] || teamName || "TBD";
 }
 
+const RODADA_FIRST_MATCH_NUMBER = {
+  4: 73,
+  5: 89,
+  6: 97,
+  7: 101,
+  8: 104
+};
+
+function getPlaceholderCode(teamName) {
+  const value = String(teamName || "").trim();
+
+  if (/^W\d+$/i.test(value)) {
+    return value.toUpperCase();
+  }
+
+  return "";
+}
+
+function getTeamFlagEmoji(teamName) {
+  const flagCode = TEAM_FLAG_MAP[teamName];
+
+  if (!flagCode) return "";
+
+  const normalizedCode = flagCode
+    .replace("gb-eng", "gb")
+    .replace("gb-sct", "gb")
+    .toUpperCase();
+
+  if (normalizedCode.length !== 2) {
+    return "";
+  }
+
+  return normalizedCode
+    .split("")
+    .map(char => String.fromCodePoint(127397 + char.charCodeAt(0)))
+    .join("");
+}
+
+function getPlaceholderOptionsLabel(teamName) {
+  const code = getPlaceholderCode(teamName);
+
+  if (!code) return "";
+
+  const options = placeholderOptionsByCode.get(code);
+
+  if (!Array.isArray(options) || options.length < 2) {
+    return "";
+  }
+
+  return options
+    .map(team => {
+      const flag = getTeamFlagEmoji(team);
+      const name = getTeamDisplayName(team);
+
+      return flag ? `${flag} ${name}` : name;
+    })
+    .join(" / ");
+}
+
 const pageLoader = document.getElementById("page-loader");
 const pageLoaderText = document.getElementById("page-loader-text");
 
@@ -145,6 +204,13 @@ const infoCardDescription = document.getElementById("info-description");
 const infoCardList = document.getElementById("info-list");
 const predictsTableTitle = document.getElementById("grid-title");
 
+const prevRoundViewButton = document.getElementById("prev-round-view-btn");
+const nextRoundViewButton = document.getElementById("next-round-view-btn");
+const prevRoundLabel = document.getElementById("prev-round-label");
+const nextRoundLabel = document.getElementById("next-round-label");
+const roundNavCurrentLabel = document.getElementById("round-nav-current-label");
+const roundNavStatusLabel = document.getElementById("round-nav-status-label");
+
 const leaderboardBody = document.getElementById("leaderboard-body");
 const refreshLeaderboardButton = document.getElementById("refresh-leaderboard-btn");
 
@@ -153,12 +219,14 @@ const treinadorMobileNav = document.querySelector(".treinador-mobile-nav");
 
 let loadedMatches = [];
 let currentRodada = 1;
+let viewingRodada = 1;
 let isCurrentRodadaLocked = false;
 let hasAnyOpenMatch = false;
 
 let activeScorerRow = null;
 let activeDialogPlayers = [];
 let matchPlayersById = new Map();
+let placeholderOptionsByCode = new Map();
 
 // ===============================
 // HELPERS
@@ -276,6 +344,36 @@ function isMatchClosed(match) {
   return Date.now() >= startsAt.getTime();
 }
 
+
+function isTeamPlaceholder(status) {
+  return String(status || "").trim().toLowerCase() === "placeholder";
+}
+
+function isMatchFullyConfirmed(match) {
+  if (isTeamPlaceholder(match.home_team_status)) {
+    return false;
+  }
+
+  if (isTeamPlaceholder(match.away_team_status)) {
+    return false;
+  }
+
+  if (!match.home_team || !match.away_team) {
+    return false;
+  }
+
+  return true;
+}
+
+function getMatchUnavailableReason(match) {
+  if (!isMatchFullyConfirmed(match)) {
+    return "Equipas por confirmar";
+  }
+
+  return "";
+}
+
+
 function getRowLockedReason(match) {
   if (match.prediction) {
     return "Predict submetida";
@@ -283,6 +381,12 @@ function getRowLockedReason(match) {
 
   if (isMatchClosed(match)) {
     return "Jogo fechado";
+  }
+
+  const unavailableReason = getMatchUnavailableReason(match);
+
+  if (unavailableReason) {
+    return unavailableReason;
   }
 
   return "";
@@ -365,19 +469,35 @@ function updatePageModeContent() {
 
 function updateSubmitButtonState() {
   updatePageModeContent();
+  updateRoundNavigator();
 
   const submitButton = palpitesForm?.querySelector(".btn-submit-palpites");
 
   if (!submitButton) return;
 
+  if (isViewingPastRodada()) {
+    submitButton.disabled = true;
+    submitButton.textContent = "Rodada anterior — apenas consulta";
+    return;
+  }
+
   if (!hasAnyOpenMatch) {
     submitButton.disabled = true;
-    submitButton.textContent = "Todos os jogos estão bloqueados";
+
+    if (isViewingFutureRodada()) {
+      submitButton.textContent = "Sem jogos confirmados disponíveis";
+    } else {
+      submitButton.textContent = "Todos os jogos estão bloqueados";
+    }
+
     return;
   }
 
   submitButton.disabled = false;
-  submitButton.textContent = "Submeter Predicts Preenchidas";
+
+  submitButton.textContent = isViewingCurrentRodada()
+    ? "Submeter Predicts Preenchidas"
+    : `Submeter Predicts — ${formatRodadaName(viewingRodada)}`;
 }
 
 // ===============================
@@ -395,9 +515,21 @@ function getFlagUrl(teamName) {
 function renderTeamWithFlag(teamName) {
   const flagUrl = getFlagUrl(teamName);
   const displayName = getTeamDisplayName(teamName);
+  const placeholderOptions = getPlaceholderOptionsLabel(teamName);
 
   if (!flagUrl) {
-    return `<span title="${escapeHtml(displayName)}">${escapeHtml(displayName)}</span>`;
+    return `
+      <span class="team-line team-line-placeholder" title="${escapeHtml(displayName)}">
+        <span>
+          ${escapeHtml(displayName)}
+          ${placeholderOptions ? `
+            <small class="placeholder-options">
+              (${escapeHtml(placeholderOptions)})
+            </small>
+          ` : ""}
+        </span>
+      </span>
+    `;
   }
 
   return `
@@ -431,6 +563,36 @@ function formatRodadaName(rodada) {
   return knockoutLabels[rodadaNumber] || `Rodada ${rodadaNumber}`;
 }
 
+
+function getRodadaShortLabel(rodada) {
+  const rodadaNumber = Number(rodada);
+
+  const labels = {
+    1: "Rodada 1",
+    2: "Rodada 2",
+    3: "Rodada 3",
+    4: "16avos",
+    5: "Oitavos",
+    6: "Quartos",
+    7: "Meias",
+    8: "Final"
+  };
+
+  return labels[rodadaNumber] || `Rodada ${rodadaNumber}`;
+}
+
+function isViewingCurrentRodada() {
+  return Number(viewingRodada) === Number(currentRodada);
+}
+
+function isViewingPastRodada() {
+  return Number(viewingRodada) < Number(currentRodada);
+}
+
+function isViewingFutureRodada() {
+  return Number(viewingRodada) > Number(currentRodada);
+}
+
 function updateRoundTitle(rodada) {
   const title = document.querySelector(".jornada-title");
 
@@ -444,6 +606,50 @@ function updateRoundTitle(rodada) {
   }
 
   title.textContent = formatRodadaName(rodadaNumber);
+}
+
+
+function updateRoundNavigator() {
+  const rodadaNumber = Number(viewingRodada);
+  const previousRodada = rodadaNumber - 1;
+  const nextRodada = rodadaNumber + 1;
+
+  if (roundNavCurrentLabel) {
+    roundNavCurrentLabel.textContent = formatRodadaName(rodadaNumber);
+  }
+
+  if (prevRoundLabel) {
+    prevRoundLabel.textContent = previousRodada >= 1
+      ? getRodadaShortLabel(previousRodada)
+      : "Início";
+  }
+
+  if (nextRoundLabel) {
+    nextRoundLabel.textContent = nextRodada <= 8
+      ? getRodadaShortLabel(nextRodada)
+      : "Fim";
+  }
+
+  if (prevRoundViewButton) {
+    prevRoundViewButton.disabled = rodadaNumber <= 1;
+  }
+
+  if (nextRoundViewButton) {
+    nextRoundViewButton.disabled = rodadaNumber >= 8;
+  }
+
+  if (roundNavStatusLabel) {
+    if (isViewingCurrentRodada()) {
+      roundNavStatusLabel.textContent = "Rodada ativa para submissões";
+      roundNavStatusLabel.className = "is-current";
+    } else if (isViewingPastRodada()) {
+      roundNavStatusLabel.textContent = "Rodada anterior — apenas consulta";
+      roundNavStatusLabel.className = "is-past";
+    } else {
+      roundNavStatusLabel.textContent = "Rodada futura — jogos confirmados já aceitam predicts";
+      roundNavStatusLabel.className = "is-future";
+    }
+  }
 }
 
 function updateAdminRoundButton() {
@@ -506,9 +712,11 @@ function setupAdminRoundControls() {
       setPageLoading(true, "A atualizar rodada...");
 
       await setCurrentRodada(currentRodada + 1);
+      viewingRodada = currentRodada;
+
       await loadTreinadorPage();
 
-      alert(`Rodada ${currentRodada} ativada com sucesso.`);
+      alert(`${formatRodadaName(currentRodada)} ativada com sucesso.`);
     } catch (error) {
       alert(`Erro ao mudar rodada: ${error.message}`);
     } finally {
@@ -525,7 +733,7 @@ function getDraftKey() {
   const user = getStoredUser();
   const userId = user?.id || user?.email || "guest";
 
-  return `${DRAFT_PREFIX}${userId}_rodada_${currentRodada}`;
+  return `${DRAFT_PREFIX}${userId}_rodada_${viewingRodada}`;
 }
 
 function loadDraft() {
@@ -962,6 +1170,61 @@ async function loadLeaderboard() {
 // LOAD / RENDER
 // ===============================
 
+function getPreviousRodadaForPlaceholders(rodada) {
+  const rodadaNumber = Number(rodada);
+
+  if (rodadaNumber >= 5 && rodadaNumber <= 8) {
+    return rodadaNumber - 1;
+  }
+
+  return null;
+}
+
+function buildPlaceholderOptionsFromMatches(rodada, matches) {
+  const firstMatchNumber = RODADA_FIRST_MATCH_NUMBER[Number(rodada)];
+
+  if (!firstMatchNumber || !Array.isArray(matches)) {
+    return;
+  }
+
+  matches.forEach((match, index) => {
+    const matchNumber = firstMatchNumber + index;
+    const code = `W${matchNumber}`;
+
+    const homeTeam = getTeamName(match, "home");
+    const awayTeam = getTeamName(match, "away");
+
+    if (!homeTeam || !awayTeam || homeTeam === "TBD" || awayTeam === "TBD") {
+      return;
+    }
+
+    placeholderOptionsByCode.set(code, [homeTeam, awayTeam]);
+  });
+}
+
+async function loadPlaceholderOptionsForRodada(rodada) {
+  placeholderOptionsByCode = new Map();
+
+  const previousRodada = getPreviousRodadaForPlaceholders(rodada);
+
+  if (!previousRodada) {
+    return;
+  }
+
+  try {
+    const data = await apiFetch(`/treinador/rodada/${previousRodada}`, {
+      headers: getAuthHeaders()
+    });
+
+    const previousMatches = Array.isArray(data.matches) ? data.matches : [];
+
+    buildPlaceholderOptionsFromMatches(previousRodada, previousMatches);
+  } catch {
+    placeholderOptionsByCode = new Map();
+  }
+}
+
+
 async function loadTreinadorPage() {
   try {
     matchesBody.innerHTML = `
@@ -972,19 +1235,35 @@ async function loadTreinadorPage() {
       </tr>
     `;
 
-    const data = await apiFetch("/treinador/current", {
+    const endpoint = isViewingCurrentRodada()
+      ? "/treinador/current"
+      : `/treinador/rodada/${viewingRodada}`;
+
+    const data = await apiFetch(endpoint, {
       headers: getAuthHeaders()
     });
 
-    currentRodada = Number(data.rodada) || 1;
-    loadedMatches = Array.isArray(data.matches) ? data.matches : [];
+    if (endpoint === "/treinador/current") {
+      currentRodada = Number(data.rodada) || 1;
+      viewingRodada = currentRodada;
+    } else {
+      viewingRodada = Number(data.rodada) || viewingRodada;
+    }
 
-    hasAnyOpenMatch = loadedMatches.some(match => !getRowLockedReason(match));
+    loadedMatches = Array.isArray(data.matches) ? data.matches : [];
+    
+    await loadPlaceholderOptionsForRodada(viewingRodada);
+
+    hasAnyOpenMatch =
+      !isViewingPastRodada() &&
+      loadedMatches.some(match => !getRowLockedReason(match));
+
     isCurrentRodadaLocked = !hasAnyOpenMatch;
 
-    updateRoundTitle(currentRodada);
+    updateRoundTitle(viewingRodada);
     updateAdminRoundButton();
     updatePageModeContent();
+    updateRoundNavigator();
 
     if (!loadedMatches.length) {
       updateSubmitButtonState();
@@ -1026,11 +1305,13 @@ async function renderMatches(matches) {
     const homeTeam = getTeamName(match, "home");
     const awayTeam = getTeamName(match, "away");
     const lockedReason = getRowLockedReason(match);
-    const disabled = Boolean(lockedReason);
+    const disabled = Boolean(lockedReason) || isViewingPastRodada();
     const lockBadgeClass = lockedReason === "Predict submetida"
-      ? "is-submitted"
-      : lockedReason === "Jogo fechado"
-        ? "is-closed"
+    ? "is-submitted"
+    : lockedReason === "Jogo fechado"
+      ? "is-closed"
+      : lockedReason === "Equipas por confirmar"
+        ? "is-pending"
         : "";
     
     const isScored = match.prediction?.is_scored === true;
@@ -1163,6 +1444,11 @@ function validatePredictionRows(rows) {
 async function submitPredictions(event) {
   event.preventDefault();
 
+  if (isViewingPastRodada()) {
+    alert("Esta rodada já é apenas para consulta.");
+    return;
+  }
+
   const rows = [...matchesBody.querySelectorAll("tr[data-match-id]")];
   const openRows = rows.filter(row => row.dataset.locked !== "true");
 
@@ -1206,7 +1492,7 @@ async function submitPredictions(event) {
       };
     });
 
-    const result = await apiFetch(`/treinador/rodada/${currentRodada}/submit`, {
+    const result = await apiFetch(`/treinador/rodada/${viewingRodada}/submit`, {
       method: "POST",
       headers: getAuthHeaders({
         "Content-Type": "application/json"
@@ -1257,6 +1543,38 @@ async function submitPredictions(event) {
   }
 }
 
+
+async function changeViewingRodada(nextRodada) {
+  const safeRodada = Math.min(Math.max(Number(nextRodada), 1), 8);
+
+  if (safeRodada === Number(viewingRodada)) {
+    return;
+  }
+
+  viewingRodada = safeRodada;
+
+  setPageLoading(true, `A carregar ${formatRodadaName(viewingRodada)}...`);
+
+  try {
+    await loadTreinadorPage();
+  } catch (error) {
+    alert(`Erro ao carregar rodada: ${error.message}`);
+  } finally {
+    setPageLoading(false);
+  }
+}
+
+function setupRoundNavigator() {
+  prevRoundViewButton?.addEventListener("click", () => {
+    changeViewingRodada(Number(viewingRodada) - 1);
+  });
+
+  nextRoundViewButton?.addEventListener("click", () => {
+    changeViewingRodada(Number(viewingRodada) + 1);
+  });
+}
+
+
 // ===============================
 // MOBILE MENU
 // ===============================
@@ -1293,6 +1611,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   setupAdminRoundControls();
   setupPlayerDialog();
+  setupRoundNavigator();
   setupTreinadorMobileMenu();
 
   refreshLeaderboardButton?.addEventListener("click", loadLeaderboard);
