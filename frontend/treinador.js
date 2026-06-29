@@ -367,7 +367,7 @@ function isMatchFullyConfirmed(match) {
 
 function getMatchUnavailableReason(match) {
   if (!isMatchFullyConfirmed(match)) {
-    return "Equipas por confirmar";
+    return "Por confirmar";
   }
 
   return "";
@@ -1251,7 +1251,7 @@ async function loadTreinadorPage() {
     }
 
     loadedMatches = Array.isArray(data.matches) ? data.matches : [];
-    
+
     await loadPlaceholderOptionsForRodada(viewingRodada);
 
     hasAnyOpenMatch =
@@ -1310,7 +1310,7 @@ async function renderMatches(matches) {
     ? "is-submitted"
     : lockedReason === "Jogo fechado"
       ? "is-closed"
-      : lockedReason === "Equipas por confirmar"
+      : lockedReason === "Por confirmar"
         ? "is-pending"
         : "";
     
