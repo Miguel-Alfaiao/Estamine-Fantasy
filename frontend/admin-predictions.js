@@ -9,6 +9,7 @@ const mainTabButtons = document.querySelectorAll("[data-admin-main-tab]");
 const usersAdminPanel = document.getElementById("users-admin-panel");
 const predictionsAdminPanel = document.getElementById("predictions-admin-panel");
 const resultsAdminPanel = document.getElementById("results-admin-panel");
+const draftScoringAdminPanel = document.getElementById("draft-scoring-admin-panel");
 const predictionsRoot = document.getElementById("admin-predictions-root");
 
 const predictionModes = {
@@ -149,6 +150,7 @@ function setActiveMainTab(tabName) {
   usersAdminPanel?.classList.toggle("active", tabName === "users");
   predictionsAdminPanel?.classList.toggle("active", tabName === "predictions");
   resultsAdminPanel?.classList.toggle("active", tabName === "results");
+  draftScoringAdminPanel?.classList.toggle("active", tabName === "draft-scoring");
 
   if (tabName === "predictions" && !predictionsAlreadyLoaded) {
     loadPredictions();
@@ -156,6 +158,10 @@ function setActiveMainTab(tabName) {
 
   if (tabName === "results" && window.loadAdminResults) {
     window.loadAdminResults();
+  }
+  
+  if (tabName === "draft-scoring" && window.loadAdminDraftScoring) {
+    window.loadAdminDraftScoring();
   }
 }
 

@@ -66,6 +66,14 @@
         >
           Resultados
         </button>
+
+        <button
+          class="admin-main-tab"
+          type="button"
+          data-admin-main-tab="draft-scoring"
+        >
+          Draft
+        </button>
       </nav>
 
       <section id="users-admin-panel" class="admin-main-panel active">
@@ -104,11 +112,16 @@
         <div id="admin-results-root"></div>
       </section>
 
+      <section id="draft-scoring-admin-panel" class="admin-main-panel">
+        <div id="admin-draft-scoring-root"></div>
+      </section>
+
     </section>
   </main>
 
   <script src="admin.js"></script>
   <script src="admin-predictions.js"></script>
   <script src="admin-results.js"></script>
+  <script src="admin-draft-scoring.js"></script>
 </body>
 </html>
