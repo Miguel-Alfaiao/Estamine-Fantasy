@@ -18,6 +18,10 @@ const pageLoaderText = document.getElementById("page-loader-text");
 const draftLeaderboardBody = document.getElementById("draft-leaderboard-body");
 const refreshDraftLeaderboardButton = document.getElementById("refresh-draft-leaderboard-btn");
 
+const draftBreakdownSection = document.getElementById("draft-breakdown-section");
+const draftBreakdownTotal = document.getElementById("draft-breakdown-total");
+const draftBreakdownGrid = document.getElementById("draft-breakdown-grid");
+
 const draftMobileMenuButton = document.querySelector(".draft-mobile-menu-btn");
 const draftMobileNav = document.querySelector(".draft-mobile-nav");
 
@@ -317,6 +321,7 @@ async function submitDraft(event) {
     });
 
     await loadMyDraft();
+    await loadDraftBreakdown();
     await loadDraftLeaderboard();
 
     alert("Draft submetido com sucesso!");
@@ -329,6 +334,104 @@ async function submitDraft(event) {
     }
   } finally {
     setPageLoading(false);
+  }
+}
+
+
+// ===============================
+// BREAKDOWN DE PONTOS
+// ===============================
+
+function renderDraftBreakdownEmpty(message = "Ainda não há pontos para mostrar.") {
+  if (!draftBreakdownSection || !draftBreakdownGrid) return;
+
+  draftBreakdownSection.classList.remove("hidden");
+
+  if (draftBreakdownTotal) {
+    draftBreakdownTotal.textContent = "0 pts";
+  }
+
+  draftBreakdownGrid.innerHTML = `
+    <div class="draft-breakdown-empty">
+      ${escapeHtml(message)}
+    </div>
+  `;
+}
+
+function renderDraftBreakdown(data) {
+  if (!draftBreakdownSection || !draftBreakdownGrid) return;
+
+  if (!data?.submitted) {
+    draftBreakdownSection.classList.add("hidden");
+    return;
+  }
+
+  draftBreakdownSection.classList.remove("hidden");
+
+  if (draftBreakdownTotal) {
+    draftBreakdownTotal.textContent = `${Number(data.total_points || 0)} pts`;
+  }
+
+  if (!Array.isArray(data.teams) || data.teams.length === 0) {
+    renderDraftBreakdownEmpty();
+    return;
+  }
+
+  draftBreakdownGrid.innerHTML = data.teams.map((team) => {
+    const stages = Array.isArray(team.qualified_stages) && team.qualified_stages.length
+      ? team.qualified_stages.join(" · ")
+      : "Sem passagens pontuadas";
+
+    const hasPoints = Number(team.total_points || 0) > 0;
+
+    return `
+      <article class="draft-breakdown-card ${hasPoints ? "has-points" : ""}">
+        <div class="draft-breakdown-card-top">
+          <div>
+            <h3>${escapeHtml(team.team)}</h3>
+            <p>Pote ${escapeHtml(team.pot)} · +${escapeHtml(team.points_per_win)} por vitória · +${escapeHtml(team.points_per_qualification)} por passagem</p>
+          </div>
+
+          <strong>${escapeHtml(team.total_points)} pts</strong>
+        </div>
+
+        <div class="draft-breakdown-lines">
+          <div>
+            <span>Vitórias</span>
+            <b>
+              ${escapeHtml(team.wins)} × ${escapeHtml(team.points_per_win)}
+              = ${escapeHtml(team.win_points)} pts
+            </b>
+          </div>
+
+          <div>
+            <span>Passagens</span>
+            <b>
+              ${escapeHtml(team.qualification_awards)} × ${escapeHtml(team.points_per_qualification)}
+              = ${escapeHtml(team.qualification_points)} pts
+            </b>
+          </div>
+        </div>
+
+        <div class="draft-breakdown-stages">
+          ${escapeHtml(stages)}
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+async function loadDraftBreakdown() {
+  if (!getToken()) return;
+
+  try {
+    const data = await apiFetch("/draft/me/breakdown", {
+      headers: getAuthHeaders()
+    });
+
+    renderDraftBreakdown(data);
+  } catch (error) {
+    renderDraftBreakdownEmpty(error.message);
   }
 }
 
@@ -466,6 +569,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     await loadMyDraft();
+    await loadDraftBreakdown();
     await loadDraftLeaderboard();
   } catch (error) {
     console.error("Erro ao carregar draft do utilizador:", error);

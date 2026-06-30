@@ -21,6 +21,7 @@
 
         <nav class="treinador-page-nav draft-page-nav" aria-label="Navegação Draft">
           <a href="#draft-picks-section">Draft</a>
+          <a href="#draft-breakdown-section">Meus Pontos</a>
           <a href="#draft-leaderboard-section">Leaderboard</a>
         </nav>
 
@@ -31,6 +32,7 @@
 
       <nav class="treinador-mobile-nav draft-mobile-nav">
         <a href="#draft-picks-section">Draft</a>
+        <a href="#draft-breakdown-section">Meus Pontos</a>
         <a href="#draft-leaderboard-section">Leaderboard</a>
       </nav>
 
@@ -169,6 +171,20 @@
       <button type="submit" class="btn-submit">Submeter Equipas do Draft</button>
     </form>
   </div>
+
+  <section id="draft-breakdown-section" class="draft-breakdown-container hidden">
+    <div class="draft-breakdown-header">
+      <div>
+        <h2>Resumo dos teus pontos</h2>
+        <p>Vê de onde vêm os pontos de cada seleção do teu Draft.</p>
+      </div>
+
+      <strong id="draft-breakdown-total">0 pts</strong>
+    </div>
+
+    <div id="draft-breakdown-grid" class="draft-breakdown-grid">
+    </div>
+  </section>
   
   <!-- LEADERBOARD DRAFT -->
   <section id="draft-leaderboard-section" class="draft-leaderboard-container">

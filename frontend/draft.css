@@ -766,3 +766,289 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
+
+
+
+/* ===============================
+   DRAFT POINTS BREAKDOWN
+================================ */
+
+.hidden {
+  display: none !important;
+}
+
+.draft-breakdown-container {
+  max-width: 800px;
+  width: calc(100% - 40px);
+  margin: 40px auto;
+  padding: 0;
+
+  overflow: hidden;
+
+  border-radius: 22px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(145, 70, 255, 0.12),
+      rgba(56, 189, 248, 0.06)
+    ),
+    rgba(18, 18, 18, 0.94);
+
+  border: 1px solid rgba(145, 70, 255, 0.28);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(8px);
+}
+
+.draft-breakdown-header {
+  padding: 24px 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  border-bottom: 1px solid rgba(145, 70, 255, 0.22);
+}
+
+.draft-breakdown-header h2 {
+  margin: 0 0 6px;
+  color: #ffffff;
+
+  font-size: 1.45rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.draft-breakdown-header p {
+  margin: 0;
+  color: var(--text-secondary);
+
+  font-size: 0.95rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+#draft-breakdown-total {
+  padding: 11px 16px;
+
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, var(--twitch-purple), #0e80ba);
+  color: #ffffff;
+
+  font-size: 1.05rem;
+  font-weight: 950;
+  white-space: nowrap;
+
+  box-shadow:
+    0 10px 24px rgba(145, 70, 255, 0.32),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.draft-breakdown-grid {
+  padding: 22px 24px;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.draft-breakdown-card {
+  padding: 18px;
+
+  display: grid;
+  gap: 15px;
+
+  border: 1px solid rgba(145, 70, 255, 0.2);
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(9, 35, 65, 0.88),
+      rgba(18, 18, 18, 0.96)
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 12px 28px rgba(0, 0, 0, 0.28);
+}
+
+.draft-breakdown-card.has-points {
+  border-color: rgba(95, 212, 255, 0.42);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(14, 128, 186, 0.26),
+      rgba(145, 70, 255, 0.13)
+    ),
+    rgba(18, 18, 18, 0.96);
+
+  box-shadow:
+    0 0 0 1px rgba(95, 212, 255, 0.12),
+    0 0 18px rgba(56, 189, 248, 0.12),
+    0 14px 32px rgba(0, 0, 0, 0.34);
+}
+
+.draft-breakdown-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.draft-breakdown-card-top h3 {
+  margin: 0;
+
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 950;
+  letter-spacing: -0.02em;
+}
+
+.draft-breakdown-card-top p {
+  margin: 5px 0 0;
+
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+.draft-breakdown-card-top strong {
+  padding: 7px 10px;
+
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(95, 212, 255, 0.28);
+  color: var(--selection-active);
+
+  font-size: 1rem;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
+.draft-breakdown-lines {
+  display: grid;
+  gap: 8px;
+}
+
+.draft-breakdown-lines div {
+  padding: 11px 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+.draft-breakdown-lines span {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.draft-breakdown-lines b {
+  color: #ffffff;
+  font-size: 0.83rem;
+  font-weight: 950;
+  text-align: right;
+}
+
+.draft-breakdown-stages {
+  padding: 10px 12px;
+
+  border-radius: 13px;
+  background: rgba(145, 70, 255, 0.13);
+  border: 1px solid rgba(145, 70, 255, 0.22);
+  color: #c4a3ff;
+
+  font-size: 0.78rem;
+  font-weight: 850;
+  line-height: 1.4;
+}
+
+.draft-breakdown-empty {
+  grid-column: 1 / -1;
+  padding: 22px;
+
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(145, 70, 255, 0.18);
+  color: var(--text-secondary);
+
+  font-weight: 850;
+  text-align: center;
+}
+
+/* versão mais compacta em desktop largo */
+@media (min-width: 920px) {
+  .draft-breakdown-container {
+    max-width: 900px;
+  }
+
+  .draft-breakdown-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .draft-breakdown-container {
+    width: calc(100% - 20px);
+    margin: 20px auto;
+    border-radius: 18px;
+  }
+
+  .draft-breakdown-header {
+    padding: 20px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .draft-breakdown-header h2 {
+    font-size: 1.22rem;
+  }
+
+  .draft-breakdown-header p {
+    font-size: 0.86rem;
+  }
+
+  #draft-breakdown-total {
+    width: 100%;
+    text-align: center;
+  }
+
+  .draft-breakdown-grid {
+    padding: 18px;
+    grid-template-columns: 1fr;
+  }
+
+  .draft-breakdown-card {
+    padding: 15px;
+    border-radius: 16px;
+  }
+
+  .draft-breakdown-card-top {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .draft-breakdown-card-top strong {
+    width: 100%;
+    text-align: center;
+  }
+
+  .draft-breakdown-lines div {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .draft-breakdown-lines b {
+    text-align: left;
+  }
+}
