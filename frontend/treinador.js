@@ -122,14 +122,6 @@ function getTeamDisplayName(teamName) {
   return TEAM_NAME_PT_MAP[teamName] || teamName || "TBD";
 }
 
-const RODADA_FIRST_MATCH_NUMBER = {
-  4: 73,
-  5: 89,
-  6: 97,
-  7: 101,
-  8: 104
-};
-
 function getPlaceholderCode(teamName) {
   const value = String(teamName || "").trim();
 
@@ -1180,15 +1172,30 @@ function getPreviousRodadaForPlaceholders(rodada) {
   return null;
 }
 
-function buildPlaceholderOptionsFromMatches(rodada, matches) {
-  const firstMatchNumber = RODADA_FIRST_MATCH_NUMBER[Number(rodada)];
+function getMatchNumberFromExternalId(matchData) {
+  const externalId = String(matchData?.external_id || "").trim();
 
-  if (!firstMatchNumber || !Array.isArray(matches)) {
+  const externalMatch = externalId.match(/^match-(\d+)$/i);
+
+  if (!externalMatch) {
+    return "";
+  }
+
+  return externalMatch[1];
+}
+
+function buildPlaceholderOptionsFromMatches(rodada, matches) {
+  if (!Array.isArray(matches)) {
     return;
   }
 
-  matches.forEach((match, index) => {
-    const matchNumber = firstMatchNumber + index;
+  matches.forEach((match) => {
+    const matchNumber = getMatchNumberFromExternalId(match);
+
+    if (!matchNumber) {
+      return;
+    }
+
     const code = `W${matchNumber}`;
 
     const homeTeam = getTeamName(match, "home");
