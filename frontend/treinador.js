@@ -549,7 +549,7 @@ function formatRodadaName(rodada) {
     5: "Oitavos de Final",
     6: "Quartos de Final",
     7: "Meias-Finais",
-    8: "Final"
+    8: "Final + 3.º Lugar"
   };
 
   return knockoutLabels[rodadaNumber] || `Rodada ${rodadaNumber}`;
@@ -567,10 +567,26 @@ function getRodadaShortLabel(rodada) {
     5: "Oitavos",
     6: "Quartos",
     7: "Meias",
-    8: "Final"
+    8: "Final + 3.º"
   };
 
   return labels[rodadaNumber] || `Rodada ${rodadaNumber}`;
+}
+
+
+function getMatchStageLabel(match) {
+  const roundName = String(match.round_name || "").trim().toLowerCase();
+
+  const labels = {
+    "round of 32": "16avos",
+    "round of 16": "Oitavos",
+    "quarter-final": "Quartos",
+    "semi-final": "Meias",
+    "match for third place": "3.º Lugar",
+    "final": "Final"
+  };
+
+  return labels[roundName] || getCleanGroupName(match.group_name);
 }
 
 function isViewingCurrentRodada() {
@@ -1196,8 +1212,6 @@ function buildPlaceholderOptionsFromMatches(rodada, matches) {
       return;
     }
 
-    const code = `W${matchNumber}`;
-
     const homeTeam = getTeamName(match, "home");
     const awayTeam = getTeamName(match, "away");
 
@@ -1205,7 +1219,8 @@ function buildPlaceholderOptionsFromMatches(rodada, matches) {
       return;
     }
 
-    placeholderOptionsByCode.set(code, [homeTeam, awayTeam]);
+    placeholderOptionsByCode.set(`W${matchNumber}`, [homeTeam, awayTeam]);
+    placeholderOptionsByCode.set(`L${matchNumber}`, [homeTeam, awayTeam]);
   });
 }
 
@@ -1351,7 +1366,7 @@ async function renderMatches(matches) {
       </td>
 
       <td class="group-cell">
-        <strong>${escapeHtml(getCleanGroupName(match.group_name))}</strong>
+        <strong>${escapeHtml(getMatchStageLabel(match))}</strong>
       </td>
 
       <td class="team-cell">
