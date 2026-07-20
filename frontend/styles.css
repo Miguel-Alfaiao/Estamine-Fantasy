@@ -1384,3 +1384,86 @@ a {
     margin-left: auto;
   }
 }
+
+
+
+/* ===============================
+  PRÉMIO CANCELADO
+=============================== */
+
+.cancelled-prize-block {
+  margin-top: 28px;
+  padding: 16px 18px;
+
+  border: 1px dashed #cbd5e1;
+  border-radius: 16px;
+
+  background: #f1f5f9;
+  color: #64748b;
+
+  opacity: 0.92;
+}
+
+.cancelled-prize-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  margin-bottom: 10px;
+}
+
+.cancelled-prize-title strong {
+  color: #475569;
+  font-weight: 900;
+}
+
+.cancelled-prize-title span {
+  display: block;
+  margin-top: 2px;
+
+  color: #64748b;
+  font-size: 0.85em;
+  font-weight: 400;
+}
+
+.cancelled-prize-title em {
+  padding: 5px 10px;
+
+  border-radius: 999px;
+  background: #e2e8f0;
+  color: #475569;
+
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cancelled-prize-lines {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: #94a3b8;
+}
+
+.cancelled-prize-lines li {
+  margin-bottom: 4px;
+}
+
+.cancelled-prize-lines strong {
+  color: inherit;
+}
+
+.cancelled-prize-note {
+  margin: 12px 0 0;
+
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 800;
+}
