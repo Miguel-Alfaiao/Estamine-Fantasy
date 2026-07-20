@@ -8,6 +8,7 @@ const predictionsToken = localStorage.getItem("access_token");
 const mainTabButtons = document.querySelectorAll("[data-admin-main-tab]");
 const usersAdminPanel = document.getElementById("users-admin-panel");
 const predictionsAdminPanel = document.getElementById("predictions-admin-panel");
+const sociosPredictionsAdminPanel = document.getElementById("socios-predictions-admin-panel");
 const resultsAdminPanel = document.getElementById("results-admin-panel");
 const draftScoringAdminPanel = document.getElementById("draft-scoring-admin-panel");
 const predictionsRoot = document.getElementById("admin-predictions-root");
@@ -149,11 +150,16 @@ function setActiveMainTab(tabName) {
 
   usersAdminPanel?.classList.toggle("active", tabName === "users");
   predictionsAdminPanel?.classList.toggle("active", tabName === "predictions");
+  sociosPredictionsAdminPanel?.classList.toggle("active", tabName === "socios-predictions");
   resultsAdminPanel?.classList.toggle("active", tabName === "results");
   draftScoringAdminPanel?.classList.toggle("active", tabName === "draft-scoring");
 
   if (tabName === "predictions" && !predictionsAlreadyLoaded) {
     loadPredictions();
+  }
+
+  if (tabName === "socios-predictions" && window.loadAdminSociosPredictions) {
+    window.loadAdminSociosPredictions();
   }
 
   if (tabName === "results" && window.loadAdminResults) {
