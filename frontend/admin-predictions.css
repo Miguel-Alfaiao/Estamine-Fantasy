@@ -386,3 +386,59 @@
     text-align: left;
   }
 }
+
+
+/* Resultado das predicts dos Sócios */
+
+.socios-score-pill {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.socios-result-pill {
+  flex: 0 0 auto;
+  padding: 6px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.socios-result-pill.hit {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.socios-result-pill.miss {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.socios-prediction-value {
+  margin-left: auto;
+  display: grid;
+  gap: 3px;
+  text-align: right;
+}
+
+.socios-official-result {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+@media (max-width: 800px) {
+  .socios-prediction-value {
+    margin-left: 0;
+    text-align: left;
+  }
+
+  .socios-result-pill {
+    align-self: flex-start;
+  }
+}

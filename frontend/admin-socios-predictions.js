@@ -8,6 +8,100 @@ const sociosPredictionsRoot = document.getElementById("admin-socios-predictions-
 
 let sociosPredictionsAlreadyLoaded = false;
 
+const SOCIOS_OFFICIAL_RESULTS = {
+  vencedor: {
+    label: "Espanha",
+    accepted: ["espanha", "spain"]
+  },
+
+  melhor_jogador_1: {
+    label: "Rodri",
+    accepted: ["rodri", "rodrigo hernandez", "rodrigo hernández", "rodri hernandez", "rodri hernández"]
+  },
+  melhor_jogador_2: {
+    label: "Lionel Messi",
+    accepted: ["lionel messi", "messi"]
+  },
+  melhor_jogador_3: {
+    label: "Kylian Mbappé",
+    accepted: ["kylian mbappe", "kylian mbappé", "mbappe", "mbappé"]
+  },
+
+  melhor_marcador_1: {
+    label: "Kylian Mbappé",
+    accepted: ["kylian mbappe", "kylian mbappé", "mbappe", "mbappé"]
+  },
+  melhor_marcador_2: {
+    label: "Lionel Messi",
+    accepted: ["lionel messi", "messi"]
+  },
+  melhor_marcador_3: {
+    label: "Jude Bellingham",
+    accepted: ["jude bellingham", "bellingham"]
+  },
+
+  melhor_guarda_redes: {
+    label: "Unai Simón",
+    accepted: ["unai simon", "unai simón"]
+  },
+
+  melhor_jovem: {
+    label: "Pau Cubarsí",
+    accepted: ["pau cubarsi", "pau cubarsí", "cubarsi", "cubarsí"]
+  }
+};
+
+const SOCIOS_SCORING_FIELDS = [
+  "vencedor",
+  "melhor_jogador_1",
+  "melhor_jogador_2",
+  "melhor_jogador_3",
+  "melhor_marcador_1",
+  "melhor_marcador_2",
+  "melhor_marcador_3",
+  "melhor_guarda_redes",
+  "melhor_jovem"
+];
+
+function normalizeSociosAnswer(value) {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function isSociosPredictionCorrect(fieldKey, value) {
+  const official = SOCIOS_OFFICIAL_RESULTS[fieldKey];
+
+  if (!official) {
+    return false;
+  }
+
+  const userAnswer = normalizeSociosAnswer(value);
+
+  if (!userAnswer) {
+    return false;
+  }
+
+  return official.accepted.some((acceptedValue) => (
+    normalizeSociosAnswer(acceptedValue) === userAnswer
+  ));
+}
+
+function getSociosPredictionScore(prediction) {
+  const correct = SOCIOS_SCORING_FIELDS.filter((fieldKey) => (
+    isSociosPredictionCorrect(fieldKey, prediction?.[fieldKey])
+  )).length;
+
+  return {
+    correct,
+    total: SOCIOS_SCORING_FIELDS.length
+  };
+}
+
 function escapeSociosPredictionHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -94,11 +188,39 @@ function showSociosPredictionsLoading() {
   `;
 }
 
-function renderSociosPredictionField(label, value) {
+function renderSociosPredictionField(label, value, fieldKey = null) {
+  const official = fieldKey ? SOCIOS_OFFICIAL_RESULTS[fieldKey] : null;
+  const hasOfficialResult = Boolean(official);
+  const isCorrect = hasOfficialResult
+    ? isSociosPredictionCorrect(fieldKey, value)
+    : false;
+
+  const resultPill = hasOfficialResult
+    ? `
+      <span class="socios-result-pill ${isCorrect ? "hit" : "miss"}">
+        ${isCorrect ? "Acertou" : "Falhou"}
+      </span>
+    `
+    : "";
+
+  const officialResult = hasOfficialResult
+    ? `
+      <small class="socios-official-result">
+        Oficial: ${escapeSociosPredictionHtml(official.label)}
+      </small>
+    `
+    : "";
+
   return `
     <div class="socios-prediction-field">
       <span>${escapeSociosPredictionHtml(label)}</span>
-      <strong>${escapeSociosPredictionHtml(value || "-")}</strong>
+
+      <div class="socios-prediction-value">
+        <strong>${escapeSociosPredictionHtml(value || "-")}</strong>
+        ${officialResult}
+      </div>
+
+      ${resultPill}
     </div>
   `;
 }
@@ -107,6 +229,7 @@ function renderSociosPredictionCard(row) {
   const prediction = row.prediction || {};
   const twitchName = row.twitch_display_name || "Twitch não ligada";
   const subLabel = row.is_sub ? "Sub confirmado" : "Sem sub confirmado";
+  const score = getSociosPredictionScore(prediction);
 
   return `
     <article class="prediction-user-card socios-prediction-card">
@@ -126,38 +249,42 @@ function renderSociosPredictionCard(row) {
         </div>
 
         <div class="prediction-user-meta">
-          <span class="socios-sub-pill ${row.is_sub ? "sub-ok" : "sub-no"}">
-            ${escapeSociosPredictionHtml(subLabel)}
-          </span>
+            <span class="socios-score-pill">
+                ${score.correct}/${score.total} certas
+            </span>
 
-          <span class="prediction-arrow">+</span>
-        </div>
+            <span class="socios-sub-pill ${row.is_sub ? "sub-ok" : "sub-no"}">
+                ${escapeSociosPredictionHtml(subLabel)}
+            </span>
+
+            <span class="prediction-arrow">+</span>
+            </div>
       </button>
 
       <div class="prediction-user-body">
         <div class="socios-prediction-detail">
           <section class="socios-prediction-section winner-section">
-            ${renderSociosPredictionField("Vencedor", prediction.vencedor)}
+            ${renderSociosPredictionField("Vencedor", prediction.vencedor, "vencedor")}
           </section>
 
           <section class="socios-prediction-section">
             <h3>Melhor jogador</h3>
-            ${renderSociosPredictionField("1.º", prediction.melhor_jogador_1)}
-            ${renderSociosPredictionField("2.º", prediction.melhor_jogador_2)}
-            ${renderSociosPredictionField("3.º", prediction.melhor_jogador_3)}
+            ${renderSociosPredictionField("1.º", prediction.melhor_jogador_1, "melhor_jogador_1")}
+            ${renderSociosPredictionField("2.º", prediction.melhor_jogador_2, "melhor_jogador_2")}
+            ${renderSociosPredictionField("3.º", prediction.melhor_jogador_3, "melhor_jogador_3")}
           </section>
 
           <section class="socios-prediction-section">
             <h3>Melhor marcador</h3>
-            ${renderSociosPredictionField("1.º", prediction.melhor_marcador_1)}
-            ${renderSociosPredictionField("2.º", prediction.melhor_marcador_2)}
-            ${renderSociosPredictionField("3.º", prediction.melhor_marcador_3)}
+            ${renderSociosPredictionField("1.º", prediction.melhor_marcador_1, "melhor_marcador_1")}
+            ${renderSociosPredictionField("2.º", prediction.melhor_marcador_2, "melhor_marcador_2")}
+            ${renderSociosPredictionField("3.º", prediction.melhor_marcador_3, "melhor_marcador_3")}
           </section>
 
           <section class="socios-prediction-section">
             <h3>Prémios individuais</h3>
-            ${renderSociosPredictionField("Guarda-redes", prediction.melhor_guarda_redes)}
-            ${renderSociosPredictionField("Jovem", prediction.melhor_jovem)}
+            ${renderSociosPredictionField("Guarda-redes", prediction.melhor_guarda_redes, "melhor_guarda_redes")}
+            ${renderSociosPredictionField("Jovem", prediction.melhor_jovem, "melhor_jovem")}
           </section>
 
           <section class="socios-prediction-section submitted-section">
